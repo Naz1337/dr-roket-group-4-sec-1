@@ -19,7 +19,7 @@
         <button class="btn btn-primary mb-2">
             Login
         </button>
-        <button class="btn btn-danger">
+        <button class="btn btn-danger mb-2">
             Forget Password
         </button>
     </div>
