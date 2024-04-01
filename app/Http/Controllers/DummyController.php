@@ -10,7 +10,8 @@ class DummyController extends Controller
     public function show()
     {
         return Inertia::render('Test', [
-            'test' => 'Hello world'
+            'test' => 'Hello world',
+            'test2' => 'nothing',
         ]);
     }
 }
