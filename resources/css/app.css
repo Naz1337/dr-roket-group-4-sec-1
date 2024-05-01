@@ -1,21 +1,14 @@
 :root {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
     --background: #e2e2e2;
     --primary: #97D3FF;
     --accent: #F8E208;
     --danger: #F33737;
 
-    font-size: 16px;
+    /* font-size: 16px; */
 }
 
-body {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    background-color: var(--background);
-}
-
-header {
+.header {
     background-color: white;
     padding: 2rem;
     border-radius: 3rem 0 0 3rem;
@@ -30,79 +23,11 @@ header {
     margin-bottom: 4rem;
 }
 
-label {
-    font-weight: bold;
-    display: block;
-}
-
-input {
-    font-size: 0.75rem;
-    padding: 0.25rem;
-    width: 18rem;
-
-    border-radius: 0.25rem;
-    border: solid black 1px;
-}
-
-img {
-    width: 200px;
-    height: 100px;
-}
-
-select {
-    width: 18rem;
-    padding: 0.25rem;
-    font-size: 0.75rem;
-
-    border-radius: 0.25rem;
-    border: solid black 1px;
-    background-color: white;
-}
-
-.mb-2 {
-    margin-bottom: 0.5rem;
-}
-
-.mb-4 {
-    margin-bottom: 1rem;
-}
-
-.mb-6 {
-    margin-bottom: 2rem;
-}
-
-.mb-8 {
-    margin-bottom: 4rem;
-}
-
 .header-action {
     padding-left: 2rem;
     padding-right: 2rem;
 
     display: flex;
-}
-
-.btn {
-    font-weight: bold;
-    text-align: center;
-    border-radius: 0.5rem;
-
-    padding-right: 2rem;
-    padding-left: 2rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-
-    border: 0;
-    cursor: pointer;
-    width: 12rem;
-}
-
-.btn-primary {
-    background-color: var(--primary);
-}
-
-.btn-danger {
-    background-color: var(--danger);
 }
 
 .login-panel {
