@@ -10,11 +10,15 @@
 </head>
 <body>
     <x-header />
-    <div class="container">
-        <x-sidebar />
-        
-        {{ $slot }}
-
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2">
+                <x-sidebar />
+            </div>
+            <div class="col">
+                {{ $slot }}
+            </div>
+        </div>
     </div>
     <x-footer />
     </body>
