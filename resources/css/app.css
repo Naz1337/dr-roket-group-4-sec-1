@@ -138,3 +138,7 @@ select {
     position: absolute;
     translate: 0 -125%;
 }
+
+.sidebar {
+    width: 280px;
+}
