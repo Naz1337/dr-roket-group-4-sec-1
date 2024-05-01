@@ -44,6 +44,11 @@ input {
     border: solid black 1px;
 }
 
+img {
+    width: 200px;
+    height: 100px;
+}
+
 select {
     width: 18rem;
     padding: 0.25rem;
