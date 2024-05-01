@@ -141,4 +141,5 @@ select {
 
 .sidebar {
     width: 280px;
+    height: auto;
 }
