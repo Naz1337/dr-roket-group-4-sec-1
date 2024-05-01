@@ -10,7 +10,7 @@
 </head>
 <body>
     <x-header />
-    <div class="d-flex flex-row w-100 h-100">
+    <div class="container">
         <x-sidebar />
         
         {{ $slot }}
