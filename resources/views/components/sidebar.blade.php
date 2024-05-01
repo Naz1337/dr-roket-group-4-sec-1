@@ -4,7 +4,18 @@
     <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item"><a href="{{ route('home') }}" class="nav-link text-white">Home</a></li>
         <li class="nav-item"><a href="{{ route('profile') }}" class="nav-link text-white">Profile</a></li>
-        <li class="nav-item"><a href="{{ route('myexpert') }}" class="nav-link text-white">Expert</a></li>
+        <li class="nav-item"><a href="javascript:void(0);" class="nav-link nav-toggle text-white">
+                Expert
+            </a>
+            <ul class="nav-sub">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">My Expert</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Expert List</a>
+                </li>
+            </ul>
+        </li>
         <li class="nav-item"><a href="{{ route('mypublication') }}" class="nav-link text-white">Publication</a></li>
         <li class="nav-item"><a href="#" class="nav-link text-white"></a></li>
     </ul>
