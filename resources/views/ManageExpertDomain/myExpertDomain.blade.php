@@ -24,11 +24,11 @@
             
         </div>
         <hr>
-        <div class="row bg bg-light">
+        <div class="row p-3 bg bg-light">
             {{-- Content --}}
             @for ($i = 0; $i < 5; $i++)
-                <div class="row">
-                    <div class="col-1 p-2">
+                <div class="row p-3 m-1 border border-1 border-dark">
+                    <div class="col-2 p-2">
                         <img alt="Lecturer Image" src="#" style="height: 100px; width: 100px;">
                     </div>
                     <div class="col p-2">

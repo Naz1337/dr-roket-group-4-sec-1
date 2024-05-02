@@ -86,7 +86,7 @@ body {
     height: auto;
 }
 
-.nav-item:hover{
+.nav-item:hover, .back:hover, .logout:hover{
     transition-duration: 1.5s;
     background-color: grey;
     opacity: 0.9;
