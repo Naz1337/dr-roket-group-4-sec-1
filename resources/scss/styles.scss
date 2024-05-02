@@ -85,3 +85,10 @@ body {
     width: 100%;
     height: auto;
 }
+
+.nav-item:hover{
+    transition-duration: 1.5s;
+    background-color: grey;
+    opacity: 0.9;
+    cursor: pointer;
+}

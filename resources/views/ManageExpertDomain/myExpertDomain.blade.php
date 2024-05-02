@@ -24,9 +24,31 @@
             
         </div>
         <hr>
-        <div class="row bg bg-danger">
+        <div class="row bg bg-light">
             {{-- Content --}}
-            <p>HelloWorld</p>
+            @for ($i = 0; $i < 5; $i++)
+                <div class="row">
+                    <div class="col-1 p-2">
+                        <img alt="Lecturer Image" src="#" style="height: 100px; width: 100px;">
+                    </div>
+                    <div class="col p-2">
+                        <p>
+                            Name: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tincidunt gravida odio iaculis laoreet.
+                        </p>
+                        <p>
+                            Current Institution: Lorem ipsum dolor sit amet
+                        </p>
+                        <p>
+                            Email: Lorem ipsum dolor sit amet
+                        </p>
+                    </div>
+                    <div class="col-1 p-2">
+                        <a class="btn btn-primary text-decoration-none">
+                            View
+                        </a>
+                    </div>
+                </div>
+            @endfor
         </div>
     </div>
 </x-app-layout>
