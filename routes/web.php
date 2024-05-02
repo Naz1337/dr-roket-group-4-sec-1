@@ -22,6 +22,10 @@ Route::prefix('/expert')->group(function () {
         return view('ManageExpertDomain/myExpertDomain');
     })->name('myexpert');
 
+    Route::get('/addexpert', function() {
+        return view('ManageExpertDomain/addExpertProfile');
+    })->name('addprofile');
+
     Route::get('/listexpert', function() {
         return view('ManageExpertDomain/listExpertDomain');
     })->name('listexpert');

@@ -5,7 +5,7 @@
     <div class="row mb-3 p-3 mb-md-0 me-md-auto nav-item"><a href="{{ route('home') }}" class="nav-link text-white">Home</a></div>
     <div class="row mb-3 p-3 mb-md-0 me-md-auto nav-item"><a href="{{ route('profile') }}" class="nav-link text-white">Profile</a></div>
     <div class="row mb-3 p-3 mb-md-0 me-md-auto nav-dropdown">
-        <a href="javascript:void(0);" class="p-1 mb-md-0 me-md-auto nav-link nav-toggle text-white">
+        <a href="javascript:void(0);" class="mb-3 p-3 mb-md-0 me-md-auto nav-link nav-toggle text-white">
             Expert
         </a>
         <ul class="nav-sub">

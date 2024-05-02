@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="p-3 bg-white content">
+    <div class="p-3 bg-white h-100 content">
         {{-- Page Content --}}
         <div class="row">
             <div class="col">
@@ -8,13 +8,20 @@
                         <label class="form form-label p-2">Search:</label>
                     </div>
                     <div class="col">
-                        <input class="form form-control" type="text" placeholder="Search...">
+                        <input class="form form-control" list="datalistOptions" type="text" placeholder="Search...">
+                        <datalist id="datalistOptions">
+                            <option value="Software Security">
+                            <option value="Robotics">
+                            <option value="Pattern Recognition">
+                            <option value="Bio-technology">
+                            <option value="Cloud Architecture">
+                          </datalist>
                     </div>
                     <div class="col-1">
                         <a href="#" type="submit" class="btn btn-primary text-decoration-none">Search</a>
                     </div>
                     <div class="col-2">
-                        <a href="#" class="btn btn-primary text-decoration-none">Add Profile</a>
+                        <a href="{{ route('addprofile') }}" class="btn btn-primary text-decoration-none">Add Profile</a>
                     </div>
                     <div class="col-1">
                         <a href="#" class="btn btn-info text-white text-decoration-none">Report</a>
@@ -25,7 +32,7 @@
         </div>
         <hr>
         <div class="row p-3 bg bg-light">
-            {{-- Content --}}
+            {{-- Expert Profile --}}
             @for ($i = 0; $i < 5; $i++)
                 <div class="row p-3 m-1 border border-1 border-dark">
                     <div class="col-2 p-2">

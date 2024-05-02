@@ -8,7 +8,14 @@
                         <label class="form form-label p-2">Search:</label>
                     </div>
                     <div class="col">
-                        <input class="form form-control" type="text" placeholder="Search...">
+                        <input class="form form-control" list="datalistOptions" type="text" placeholder="Search...">
+                        <datalist id="datalistOptions">
+                            <option value="Software Security">
+                            <option value="Robotics">
+                            <option value="Pattern Recognition">
+                            <option value="Bio-technology">
+                            <option value="Cloud Architecture">
+                          </datalist>
                     </div>
                     <div class="col-1">
                         <a href="#" type="submit" class="btn btn-primary text-decoration-none">Search</a>
