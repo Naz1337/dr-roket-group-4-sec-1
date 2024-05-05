@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container mt-4">
-        <h1>Welcome to Bootstrap Land in Laravel!</h1>
+        <h1 class="mb-4">Welcome to Bootstrap Land in Laravel!</h1>
         <button class="btn btn-primary">Let's go</button>
     </div>
 </body>
