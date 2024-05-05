@@ -3,6 +3,7 @@
 	import { popitup } from "../popup_store";
 
     export let test;
+	export let test2;
 
 	setTimeout(() => {
 		popitup('success', 'lol')
@@ -15,7 +16,7 @@
 
 <main>
 	<Popup />
-    <div>{test.toUpperCase()}</div>
+    <div>{test.toUpperCase()} {test2.toLowerCase()}</div>
     <p>This is a paragraph.</p>
 
 	<button on:click={ya}>give noty</button>
