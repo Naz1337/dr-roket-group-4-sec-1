@@ -17,6 +17,9 @@
             </div>
         </form>
 
+        <div>
+            <i class="bi bi-0-circle"></i>
+        </div>
     </div>
 
 </body>
