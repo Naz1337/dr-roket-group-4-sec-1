@@ -21,7 +21,7 @@ Route::get('/register', function() {
     <div>
       selamat datang ke register page
     </div>
-    <a href="{{ url("login") }}">
+    <a href="{{ route('login') }}">
       <button class="btn btn-primary">Login</button>
     </a>
   </div>
@@ -79,3 +79,11 @@ Route::prefix('/publication')->group(function () {
     })->name('listpublication');
 });
 
+
+
+Route::resource('drafts', App\Http\Controllers\DraftController::class);
+Route::post('drafts', [App\Http\Controllers\DraftController::class, 'upload'])->name('drafts.upload');
+
+Route::get('test', function () {
+    return view('bootstrap-test');
+});
