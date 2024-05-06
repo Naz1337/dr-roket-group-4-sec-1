@@ -40,6 +40,9 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-1 p-3 d-flex justify-content-end">
+                    <a href="{{ route('myexpert') }}" type="button" class="btn btn-primary">Back</a>
+                </div>
                 <div class="col p-3 d-flex justify-content-end">
                     <a href="#" type="submit" class="btn btn-primary">Add Profile</a>
                 </div>
