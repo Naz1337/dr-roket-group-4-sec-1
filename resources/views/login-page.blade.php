@@ -19,12 +19,12 @@
             <option value="admin">Admin</option>
         </select> -->
 
-        <button class="login-btn btn btn-primary mb-2">
+        <a href="/expert/myexpert" class="login-btn btn btn-primary mb-2">
             Login
-        </button>
-        <button class="login-btn btn btn-danger mb-2">
+        </a>
+        <a class="login-btn btn btn-danger mb-2">
             Forget Password
-        </button>
+        </a>
     </div>
 </x-app-layout>
 

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('profile_name');
             $table->dateTime('birth_date');
             $table->string('profile_email', 100);
+            $table->binary('user_photo');
             $table->timestamps();
         });
     }
