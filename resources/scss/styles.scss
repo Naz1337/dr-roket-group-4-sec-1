@@ -1,6 +1,8 @@
 // Import all of Bootstrap's CSS
 @import "bootstrap/scss/bootstrap";
 
+@import "bootstrap-icons/font/bootstrap-icons.css";  // https://github.com/twbs/icons/issues/1381 <--- MVP
+
 :root {
     /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
     --background: #e2e2e2;
