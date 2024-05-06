@@ -1,8 +1,11 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DummyController;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
     return "Well hello there o/. so...";
@@ -10,35 +13,56 @@ Route::get('/', function () {
 
 
 Route::get('/register', function() {
-    return Blade::render(<<<EOL
-<html>
-<head>
-  <title>Register Page</title>
-  @vite('resources/js/app.js')
-</head>
-<body>
-  <div class="container mt-5 mb-5">
-    <div>
-      selamat datang ke register page
-    </div>
-    <a href="{{ url("login") }}">
-      <button class="btn btn-primary">Login</button>
-    </a>
-  </div>
-  <x-header />
-</body>
-</html>
-EOL, );
+    return view('register-temp');
 })->name('register');
+
+Route::post('/register', function() {
+
+    $validated = request()->validate([
+        'username' => 'required|unique:users,name',
+        'email' => 'required|email:rfc|unique:users,email',
+        'password' => 'required|min:2',
+    ]);
+
+    $newUser = new \App\Models\User;
+    $newUser->name = $validated['username'];
+    $newUser->email = $validated['email'];
+    $newUser->password = Hash::make($validated['password']);
+
+    if ($newUser->save()) {
+        return to_route('login', ['message' => 'ya did it']);
+    }
+
+    return to_route('register', ['message' => 'saving to db failed, RARE ENDING']);
+})->name('register-post');
 
 
 Route::get('/login', function () {
     return view('login-page');
 })->name('login');
 
+Route::post('/login', function() {
+    $credentials = request()->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
 
-Route::get('/logout', function() {
-    return view('login-page');
+    $loginResult = Auth::attempt($credentials);
+    if (!$loginResult) {
+        return to_route('login', ['message' => 'Wrong email or password']);
+    }
+    return to_route('drafts.index', ['message' => 'You are logged in']);
+
+})->name('login-post');
+
+
+Route::get('/logout', function(Request $request) {
+    Auth::logout();
+
+    $request->session()->invalidate();
+
+    $request->session()->regenerateToken();
+    return to_route('login', ['message' => 'You are logged out']);
 })->name('logout');
 
 
