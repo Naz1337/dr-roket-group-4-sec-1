@@ -21,6 +21,7 @@
                         <a href="#" type="submit" class="btn btn-primary text-decoration-none">Search</a>
                     </div>
                     <div class="col-2">
+                        <i class="bi bi-rocket"></i>
                         <a href="{{ route('addprofile') }}" class="btn btn-primary text-decoration-none">Add Profile</a>
                     </div>
                     <div class="col-1">
