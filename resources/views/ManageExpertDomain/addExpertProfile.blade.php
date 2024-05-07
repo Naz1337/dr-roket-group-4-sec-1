@@ -2,7 +2,7 @@
     <div class="p-3 bg-white h-100 content">
         {{-- Page Content --}}
         <form action="#" method="POST">
-            <div class="row p-3 bg bg-light">
+            <div class="row p-3 bg bg-light border-top border-end border-start border-1 border-black ">
                 <div class="col-3">
                     <div class="row h-100 p-3 border border-1 border-dark">
                         <img class="h-100 w-50" src="#" alt="Image Uploaded">
@@ -19,7 +19,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row bg bg-light">
+            <div class="row bg bg-light border-bottom border-end border-start border-1 border-black ">
                 <div class="col">
                     <div class="row p-3">
                         <label class="form form-label">Email:</label>

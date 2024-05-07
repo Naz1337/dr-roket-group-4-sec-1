@@ -91,6 +91,10 @@ Route::prefix('/expert')->group(function () {
     Route::get('/listexpert', function() {
         return view('ManageExpertDomain/listExpertDomain');
     })->name('listexpert');
+    
+    Route::get('/viewexpert', function() {
+        return view('ManageExpertDomain/viewExpertProfile');
+    })->name('viewexpert');
 });
 
 

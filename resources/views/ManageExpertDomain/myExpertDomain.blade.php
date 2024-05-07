@@ -51,7 +51,7 @@
                         </p>
                     </div>
                     <div class="col-1 p-2">
-                        <a class="btn btn-primary text-decoration-none">
+                        <a href=" {{ route('viewexpert') }} " class="btn btn-primary text-decoration-none">
                             View
                         </a>
                     </div>
