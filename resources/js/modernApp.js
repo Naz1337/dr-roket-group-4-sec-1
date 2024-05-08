@@ -1,5 +1,5 @@
 import  'simplebar';
-import 'simplebar/dist/simplebar.css';
+// import 'simplebar/dist/simplebar.css'; <-- masuk  modern/styles.scss
 
 
 import $ from 'jquery';
