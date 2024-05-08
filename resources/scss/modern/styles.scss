@@ -10,3 +10,14 @@
 
 @import '../tabler-icons/tabler-icons.scss';
 
+@import "layouts/sidebar";
+@import "layouts/header";
+@import "layouts/layouts";
+
+@import 'components/reboot';
+@import 'components/card';
+
+@import 'utilities/icon_size';
+@import 'utilities/background';
+
+@import 'pages/dashboard1';
