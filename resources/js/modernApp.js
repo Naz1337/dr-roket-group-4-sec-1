@@ -1,7 +1,8 @@
 import  'simplebar';
 // import 'simplebar/dist/simplebar.css'; <-- masuk  modern/styles.scss
+import '../scss/modern/styles.scss';
 
-
+import * as bootstrap from 'bootstrap';
 import $ from 'jquery';
 
 $(function () {

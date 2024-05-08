@@ -7,6 +7,14 @@ use App\Http\Controllers\DummyController;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Http\Request;
 
+Route::get('/modern', function () {
+   return view('components.modern-layout');
+})->name('modern');
+
+Route::get('/modern_login', function() {
+    return view('components.modern-layout');
+})->name('modern-login');
+
 Route::get('/', function () {
     return "Well hello there o/. so...";
 })->middleware('auth');
@@ -91,7 +99,7 @@ Route::prefix('/expert')->group(function () {
     Route::get('/listexpert', function() {
         return view('ManageExpertDomain/listExpertDomain');
     })->name('listexpert');
-    
+
     Route::get('/viewexpert', function() {
         return view('ManageExpertDomain/viewExpertProfile');
     })->name('viewexpert');
