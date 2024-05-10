@@ -6,13 +6,14 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class ModernLayout extends Component
+class NavItem extends Component
 {
     /**
      * Create a new component instance.
      */
     public function __construct(
-        public string $title = "App"
+        public string $href,
+        public string $icon = "abc"
     )
     {
         //
@@ -23,6 +24,6 @@ class ModernLayout extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.modern-layout');
+        return view('components.nav-item');
     }
 }

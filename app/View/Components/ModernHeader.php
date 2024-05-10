@@ -6,13 +6,13 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class ModernLayout extends Component
+class ModernHeader extends Component
 {
     /**
      * Create a new component instance.
      */
     public function __construct(
-        public string $title = "App"
+
     )
     {
         //
@@ -23,6 +23,6 @@ class ModernLayout extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.modern-layout');
+        return view('components.modern-header');
     }
 }

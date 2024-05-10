@@ -6,14 +6,12 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class ModernLayout extends Component
+class NavHeader extends Component
 {
     /**
      * Create a new component instance.
      */
-    public function __construct(
-        public string $title = "App"
-    )
+    public function __construct()
     {
         //
     }
@@ -23,6 +21,6 @@ class ModernLayout extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.modern-layout');
+        return view('components.nav-header');
     }
 }

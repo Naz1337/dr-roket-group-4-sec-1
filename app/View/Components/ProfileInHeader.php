@@ -6,13 +6,13 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class ModernLayout extends Component
+class ProfileInHeader extends Component
 {
     /**
      * Create a new component instance.
      */
     public function __construct(
-        public string $title = "App"
+        public string $profilePicture = "/assets/images/profile/user-1.jpg"
     )
     {
         //
@@ -23,6 +23,6 @@ class ModernLayout extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.modern-layout');
+        return view('components.profile-in-header');
     }
 }

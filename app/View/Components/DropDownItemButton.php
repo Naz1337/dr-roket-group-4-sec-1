@@ -6,13 +6,13 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class ModernLayout extends Component
+class DropDownItemButton extends Component
 {
     /**
      * Create a new component instance.
      */
     public function __construct(
-        public string $title = "App"
+        public string $href
     )
     {
         //
@@ -23,6 +23,6 @@ class ModernLayout extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.modern-layout');
+        return view('components.drop-down-item-button');
     }
 }
