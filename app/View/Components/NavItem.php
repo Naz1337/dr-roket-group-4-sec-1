@@ -13,7 +13,8 @@ class NavItem extends Component
      */
     public function __construct(
         public string $href,
-        public string $icon = "abc"
+        public string $icon = "abc",
+        public string $target = "_self"
     )
     {
         //

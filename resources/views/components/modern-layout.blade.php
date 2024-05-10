@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dr Roket - {{-- $title --}}</title>
+    <title>Dr Roket - {{ $title }}</title>
     @vite('resources/js/modernApp.js')
 </head>
 
@@ -18,15 +18,27 @@
     <x-modern-sidebar>
         <x-nav-header>Home</x-nav-header>
 
-        <x-nav-item :href="route('modern')" icon="layout-dashboard">
-            Dashboard
+        <x-nav-item :href="route('modern')" icon="plane-arrival">
+            Landing
         </x-nav-item>
 
-        <x-nav-item href="https://google.com">
+        <x-nav-item href="https://google.com" icon="brand-chrome">
             Hi
         </x-nav-item>
+
+        <x-nav-item href="https://x.com">
+            Website Burung
+        </x-nav-item>
+
+        <x-nav-item href="https://chat.openai.com" icon="messages">
+            Chat GPT OpenAI
+        </x-nav-item>
+
         <x-nav-header>Cat 2</x-nav-header>
         <x-nav-item href="https://youtube.com" icon="a-b-2">Youtube</x-nav-item>
+
+        <x-nav-header>Source</x-nav-header>
+        <x-nav-item href="/html/index.html" icon="template" target="_blank">Original Template</x-nav-item>
     </x-modern-sidebar>
     <!--  Sidebar End -->
 
@@ -35,9 +47,10 @@
 
         <!--  Header Start -->
         <x-modern-header>
-            <x-profile-in-header>
+            {{-- TODO: set gambar profile ke current user punya profile picture guna attr. profile-icture --}}
+            <x-profile-in-header profile-picture="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQr7RxMHAt9oUC1bxexgRuW7iOlCDNf7qDbtTArl23luA&s">
                 <x-drop-down-menu>
-
+                    {{-- TODO: link logout ngan yang lain dalam dropdown profile ni kepada benda yang patut --}}
                     <x-drop-down-item :href="route('modern')" icon="user">
                         My Profile
                     </x-drop-down-item>
@@ -56,7 +69,7 @@
         <!--  Header End -->
 
         <div class="container-fluid">
-             {{-- $slot --}}
+             {{ $slot }}
         </div>
     </div>
 </div>

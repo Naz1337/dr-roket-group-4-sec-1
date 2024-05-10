@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Http\Request;
 
 Route::get('/modern', function () {
-   return view('components.modern-layout');
+   return view('modern');
 })->name('modern');
 
 Route::get('/modern_login', function() {
