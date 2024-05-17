@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-modern-layout>
     <div class="p-3 bg-white h-100 content">
         {{-- Page Content --}}
         <form action="#" method="POST">
@@ -52,4 +52,4 @@
             </div>
         </form>
     </div>
-</x-app-layout>
+</x-modern-layout>

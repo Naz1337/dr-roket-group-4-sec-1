@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-modern-layout>
     <div class="p-3 bg-white content">
         {{-- Page Content --}}
         <div class="row">
@@ -17,7 +17,9 @@
                             <option value="Cloud Architecture">
                           </datalist>
                     </div>
-                    <div class="col-1">
+                    <div class="col-2">
+                        <i class=" bi bi-search"></i>
+                        &nbsp;
                         <a href="#" type="submit" class="btn btn-primary text-decoration-none">Search</a>
                     </div>
                     {{-- <div class="col-2">
@@ -58,4 +60,4 @@
             @endfor
         </div>
     </div>
-</x-app-layout>
+</x-modern-layout>

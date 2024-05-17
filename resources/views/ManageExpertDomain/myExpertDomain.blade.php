@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-modern-layout>
     <div class="p-3 bg-white h-100 content">
         {{-- Page Content --}}
         <div class="row">
@@ -17,12 +17,13 @@
                             <option value="Cloud Architecture">
                           </datalist>
                     </div>
-                    <div class="col-1">
+                    <div class="col-2">
+                        <i class="bi bi-search"></i>
+                        &nbsp;
                         <a href="#" type="submit" class="btn btn-primary text-decoration-none">Search</a>
                     </div>
                     <div class="col-2">
-                        <i class="bi bi-rocket"></i>
-                        <a href="{{ route('addprofile') }}" class="btn btn-primary text-decoration-none">Add Profile</a>
+                        <a href="{{ route('addprofile') }}" class="btn btn-primary text-decoration-none"><i class="bi bi-rocket"></i> &nbsp; Add Profile</a>
                     </div>
                     <div class="col-1">
                         <a href="#" class="btn btn-info text-white text-decoration-none">Report</a>
@@ -59,4 +60,4 @@
             @endfor
         </div>
     </div>
-</x-app-layout>
+</x-modern-layout>

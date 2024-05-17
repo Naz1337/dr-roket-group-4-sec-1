@@ -1,5 +1,10 @@
-<x-app-layout>
+<x-modern-layout>
     <div class="p-3 bg-white h-100 content">
+        {{-- <div class="row-1 p-2">
+            <a class="btn btn-primary" href=" {{ route('') }} ">
+                Back
+            </a>
+        </div> --}}
         {{-- Page Content --}}
         <div class="row p-3 bg bg-light border-top border-end border-start border-1 border-black ">
             <div class="col-3">
@@ -47,27 +52,27 @@
 
             </div>
             <div class="col-3 p-3 d-flex justify-content-end">
-                <a href="#" type="submit" class="btn btn-primary mx-3">Edit Profile</a>
+                <a href=" {{ route('editexpert') }}" type="submit" class="btn btn-primary mx-3">Edit Profile</a>
                 <a href="#" type="button" class="btn btn-danger">Delete Profile</a>
             </div>
         </div>
 
         <div class="row p-3 bg bg-light border-top border-end border-start border-1 border-black">
             <div class="col-2 p-3">
-                <h2>Articles</h2>
+                <h2 class="p-3">Articles</h2>
             </div>
             <div class="col p-3">
                 {{-- An empty box --}}
             </div>
-            <div class="col-1 p-3 d-flex justify-content-end ">
-                <a href="#" class="btn btn-primary">Upload Articles</a>
+            <div class="p-3 col col-3 col-sm-3 col-md-2 col-lg-2 col-xl-2">
+                <a href=" {{ route('uploadexpertpublic') }} " class=" p-3 btn btn-primary">Upload Articles</a>
             </div>
         </div>
         <div class=" row p-3 bg bg-light border-bottom border-end border-start border-1  border-black">
             <div class="col">
                 @for ($i = 0; $i < 10; $i++)
                     <div class="row p-3 m-3 border border-1 border-black">
-                        <div class="col border border-1 border-black d-flex justify-content-start">
+                        <div class="col border border-1 border-black ">
                             <div class="row p-3 m-3">
                                 <p>Title: Lorem ipsum dolor sit amet consectetur adipisicing elit.
                                     Eaque laudantium error esse, perspiciatis facere commodi eum, 
@@ -80,13 +85,14 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="col-3 border border-1 border-black d-flex justify-content-end">
-                            <div class="row p-3 m-3">
-                                <a class="btn btn-primary">Edit Articles</a>
+                        <div class="col-3 border border-1 border-black ">
+                            <div class="row p-1 m-1">
+                                <a class="btn btn-primary">Edit Articles</a>    
                             </div>
-                            <div class="row p-3 m-3">
+                            <div class="row p-1 m-1">
                                 <a class="btn btn-danger">Delete Articles</a>
                             </div>
+                            
                         </div>
                     </div>   
                 @endfor
@@ -94,4 +100,4 @@
         </div>
     </div>
     {{-- Bottom Content --}}
-</x-app-layout>
+</x-modern-layout>
