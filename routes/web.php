@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
@@ -10,6 +11,8 @@ use Illuminate\Http\Request;
 Route::get('/modern', function () {
    return view('modern');
 })->name('modern');
+
+Route::get('/modern-login', [UserController::class,'login'])->name('modern-login');
 
 Route::get('/modern_login', function() {
     return view('components.modern-layout');
@@ -86,6 +89,9 @@ Route::get('/profile', function() {
     return view('profile');
 })->name('profile');
 
+Route::get('/manage-platinum', function () {
+    return view('/ManagePlatinum/index');
+})->name('manage-platinum');
 
 Route::prefix('/expert')->group(function () {
     Route::get('/myexpert', function() {
