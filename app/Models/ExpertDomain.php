@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class ExpertDomain extends Model
 {
     use HasFactory;
+
+
+
+
+
+
+    protected $fillable = [
+        'expert_name',
+        'expert_'
+    ];
 }

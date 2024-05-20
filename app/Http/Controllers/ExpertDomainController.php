@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\ExpertDomainControl;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\ExpertDomain;
@@ -9,6 +9,23 @@ use App\Http\Requests\UpdateExpertDomainRequest;
 
 class ExpertDomainController extends Controller
 {
+
+
+    public function showMyExpert()
+    {
+        //Function
+
+
+        return view('ManageExpertDomain/myExpertDomain');
+    }
+
+    public function showListExpert()
+    {
+        //Function
+
+
+        return view('ManageExpertDomain/listExpertDomain');
+    }
     /**
      * Display a listing of the resource.
      */
