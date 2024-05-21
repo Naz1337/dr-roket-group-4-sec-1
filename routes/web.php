@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DummyController;
+use App\Http\Controllers\ExpertDomainController;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Http\Request;
 
@@ -59,13 +60,11 @@ Route::get('/manage-platinum', function () {
 })->name('manage-platinum');
 
 Route::prefix('/expert')->group(function () {
-    Route::get('/myexpert', function() {
-        return view('ManageExpertDomain/myExpertDomain');
-    })->name('myexpert');
+    Route::get('/myexpert', [ExpertDomainController::class, 'showMyExpert'])
+    ->name('myexpert');
 
-    Route::get('/listexpert', function() {
-        return view('ManageExpertDomain/listExpertDomain');
-    })->name('listexpert');
+    Route::get('/listexpert', [ExpertDomainController::class, 'showListExpert']    
+    )->name('listexpert');
 
     Route::get('/addexpert', function() {
         return view('ManageExpertDomain/addExpertProfile');
