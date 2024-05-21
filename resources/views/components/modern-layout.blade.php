@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dr Roket - {{ $title }}</title>
+    <link rel="shortcut icon" type="image/png" href="{{ @asset('logo.png') }}" />
     @vite('resources/js/modernApp.js')
 </head>
 
@@ -13,33 +14,51 @@
 <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
      data-sidebar-position="fixed" data-header-position="fixed">
 
-    @if(!request()->routeIs('modern-login'))
+{{--    @if(!request()->routeIs('modern-login'))--}}
+    @if(Auth::check())
         <!-- Sidebar Start -->
-        {{-- TODO: Tukar logo(guna `modern-logo` attribute pastu pass location gambar dalam folder public) dan route --}}
         <x-modern-sidebar>
-            <x-nav-header>Home</x-nav-header>
+            {{ Auth::user()->email }}
+            <x-nav-header>User</x-nav-header>
+            <x-nav-item href="{{route('manage-platinum')}}" icon="users-group">Manage Platinum</x-nav-item>
+            <x-nav-item href="#" icon="user-cog">Manage User Profile</x-nav-item>
 
-            <x-nav-item :href="route('modern')" icon="plane-arrival">
-                Landing
-            </x-nav-item>
+            @if(Auth::user()->user_type != 2)
+                <x-nav-header>Expert Domain</x-nav-header>
+                <x-nav-item href="#" icon="certificate">Manage Expert Domain</x-nav-item>
 
-            <x-nav-item href="https://google.com" icon="brand-chrome">
-                Hi
-            </x-nav-item>
+                <x-nav-header>Publication</x-nav-header>
+                <x-nav-item href="#" icon="script">Manage Publication Data</x-nav-item>
+            @endif
 
-            <x-nav-item href="https://x.com">
-                Website Burung
-            </x-nav-item>
+            <x-nav-header>Monitoring</x-nav-header>
+            @if(Auth::user()->user_type != 2)
+                <x-nav-item href="#" icon="trending-up">Platinum Progress</x-nav-item>
+            @endif
+            <x-nav-item href="#" icon="user-plus">Assign CRMP</x-nav-item>
+{{--            <x-nav-header>Home</x-nav-header>--}}
 
-            <x-nav-item href="https://chat.openai.com" icon="messages">
-                Chat GPT OpenAI
-            </x-nav-item>
+{{--            <x-nav-item :href="route('modern')" icon="plane-arrival">--}}
+{{--                Landing--}}
+{{--            </x-nav-item>--}}
 
-            <x-nav-header>Cat 2</x-nav-header>
-            <x-nav-item href="https://youtube.com" icon="a-b-2">Youtube</x-nav-item>
+{{--            <x-nav-item href="https://google.com" icon="brand-chrome">--}}
+{{--                Hi--}}
+{{--            </x-nav-item>--}}
 
-            <x-nav-header>Source</x-nav-header>
-            <x-nav-item href="/html/index.html" icon="template" target="_blank">Original Template</x-nav-item>
+{{--            <x-nav-item href="https://x.com">--}}
+{{--                Website Burung--}}
+{{--            </x-nav-item>--}}
+
+{{--            <x-nav-item href="https://chat.openai.com" icon="messages">--}}
+{{--                Chat GPT OpenAI--}}
+{{--            </x-nav-item>--}}
+
+{{--            <x-nav-header>Cat 2</x-nav-header>--}}
+{{--            <x-nav-item href="https://youtube.com" icon="a-b-2">Youtube</x-nav-item>--}}
+
+{{--            <x-nav-header>Source</x-nav-header>--}}
+{{--            <x-nav-item href="/html/index.html" icon="template" target="_blank">Original Template</x-nav-item>--}}
         </x-modern-sidebar>
         <!--  Sidebar End -->
 
@@ -60,7 +79,7 @@
                             My Task
                         </x-drop-down-item>
 
-                        <x-drop-down-item-button :href="route('modern')">
+                        <x-drop-down-item-button :href="route('logout')">
                             Logout
                         </x-drop-down-item-button>
 
@@ -69,7 +88,7 @@
             </x-modern-header>
             <!--  Header End -->
 
-            <div class="container-fluid">
+            <div class="container-fluid px-0 mx-auto">
                 {{ $slot }}
             </div>
         </div>

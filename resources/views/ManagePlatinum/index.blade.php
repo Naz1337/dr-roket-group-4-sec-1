@@ -7,7 +7,7 @@
                         <h5 class="card-title fw-semibold mb-4">Platinums</h5>
                     </div>
                     <div class="col">
-                        <button type="button" class="btn btn-primary m-1">Add Platinum</button>
+                        <button type="button" class="btn btn-primary m-1 float-end">Add Platinum</button>
                     </div>
                 </div>
                 <div class="table-responsive">

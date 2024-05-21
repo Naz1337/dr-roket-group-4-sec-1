@@ -23,48 +23,13 @@ Route::get('/', function () {
 })->middleware('auth');
 
 
-Route::get('/register', function() {
-    return view('register-temp');
-})->name('register');
+Route::get('/register', [UserController::class,'register'])->name('register');
 
-Route::post('/register', function() {
+Route::post('/register', [UserController::class,'register'])->name('register-post');
 
-    $validated = request()->validate([
-        'username' => 'required|unique:users,name',
-        'email' => 'required|email:rfc|unique:users,email',
-        'password' => 'required|min:2',
-    ]);
+Route::get('/login', [UserController::class,'login'])->name('login');
 
-    $newUser = new \App\Models\User;
-    $newUser->name = $validated['username'];
-    $newUser->email = $validated['email'];
-    $newUser->password = Hash::make($validated['password']);
-
-    if ($newUser->save()) {
-        return to_route('login', ['message' => 'ya did it']);
-    }
-
-    return to_route('register', ['message' => 'saving to db failed, RARE ENDING']);
-})->name('register-post');
-
-
-Route::get('/login', function () {
-    return view('login-page');
-})->name('login');
-
-Route::post('/login', function() {
-    $credentials = request()->validate([
-        'email' => 'required|email',
-        'password' => 'required',
-    ]);
-
-    $loginResult = Auth::attempt($credentials);
-    if (!$loginResult) {
-        return to_route('login', ['message' => 'Wrong email or password']);
-    }
-    return to_route('drafts.index', ['message' => 'You are logged in']);
-
-})->name('login-post');
+Route::post('/login', [UserController::class,'login'])->name('login-post');
 
 
 Route::get('/logout', function(Request $request) {

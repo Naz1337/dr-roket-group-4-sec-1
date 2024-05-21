@@ -28,14 +28,15 @@
                 <div class="col-md-8 col-lg-6 col-xxl-3">
                     <div class="card mb-0">
                         <div class="card-body">
-                            <a href="./index.html" class="text-nowrap logo-img text-center d-block py-3 w-100">
+                            <a href="#" class="text-nowrap logo-img text-center d-block py-3 w-100">
                                 <img src="{{ @asset('logo.png') }}" width="180" alt="">
                             </a>
                             <p class="text-center">Login</p>
                             <form action="{{ route('login-post') }}" method="post">
+                                @csrf
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Username</label>
-                                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
+                                    <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" required>
                                 </div>
                                 <div class="mb-4">
                                     <label for="password" class="form-label">Password</label>
@@ -48,7 +49,7 @@
                                           Remeber this Device
                                         </label> -->
                                     </div>
-                                    <a class="text-primary fw-bold" href="./index.html">Forgot Password ?</a>
+                                    <a class="text-primary fw-bold" href="#">Forgot Password ?</a>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Sign In</button>
