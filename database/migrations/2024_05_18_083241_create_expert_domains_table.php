@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Platinum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,7 +21,7 @@ return new class extends Migration
             $table->string('expert_domain_research_title');
             $table->string('expert_domain_image');
             $table->timestamps();
-            $table->foreignId('users_id')->constrained();
+            $table->foreignIdFor(Platinum::class)->constrained();
         });
     }
 
