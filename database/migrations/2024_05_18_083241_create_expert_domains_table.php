@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('expert_domain_emails');
             $table->string('expert_domain_phonenumbers');
             $table->string('expert_domain_affiliation');
+            $table->string('expert_domain_current_title');
             $table->string('expert_domain_research_title');
             $table->string('expert_domain_image');
             $table->timestamps();

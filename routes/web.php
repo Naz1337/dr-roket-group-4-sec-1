@@ -81,7 +81,7 @@ Route::prefix('/expert')->group(function () {
     Route::get('/uploadexpertpublic', function() {
         return view('ManageExpertDomain/uploadExpertPublication');
     })->name('uploadexpertpublic');
-});
+})->middleware('auth');
 
 
 Route::prefix('/publication')->group(function () {
