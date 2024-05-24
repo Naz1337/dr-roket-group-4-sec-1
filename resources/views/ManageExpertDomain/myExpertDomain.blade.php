@@ -35,7 +35,7 @@
         <hr>
         <div class="row p-3 bg bg-light">
             {{-- Expert Profile --}}
-            @for ($i = 0; $i < 5; $i++)
+            @foreach ($myexperts as $expert)
                 <div class="row p-3 m-1 border border-1 border-dark">
                     <div class="col-2 p-2">
                         <img alt="Lecturer Image" src="#" style="height: 100px; width: 100px;">
@@ -57,7 +57,7 @@
                         </a>
                     </div>
                 </div>
-            @endfor
+            @endforeach
         </div>
     </div>
 </x-modern-layout>
