@@ -63,9 +63,11 @@ Route::prefix('/expert')->group(function () {
     Route::get('/listexpert', [ExpertDomainController::class, 'showListExpert']
     )->name('listexpert');
 
-    Route::get('/addexpert', function() {
-        return view('ManageExpertDomain/addExpertProfile');
-    })->name('addprofile');
+    Route::get('/addexpert', [ExpertDomainController::class, 'addExpertProfile']
+    )->name('addprofile');
+
+    Route::post('/addexpert', [ExpertDomainController::class, 'create']
+    )->name('createexpert');
 
     Route::get('/viewexpert', function() {
         return view('ManageExpertDomain/viewExpertProfile');
@@ -78,6 +80,10 @@ Route::prefix('/expert')->group(function () {
     Route::get('/uploadexpertpublic', function() {
         return view('ManageExpertDomain/uploadExpertPublication');
     })->name('uploadexpertpublic');
+
+    Route::get('/generatereport', [ExpertDomainController::class, 'generateReport']
+    )->name('generatereport');
+
 })->middleware('auth');
 
 

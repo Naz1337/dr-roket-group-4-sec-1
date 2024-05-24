@@ -29,12 +29,27 @@ class ExpertDomainController extends Controller
 
         return view('ManageExpertDomain/listExpertDomain', compact('listexperts'));
     }
+
+
+    public function generateReport()
+    {
+        $allreports = optional(ExpertDomain::all());
+
+        return view('ManageExpertDomain/generateReportExpert', compact('allreports'));
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         //
+    }
+
+
+    public function addExpertProfile()
+    {
+        return view('ManageExpertDomain/addExpertProfile');
     }
 
     /**

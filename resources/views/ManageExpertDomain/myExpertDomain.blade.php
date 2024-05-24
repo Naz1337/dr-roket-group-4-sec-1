@@ -26,7 +26,7 @@
                         <a href="{{ route('addprofile') }}" class="btn btn-primary text-decoration-none"><i class="bi bi-rocket"></i> &nbsp; Add Profile</a>
                     </div>
                     <div class="col-1">
-                        <a href="#" class="btn btn-info text-white text-decoration-none">Report</a>
+                        <a href=" {{ route('generatereport') }}" class="btn btn-info text-white text-decoration-none">Report</a>
                     </div>
                 </div>
             </div>
