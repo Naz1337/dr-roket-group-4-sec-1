@@ -3,7 +3,11 @@ import  'simplebar';
 import '../scss/modern/styles.scss';
 
 import * as bootstrap from 'bootstrap';
-import $ from 'jquery';
+import jQuery from 'jquery';
+window.$ = jQuery;
+import DataTable from 'datatables.net-bs5';
+import 'datatables.net-buttons-bs5';
+import 'datatables.net-select-bs5';
 
 $(function () {
     // Admin Panel settings
@@ -40,6 +44,8 @@ $(function () {
     $(".sidebartoggler").on("click", function () {
         $("#main-wrapper").toggleClass("show-sidebar");
     });
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 })
 
 /*

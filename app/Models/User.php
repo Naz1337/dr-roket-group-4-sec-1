@@ -46,11 +46,23 @@ class User extends Authenticatable
         ];
     }
 
+    public function userProfile()
+    {
+        return $this->hasOne(UserProfile::class);
+    }
+
+    public function platinum()
+    {
+        return $this->hasOne(UserProfile::class);
+    }
+
     public function getPlatinum(): ?Platinum
     {
-        if($this->user_type == 1) {
-            return Platinum::table('platinum')->where('user_id','=',$this->id)->first();
-        }
-        return null;
+        return $this->user_type == 2 ? $this->platinum : null;
+    }
+
+    public function getUserProfile(): ?UserProfile
+    {
+        return $this->user_type == 2 ? $this->userProfile : null;
     }
 }

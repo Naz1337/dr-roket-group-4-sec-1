@@ -28,6 +28,11 @@
                 <div class="col-md-8 col-lg-6 col-xxl-3">
                     <div class="card mb-0">
                         <div class="card-body">
+                            @if(session('message'))
+                                <div class="alert alert-danger" role="alert">
+                                    {{ session('message') }}
+                                </div>
+                            @endif
                             <a href="#" class="text-nowrap logo-img text-center d-block py-3 w-100">
                                 <img src="{{ @asset('logo.png') }}" width="180" alt="">
                             </a>
@@ -35,8 +40,8 @@
                             <form action="{{ route('login-post') }}" method="post">
                                 @csrf
                                 <div class="mb-3">
-                                    <label for="email" class="form-label">Username</label>
-                                    <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" required>
+                                    <label for="username" class="form-label">Username</label>
+                                    <input type="text" class="form-control" id="username" name="username" aria-describedby="emailHelp" required>
                                 </div>
                                 <div class="mb-4">
                                     <label for="password" class="form-label">Password</label>

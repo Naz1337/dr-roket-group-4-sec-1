@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\PlatinumController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
@@ -11,7 +13,7 @@ use Illuminate\Http\Request;
 
 Route::get('/modern', function () {
    return view('modern');
-})->name('modern');
+})->name('modern')->middleware('auth');
 
 Route::get('/modern-login', [UserController::class,'login'])->name('modern-login');
 
@@ -20,7 +22,7 @@ Route::get('/modern_login', function() {
 })->name('modern-login');
 
 Route::get('/', function () {
-    return "Well hello there o/. so...";
+    return redirect('modern');
 })->middleware('auth');
 
 
@@ -33,14 +35,7 @@ Route::get('/login', [UserController::class,'login'])->name('login');
 Route::post('/login', [UserController::class,'login'])->name('login-post');
 
 
-Route::get('/logout', function(Request $request) {
-    Auth::logout();
-
-    $request->session()->invalidate();
-
-    $request->session()->regenerateToken();
-    return to_route('login', ['message' => 'You are logged out']);
-})->name('logout');
+Route::get('/logout', [UserController::class,'logout'])->name('logout');
 
 
 Route::get('/app', [DummyController::class, 'show']);
@@ -55,15 +50,17 @@ Route::get('/profile', function() {
     return view('profile');
 })->name('profile');
 
-Route::get('/manage-platinum', function () {
-    return view('/ManagePlatinum/index');
-})->name('manage-platinum');
+Route::prefix('user')->group(function() {
+    Route::get('/manage-platinum', [PlatinumController::class,'manage_platinum'])->name('manage-platinum');
+    Route::get('/register-platinum', [PlatinumController::class,'register_platinum'])->name('register-platinum');
+    Route::get('/user-profile', [UserProfileController::class,'view_profile'])->name('register-platinum');
+});
 
 Route::prefix('/expert')->group(function () {
     Route::get('/myexpert', [ExpertDomainController::class, 'showMyExpert'])
     ->name('myexpert');
 
-    Route::get('/listexpert', [ExpertDomainController::class, 'showListExpert']    
+    Route::get('/listexpert', [ExpertDomainController::class, 'showListExpert']
     )->name('listexpert');
 
     Route::get('/addexpert', function() {
@@ -86,10 +83,10 @@ Route::prefix('/expert')->group(function () {
 
 Route::prefix('/publication')->group(function () {
     Route::get('/mypublication', function() {
-        return view('ManageExpertDomain/myExpertDomain');
+        return view('/ManageExpertDomain/myExpertDomain');
     })->name('mypublication');
     Route::get('/listpublication', function() {
-        return view('ManageExpertDomain/listExpertDomain');
+        return view('/ManageExpertDomain/listExpertDomain');
     })->name('listpublication');
 });
 
