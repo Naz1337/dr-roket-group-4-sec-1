@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-modern-layout>
     <div class="p-3 bg-white h-100 content">
         {{-- Page Content --}}
         <div class="row">
@@ -17,14 +17,16 @@
                             <option value="Cloud Architecture">
                           </datalist>
                     </div>
-                    <div class="col-1">
+                    <div class="col-2">
+                        <i class="bi bi-search"></i>
+                        &nbsp;
                         <a href="#" type="submit" class="btn btn-primary text-decoration-none">Search</a>
                     </div>
                     <div class="col-2">
-                        <a href="{{ route('addprofile') }}" class="btn btn-primary text-decoration-none">Add Profile</a>
+                        <a href="{{ route('addprofile') }}" class="btn btn-primary text-decoration-none"><i class="bi bi-rocket"></i> &nbsp; Add Profile</a>
                     </div>
                     <div class="col-1">
-                        <a href="#" class="btn btn-info text-white text-decoration-none">Report</a>
+                        <a href=" {{ route('generatereport') }}" class="btn btn-info text-white text-decoration-none">Report</a>
                     </div>
                 </div>
             </div>
@@ -33,7 +35,7 @@
         <hr>
         <div class="row p-3 bg bg-light">
             {{-- Expert Profile --}}
-            @for ($i = 0; $i < 5; $i++)
+            @foreach ($myexperts as $expert)
                 <div class="row p-3 m-1 border border-1 border-dark">
                     <div class="col-2 p-2">
                         <img alt="Lecturer Image" src="#" style="height: 100px; width: 100px;">
@@ -50,12 +52,12 @@
                         </p>
                     </div>
                     <div class="col-1 p-2">
-                        <a class="btn btn-primary text-decoration-none">
+                        <a href=" {{ route('viewexpert') }} " class="btn btn-primary text-decoration-none">
                             View
                         </a>
                     </div>
                 </div>
-            @endfor
+            @endforeach
         </div>
     </div>
-</x-app-layout>
+</x-modern-layout>

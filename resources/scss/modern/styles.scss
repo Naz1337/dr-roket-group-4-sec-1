@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
+
+@import 'variables/variables';
+
+@import 'bootstrap/scss/bootstrap';
+
+@import 'variables/theme_variables';
+
+@import 'simplebar/dist/simplebar.css';
+
+@import '../tabler-icons/tabler-icons.css';
+
+@import "layouts/sidebar";
+@import "layouts/header";
+@import "layouts/layouts";
+
+@import 'components/reboot';
+@import 'components/card';
+
+@import 'utilities/icon_size';
+@import 'utilities/background';
+
+@import 'pages/dashboard1';

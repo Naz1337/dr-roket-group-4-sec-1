@@ -11,10 +11,12 @@
 <body>
     <x-header />
     <div class="container-fluid">
-        <div class="row">
+        <div class="row"> 
+        @if (!Route::getCurrentRoute()->uri() == '/')
             <div class="col-2">
                 <x-sidebar />
             </div>
+        @endif
             <div class="col">
                 {{ $slot }}
             </div>

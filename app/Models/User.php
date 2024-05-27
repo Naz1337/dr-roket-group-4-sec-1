@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -43,5 +44,25 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function userProfile()
+    {
+        return $this->hasOne(UserProfile::class);
+    }
+
+    public function platinum()
+    {
+        return $this->hasOne(UserProfile::class);
+    }
+
+    public function getPlatinum(): ?Platinum
+    {
+        return $this->user_type == 2 ? $this->platinum : null;
+    }
+
+    public function getUserProfile(): ?UserProfile
+    {
+        return $this->user_type == 2 ? $this->userProfile : null;
     }
 }
