@@ -311,12 +311,12 @@
                             <h4 class="card-title fw-bolder fs-7 mb-4">Education Info</h4>
                             <div class="row mb-3">
                                 <div class="col me-2">
-                                    <label for="plat_cur_edu_field" class="form-label">Current Education Field</label>
-                                    <input type="text" class="form-control @error('plat_cur_edu_field') is-invalid @enderror" id="plat_cur_edu_field" name="plat_cur_edu_field"
-                                           placeholder="eg. Muslim" value="{{ old('plat_cur_edu_field') }}">
+                                    <label for="plat_cur_edu_level" class="form-label">Current Education Field</label>
+                                    <input type="text" class="form-control @error('plat_cur_edu_level') is-invalid @enderror" id="plat_cur_edu_level" name="plat_cur_edu_level"
+                                           placeholder="eg. Muslim" value="{{ old('plat_cur_edu_level') }}">
                                 </div>
                                 <div class="col">
-                                    <label for="plat_race" class="form-label">Education Field</label>
+                                    <label for="plat_edu_field" class="form-label">Education Field</label>
                                     <input type="text" class="form-control @error('plat_race') is-invalid @enderror" id="plat_edu_field" name="plat_edu_field"
                                            placeholder="eg. Malay" value="{{ old('plat_race') }}">
                                 </div>
@@ -452,22 +452,22 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="plat_tshirt" class="form-label @error('plat_tshirt') text-danger @enderror">Do you have a referral?</label>
+                                <label for="plat_tshirt" class="form-label @error('plat_tshirt') text-danger @enderror">T-Shirt Size</label>
                                 <div class="col">
                                     <div class="form-check form-check-inline">
-                                        <input type="radio" class="form-check-input" name="plat_tshirt" id="plat_tshirt" value="0" checked>
+                                        <input type="radio" class="form-check-input" name="plat_tshirt" id="plat_tshirt" value="XS" checked>
                                         <label class="form-check-label" for="plat_tshirt">XS</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input type="radio" class="form-check-input" name="plat_tshirt" id="plat_tshirt" value="1">
+                                        <input type="radio" class="form-check-input" name="plat_tshirt" id="plat_tshirt" value="S">
                                         <label class="form-check-label" for="plat_tshirt">S</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input type="radio" class="form-check-input" name="plat_tshirt" id="plat_tshirt" value="2">
+                                        <input type="radio" class="form-check-input" name="plat_tshirt" id="plat_tshirt" value="2XL">
                                         <label class="form-check-label" for="plat_tshirt">2XL</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input type="radio" class="form-check-input" name="plat_tshirt" id="plat_tshirt" value="3">
+                                        <input type="radio" class="form-check-input" name="plat_tshirt" id="plat_tshirt" value="3XL">
                                         <label class="form-check-label" for="plat_tshirt">3XL</label>
                                     </div>
                                 </div>

@@ -33,7 +33,7 @@ class PlatinumController extends Controller
                 "plat_phone_no" => "required",
                 "plat_email" => "required|email",
                 "plat_fbname" => "required",
-                "plat_cur_edu_field" => "required",
+                "plat_cur_edu_level" => "required",
                 "plat_edu_field" => "required",
                 "plat_edu_institute" => "required",
                 "plat_occupation" => "required",
@@ -77,7 +77,7 @@ class PlatinumController extends Controller
             unset($valid['plat_discover_type_other']);
 
             $user = new User;
-            $user->username = strtolower(trim($valid['plat_name']));
+            $user->username = str_replace(' ','_',strtolower(trim($valid['plat_name'])));
             $user->email = $valid['plat_email'];
             $user->password = $valid['plat_ic'];
             $user->user_type = Config::get('constants.user.platinum');

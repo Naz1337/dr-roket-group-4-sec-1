@@ -33,7 +33,7 @@ return new class extends Migration
             $table->string('plat_phone_no',20);
             $table->string('plat_email',100);
             $table->string('plat_fbname');
-            $table->string('plat_cur_edu_field',20);
+            $table->string('plat_cur_edu_level',20);
             $table->string('plat_edu_field',100);
             $table->string('plat_edu_institute',100);
             $table->string('plat_occupation',100);

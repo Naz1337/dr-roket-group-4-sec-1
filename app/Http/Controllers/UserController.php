@@ -16,10 +16,9 @@ class UserController extends Controller
         $message = $request->query('message', '');
         if(request()->isMethod('POST')) {
             $credentials = request()->validate([
-                'username' => 'required',
+                'email' => 'required',
                 'password' => 'required',
             ]);
-            unset($credentials['email']);
 
             $loginResult = Auth::attempt($credentials);
             if (!$loginResult) {
