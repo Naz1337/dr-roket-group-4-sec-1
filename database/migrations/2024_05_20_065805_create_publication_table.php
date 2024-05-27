@@ -13,15 +13,19 @@ return new class extends Migration
     {
         Schema::create('publications', function (Blueprint $table) {
             $table->id();
-            $table->string('author' );
+            $table->string('authors' );
             $table->string('title');
-            $table->date('publisheddate');
+            $table->date('published_date');
             $table->string('type');
-            $table->foreignId('expert_domain_id');
-            $table->foreignId('platinum_id');
+            $table->string('volume');
+            $table->string('issues');
+            $table->string('pages');
+            $table->string('publisher');
             $table->string('description');
             $table->string('p_path');
-            $table->string('p_filename');
+            $table->foreignId('expert_domain_id')->nullable();
+            $table->foreignId('platinum_id');
+            
             $table->timestamps();
         });
     }
