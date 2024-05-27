@@ -8,7 +8,6 @@ window.$ = jQuery;
 import DataTable from 'datatables.net-bs5';
 import 'datatables.net-buttons-bs5';
 import 'datatables.net-select-bs5';
-import 'bootstrap-datepicker';
 
 $(function () {
     // Admin Panel settings
