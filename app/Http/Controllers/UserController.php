@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\View;
+use Illuminate\Validation\Rules\File;
 
 class UserController extends Controller
 {
@@ -18,14 +19,11 @@ class UserController extends Controller
                 'username' => 'required',
                 'password' => 'required',
             ]);
-
-            // Modify the key 'email' to 'username' in the credentials array
-            $credentials['username'] = $credentials['username'];
             unset($credentials['email']);
 
             $loginResult = Auth::attempt($credentials);
             if (!$loginResult) {
-                return to_route('login', ['message' => 'Wrong email or password']);
+                return to_route('login')->with('error', 'Wrong username or password!')->with('error-type', 'danger');
             }
             return to_route('modern');
         }
@@ -41,6 +39,12 @@ class UserController extends Controller
                 'username' => 'required|unique:users,username',
                 'email' => 'required|email:rfc|unique:users,email',
                 'password' => 'required|min:2',
+                'image' => File::image()->max(2000),
+                'birth_date' => 'required|date_format:Y-m-d',
+                'phone_no' => 'required',
+//                'phone_no' => 'required|regex:/^[0-9]{10,15}$/',
+                'address' => 'required|string|max:255',
+                'address2' => 'required|string|max:255',
             ]);
             $imageData = null;
 
@@ -56,16 +60,20 @@ class UserController extends Controller
             $newUser->user_type = 2;
 
             if ($newUser->save()) {
-                // Create user profile
+
                 $userProfile = new UserProfile;
                 $userProfile->user_id = $newUser->id;
-                $userProfile->profile_name = 'default'; // Example profile name
-                $userProfile->birth_date = now(); // Example birth date
+                $userProfile->profile_name = $validated['username']; // Example profile name
+                $userProfile->birth_date = $validated['birth_date']; // Example birth date
                 $userProfile->profile_email = $newUser->email;
                 $userProfile->user_photo = $imageData; // Save image data
+                $userProfile->phone_no = $validated['phone_no'];
+                $userProfile->address = $validated['address'];
+                $userProfile->address2 = $validated['address2'];
+
                 $userProfile->save();
 
-                return redirect()->route('login')->with('message', 'Registration successful.');
+                return redirect()->route('login')->with('error', 'Registration successful.')->with('error-type', 'success');
             }
 
             return view('register');
@@ -77,6 +85,6 @@ class UserController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('login')->with('message', 'You have been logged out');
+        return redirect('login')->with('error', 'You have been logged out')->with('error-type', 'info');
     }
 }

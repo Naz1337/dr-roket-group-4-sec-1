@@ -8,6 +8,7 @@ use App\Http\Requests\StoreExpertDomainRequest;
 use App\Http\Requests\UpdateExpertDomainRequest;
 use App\Models\Platinum;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class ExpertDomainController extends Controller
 {
@@ -46,18 +47,12 @@ class ExpertDomainController extends Controller
         //
     }
 
-
-    public function addExpertProfile()
-    {
-        return view('ManageExpertDomain/addExpertProfile');
-    }
-
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        return view('ManageExpertDomain/addExpertProfile');
     }
 
     /**
@@ -65,7 +60,34 @@ class ExpertDomainController extends Controller
      */
     public function store(StoreExpertDomainRequest $request)
     {
-        //
+        // dd($request->all());
+        // $request->validate([
+        //     'name' => 'required',
+        //     'emails' => 'required',
+        //     'affiliation' => 'required|max:255',
+        //     'research' => 'required'
+        // ]);
+        
+        // dd($request->name);
+        $imageData = null;
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageData = file_get_contents($image->getRealPath());
+        }
+
+        $ed = new ExpertDomain;
+        $ed->expert_domain_names = $request->name;
+        $ed->expert_domain_emails = $request->email;
+        $ed->expert_domain_phonenumbers = $request->phonenum;
+        $ed->expert_domain_affiliation = $request->affiliation;
+        $ed->expert_domain_research_title = $request->research;
+        $ed->expert_domain_designation = implode(',', (array) $request->designation);
+        $ed->expert_domain_image = $imageData;
+        $ed->platinum_id = null;
+        $ed->save();
+
+        return Redirect::route('myexpert');
     }
 
     /**

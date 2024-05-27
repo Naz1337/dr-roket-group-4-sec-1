@@ -28,9 +28,10 @@
                 <div class="col-md-8 col-lg-6 col-xxl-3">
                     <div class="card mb-0">
                         <div class="card-body">
-                            @if(session('message'))
-                                <div class="alert alert-danger" role="alert">
-                                    {{ session('message') }}
+                            @if(session('error'))
+                                <div class="alert alert-{{ session('error-type') ? session('error-type') : 'warning' }} alert-dismissible fade show" role="alert">
+                                    {{ session('error') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"> </button>
                                 </div>
                             @endif
                             <a href="#" class="text-nowrap logo-img text-center d-block py-3 w-100">
