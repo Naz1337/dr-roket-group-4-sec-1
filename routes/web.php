@@ -66,11 +66,11 @@ Route::prefix('/expert')->group(function () {
     Route::get('/listexpert', [ExpertDomainController::class, 'showListExpert']
     )->name('listexpert');
 
-    Route::get('/addexpert', [ExpertDomainController::class, 'addExpertProfile']
+    Route::get('/addexpert', [ExpertDomainController::class, 'create']
     )->name('addprofile');
 
-    Route::post('/addexpert', [ExpertDomainController::class, 'create']
-    )->name('createexpert');
+    Route::post('/addexpert', [ExpertDomainController::class, 'store']
+    )->name('createprofile');
 
     Route::get('/viewexpert', function() {
         return view('ManageExpertDomain/viewExpertProfile');
