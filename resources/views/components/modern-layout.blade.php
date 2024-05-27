@@ -31,7 +31,7 @@
             @endphp
             <x-nav-header>User</x-nav-header>
             <x-nav-item href="{{ route('register-platinum') }}" icon="user-plus">Registration</x-nav-item>
-            <x-nav-item href="{{ route('manage-platinum') }}" icon="user-cog">Manage User Profile</x-nav-item>
+            <x-nav-item href="{{ route('manage-user-profile') }}" icon="user-cog">Manage User Profile</x-nav-item>
 
             @if(Auth::user()->user_type != Config::get('constants.user.staff'))
                 <x-nav-header>Expert Domain</x-nav-header>

@@ -1,26 +1,56 @@
+@section('scripts')
+    <script type="module">
+        $(document).ready(function () {
+            $('#profile-table').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "{{ route('manage-user-profile') }}",
+                    "type": "GET"
+                },
+                "columns": [
+                    { "data": "name" },
+                    { "data": "email" },
+                    { "data": "user_type" },
+                    { "data": "cur_field" },
+                    { "data": "institute" },
+                    { "data": "batch" },
+                    { "data": "confirm" },
+                    { "data": "id" }
+                ],
+                "columnDefs": [
+                    {
+                        "targets": 6, "render": function(data, type, row) {
+                            if (!data || data.trim() === '') {
+                                return '';
+                            }
+                            const date = new Date(data);
+                            const day = date.getDate();
+                            const month = date.getMonth() + 1;
+                            const year = date.getFullYear();
+                            return day + '/' + month + '/' + year;
+                        }
+                    }
+                ]
+            });
+        })
+    </script>
+@stop
 <x-modern-layout title="Manage Platinum">
     <div class="col d-flex align-items-stretch">
         <div class="card w-100">
             <div class="card-body p-4">
                 <div class="row">
                     <div class="col">
-                        <h5 class="card-title fw-semibold mb-4">Platinums</h5>
+                        <h5 class="card-title fw-semibold fs-8 mb-4">Manage User Profile</h5>
                     </div>
 {{--                    <div class="col">--}}
 {{--                        <a href="{{route('add-platinum')}}" class="btn btn-primary m-1 float-end">Add Platinum</a>--}}
 {{--                    </div>--}}
                 </div>
-                @section('scripts')
-                    <script type="module">
-                        $(document).ready(function () {
-                            $("#platinum-table").DataTable({
-
-                            });
-                        })
-                    </script>
-                @stop
+                <hr>
                 <div class="table-responsive">
-                    <table class="table text-nowrap mb-0 align-middle" id="platinum-table">
+                    <table class="table text-nowrap mb-0 align-middle" id="profile-table">
                         <thead class="text-dark fs-4">
                         <tr>
                             <th class="border-bottom-0">
@@ -49,38 +79,6 @@
                             </th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <td class="border-bottom-0">
-                                <h6 class="mb-1">Sunil Joshi</h6>
-{{--                                <span class="fw-normal">Web Designer</span>--}}
-                            </td>
-                            <td class="border-bottom-0">
-                                <p class="mb-0 fw-normal">suniljoshi@gmail.com</p>
-                            </td>
-                            <td class="border-bottom-0">
-                                <div class="d-flex align-items-center gap-2">
-                                    <span class="badge bg-primary rounded-3">Platinum Premier</span>
-                                </div>
-                            </td>
-                            <td class="border-bottom-0">
-                                <h6 class="mb-0">Software Engineering</h6>
-                            </td>
-                            <td class="border-bottom-0">
-                                <h6 class="mb-0">Universiti Malaysia Pahang</h6>
-                            </td>
-                            <td class="border-bottom-0">
-                                <h6 class="mb-0">4</h6>
-                            </td>
-                            <td class="border-bottom-0">
-                                <h6 class="mb-0">11/11/2023</h6>
-                            </td>
-                            <td class="border-bottom-0">
-                                <a href="#" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-title="View"><i class="ti ti-external-link"></i></a>
-                                <a href="#" class="btn btn-outline-warning" data-bs-toggle="tooltip" data-bs-title="Edit"><i class="ti ti-edit"></i></a>
-                            </td>
-                        </tr>
-                        </tbody>
                     </table>
                 </div>
             </div>

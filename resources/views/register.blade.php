@@ -36,6 +36,9 @@
                                         @section('scripts')
                                             <script type="module">
                                                 $(document).ready(function () {
+                                                    // $("#birth_date").datepicker({
+                                                    //     format: "dd/mm/yyyy"
+                                                    // });
                                                     $("#imagePreview").hide();
                                                     $("#image").on("change",function(e){
                                                         var arrTemp = this.value.split('\\');
@@ -51,13 +54,38 @@
                                                             reader.readAsDataURL(this.files[0]);
                                                             $("#imagePreview").show();
                                                         }
-                                                    })
-                                                })
+                                                    });
+
+                                                });
                                             </script>
                                         @stop
                                     </div>
-                                    <div class="text-center">
+                                    <div class="text-center mb-4">
                                         <img id="imagePreview" src="#" alt="Image" width="100" />
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="birth_date" class="form-label">Birth Date</label>
+                                        <input class="form-control @error('birth_date') is-invalid @enderror"
+                                               type="date" name="birth_date" id="birth_date" placeholder="Birth Date"
+                                               value="{{ old('birth_date') }}">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="phone_no" class="form-label">Phone Number</label>
+                                        <input class="form-control @error('phone_no') is-invalid @enderror"
+                                               type="text" name="phone_no" id="phone_no" placeholder="Phone Number"
+                                               value="{{ old('phone_no') }}">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="address" class="form-label">Address</label>
+                                        <input class="form-control @error('address') is-invalid @enderror"
+                                               type="text" name="address" id="address" placeholder="Address"
+                                               value="{{ old('address') }}">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="address2" class="form-label">Address 2</label>
+                                        <input class="form-control @error('address2') is-invalid @enderror"
+                                               type="text" name="address2" id="address2" placeholder="Address 2"
+                                               value="{{ old('address2') }}">
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Sign Up</button>
