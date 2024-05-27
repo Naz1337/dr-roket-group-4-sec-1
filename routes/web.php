@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DraftController;
 use App\Http\Controllers\PlatinumController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserProfileController;
@@ -95,6 +96,9 @@ Route::prefix('/publication')->group(function () {
         return view('/ManageExpertDomain/listExpertDomain');
     })->name('listpublication');
 });
+
+
+Route::resource('drafts', DraftController::class);
 
 
 

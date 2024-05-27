@@ -46,9 +46,6 @@
                 <x-nav-item href="#" icon="trending-up">Platinum Progress</x-nav-item>
             @endif
             <x-nav-item href="#" icon="user-plus">Assign CRMP</x-nav-item>
-
-            <x-nav-header>Progress Monitoring</x-nav-header>
-            <x-nav-item :href="route('')"
         </x-modern-sidebar>
         <!--  Sidebar End -->
 

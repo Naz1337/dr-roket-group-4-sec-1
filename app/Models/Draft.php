@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Draft extends Model
 {
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     protected $attributes = [
         'draft_owner' => 1  // Tunggu Juel-san
