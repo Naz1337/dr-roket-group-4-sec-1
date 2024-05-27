@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('expert_domain_research_title');
             $table->string('expert_domain_image');
             $table->timestamps();
-            $table->string('platinum_id');
+            $table->foreignId(Platinum::class)->constrained();
         });
     }
 
