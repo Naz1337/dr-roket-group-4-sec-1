@@ -1,81 +1,59 @@
-<x-app-layout>
+<modern-app-layout>
 
+<!-- resources/views/publications/_form.blade.php -->
 
-<div class="row justify-content-center mt-3">
-    <div class="col-md-8">
+@php
+    $publication = $publication ?? new \App\Models\Publication();
+@endphp
 
-        <div class="card">
-            <div class="card-header">
-                <div class="float-start">
-                    Add New Product
-                </div>
-                <div class="float-end">
-                    <a href="{{ route('products.index') }}" class="btn btn-primary btn-sm">&larr; Back</a>
-                </div>
-            </div>
-            <div class="card-body">
-                <form action="{{ route('products.store') }}" method="post">
-                    @csrf
-
-                    <div class="mb-3 row">
-                        <label for="code" class="col-md-4 col-form-label text-md-end text-start">Code</label>   
-                        <div class="col-md-6">
-                          <input type="text" class="form-control @error('code') is-invalid @enderror" id="code" name="code" value="{{ old('code') }}">
-                            @if ($errors->has('code'))
-                                <span class="text-danger">{{ $errors->first('code') }}</span>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="mb-3 row">
-                        <label for="name" class="col-md-4 col-form-label text-md-end text-start">Name</label>
-                        <div class="col-md-6">
-                          <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}">
-                            @if ($errors->has('name'))
-                                <span class="text-danger">{{ $errors->first('name') }}</span>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="mb-3 row">
-                        <label for="quantity" class="col-md-4 col-form-label text-md-end text-start">Quantity</label>
-                        <div class="col-md-6">
-                          <input type="number" class="form-control @error('quantity') is-invalid @enderror" id="quantity" name="quantity" value="{{ old('quantity') }}">
-                            @if ($errors->has('quantity'))
-                                <span class="text-danger">{{ $errors->first('quantity') }}</span>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="mb-3 row">
-                        <label for="price" class="col-md-4 col-form-label text-md-end text-start">Price</label>
-                        <div class="col-md-6">
-                          <input type="number" step="0.01" class="form-control @error('price') is-invalid @enderror" id="price" name="price" value="{{ old('price') }}">
-                            @if ($errors->has('price'))
-                                <span class="text-danger">{{ $errors->first('price') }}</span>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="mb-3 row">
-                        <label for="description" class="col-md-4 col-form-label text-md-end text-start">Description</label>
-                        <div class="col-md-6">
-                            <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description">{{ old('description') }}</textarea>
-                            @if ($errors->has('description'))
-                                <span class="text-danger">{{ $errors->first('description') }}</span>
-                            @endif
-                        </div>
-                    </div>
-                    
-                    <div class="mb-3 row">
-                        <input type="submit" class="col-md-3 offset-md-5 btn btn-primary" value="Add Product">
-                    </div>
-                    
-                </form>
-            </div>
-        </div>
-    </div>    
+<div class="mb-3">
+    <label for="authors" class="form-label">Authors</label>
+    <input type="text" class="form-control" id="authors" name="authors" value="{{ old('authors', $publication->authors) }}" required>
 </div>
-    
+<div class="mb-3">
+    <label for="title" class="form-label">Title</label>
+    <input type="text" class="form-control" id="title" name="title" value="{{ old('title', $publication->title) }}" required>
+</div>
+<div class="mb-3">
+    <label for="publisheddate" class="form-label">Published Date</label>
+    <input type="date" class="form-control" id="publisheddate" name="publisheddate" value="{{ old('publisheddate', $publication->publisheddate) }}" required>
+</div>
+<div class="mb-3">
+    <label for="type" class="form-label">Type</label>
+    <input type="text" class="form-control" id="type" name="type" value="{{ old('type', $publication->type) }}" required>
+</div>
+<div class="mb-3">
+    <label for="description" class="form-label">Description</label>
+    <textarea class="form-control" id="description" name="description" required>{{ old('description', $publication->description) }}</textarea>
+</div>
+<div class="mb-3">
+    <label for="p_path" class="form-label">File Path</label>
+    <input type="text" class="form-control" id="p_path" name="p_path" value="{{ old('p_path', $publication->p_path) }}" required>
+</div>
+<div class="mb-3">
+    <label for="p_filename" class="form-label">File Name</label>
+    <input type="text" class="form-control" id="p_filename" name="p_filename" value="{{ old('p_filename', $publication->p_filename) }}" required>
+</div>
+<div class="mb-3">
+    <label for="expert_domain_id" class="form-label">Expert Domain</label>
+    <select class="form-control" id="expert_domain_id" name="expert_domain_id" required>
+        @foreach($expertDomains as $domain)
+            <option value="{{ $domain->id }}" {{ old('expert_domain_id', $publication->expert_domain_id) == $domain->id ? 'selected' : '' }}>{{ $domain->name }}</option>
+        @endforeach
+    </select>
+</div>
+<div class="mb-3">
+    <label for="platinum_id" class="form-label">Platinum</label>
+    <select class="form-control" id="platinum_id" name="platinum_id" required>
+        @foreach($platinums as $platinum)
+            <option value="{{ $platinum->id }}" {{ old('platinum_id', $publication->platinum_id) == $platinum->id ? 'selected' : '' }}>{{ $platinum->name }}</option>
+        @endforeach
+    </select>
+</div>
+<div class="mb-3">
+    <label for="doi" class="form-label">DOI</label>
+    <input type="text" class="form-control" id="doi" name="doi" value="{{ old('doi', $publication->doi) }}">
+</div>
 
-</x-app-layout>
+
+</modern-app-layout>

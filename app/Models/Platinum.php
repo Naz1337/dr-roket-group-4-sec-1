@@ -19,4 +19,9 @@ class Platinum extends Model
         return $this->hasMany(ExpertDomain::class, 'platinum_id');
     }
 
+    public function publications()
+    {
+        return $this->hasMany(Publication::class);
+    }
+
 }

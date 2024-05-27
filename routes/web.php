@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DummyController;
 use App\Http\Controllers\ExpertDomainController;
+use App\Http\Controllers\PublicationController;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Http\Request;
 
@@ -88,11 +89,7 @@ Route::prefix('/expert')->group(function () {
 
 
 Route::prefix('/publication')->group(function () {
-    Route::get('/mypublication', function() {
-        return view('/ManageExpertDomain/myExpertDomain');
-    })->name('mypublication');
-    Route::get('/listpublication', function() {
-        return view('/ManageExpertDomain/listExpertDomain');
-    })->name('listpublication');
+    Route::get('/mypublication', [PublicationController::class, 'index'])->name('mypublication');
+    Route::get('/addpublication', [PublicationController::class, 'create'])->name('addpublication');
+    Route::post('/addpublication', [PublicationController::class, 'store'])->name('storepublication');
 });
-
