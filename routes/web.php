@@ -37,7 +37,7 @@ Route::post('/login', [UserController::class,'login'])->name('login-post');
 
 Route::get('/logout', [UserController::class,'logout'])->name('logout');
 
-
+// UNTUK DIBUANG
 Route::get('/app', [DummyController::class, 'show']);
 
 
@@ -95,4 +95,6 @@ Route::prefix('/publication')->group(function () {
         return view('/ManageExpertDomain/listExpertDomain');
     })->name('listpublication');
 });
+
+
 

@@ -18,7 +18,6 @@
 <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
      data-sidebar-position="fixed" data-header-position="fixed">
 
-    {{--    @if(!request()->routeIs('modern-login'))--}}
     @if(Auth::check() && !request()->routeIs('register'))
         <!-- Sidebar Start -->
         <x-modern-sidebar>
@@ -47,6 +46,9 @@
                 <x-nav-item href="#" icon="trending-up">Platinum Progress</x-nav-item>
             @endif
             <x-nav-item href="#" icon="user-plus">Assign CRMP</x-nav-item>
+
+            <x-nav-header>Progress Monitoring</x-nav-header>
+            <x-nav-item :href="route('')"
         </x-modern-sidebar>
         <!--  Sidebar End -->
 
