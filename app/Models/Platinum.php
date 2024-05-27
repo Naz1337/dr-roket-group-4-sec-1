@@ -10,9 +10,42 @@ class Platinum extends Model
 {
     use HasFactory;
 
-
-
-
+    protected $fillable = [
+        'user_id',
+        'plat_name',
+        'plat_ic',
+        'plat_title',
+        'plat_gender',
+        'plat_religion',
+        'plat_race',
+        'plat_citizenship',
+        'plat_photo',
+        'plat_address',
+        'plat_address2',
+        'plat_city',
+        'plat_state',
+        'plat_postcode',
+        'plat_country',
+        'plat_phone_no',
+        'plat_email',
+        'plat_fbname',
+        'plat_cur_edu_field',
+        'plat_edu_field',
+        'plat_edu_institute',
+        'plat_occupation',
+        'plat_study_sponsor',
+        'plat_discover_type',
+        'plat_prog_interest',
+        'plat_batch',
+        'plat_has_referral',
+        'plat_referral_name',
+        'plat_referral_batch',
+        'plat_tshirt',
+        'plat_app_confirm',
+        'plat_app_confirm_date',
+        'plat_payment_type',
+        'plat_payment_proof',
+    ];
 
     public function myexperts(): HasMany
     {

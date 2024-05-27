@@ -3,6 +3,7 @@
 use App\Http\Controllers\PlatinumController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserProfileController;
+use App\Models\UserProfile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
@@ -51,9 +52,11 @@ Route::get('/profile', function() {
 })->name('profile');
 
 Route::prefix('user')->group(function() {
-    Route::get('/manage-platinum', [PlatinumController::class,'manage_platinum'])->name('manage-platinum');
+    Route::get('/manage-user-profile', [UserProfileController::class,'manage_user_profile'])->name('manage-user-profile');
     Route::get('/register-platinum', [PlatinumController::class,'register_platinum'])->name('register-platinum');
-    Route::get('/user-profile', [UserProfileController::class,'view_profile'])->name('register-platinum');
+    Route::post('/register-platinum-post', [PlatinumController::class,'register_platinum'])->name('register-platinum-post');
+    Route::get('/register-success', [PlatinumController::class,'register_success'])->name('register-success');
+    Route::get('/user-profile', [UserProfileController::class,'view_profile'])->name('view-profile');
 });
 
 Route::prefix('/expert')->group(function () {

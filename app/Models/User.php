@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
@@ -53,16 +54,16 @@ class User extends Authenticatable
 
     public function platinum()
     {
-        return $this->hasOne(UserProfile::class);
+        return $this->hasOne(PLatinum::class);
     }
 
     public function getPlatinum(): ?Platinum
     {
-        return $this->user_type == 2 ? $this->platinum : null;
+        return $this->user_type == Config::get('constants.user.platinum') ? $this->platinum : null;
     }
 
     public function getUserProfile(): ?UserProfile
     {
-        return $this->user_type == 2 ? $this->userProfile : null;
+        return $this->user_type == Config::get('constants.user.staff') ? $this->userProfile : null;
     }
 }
