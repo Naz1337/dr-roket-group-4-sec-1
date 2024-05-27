@@ -16,9 +16,13 @@ class ExpertDomain extends Model
         'expert_domain_names',
         'expert_domain_emails',
         'expert_domain_phonenumbers',
+        'expert_domain_affiliation',
+        'expert_domain_designation',
         'expert_domain_research_title',
         'expert_domain_image'
     ];
+
+    
 
     public function platinum(): BelongsTo
     {
