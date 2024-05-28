@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -72,6 +73,11 @@ class UserProfileController extends Controller
         }
 
         return view('ManageUserProfile/index');
+    }
+
+    public function view_profile(string $id,Request $request) {
+        $users = User::where('id', $id)->first();
+        return view('ManageUserProfile/view-profile')->with('user', $users);
     }
 
     public function generateReportExcel(Request $request) {

@@ -64,7 +64,7 @@
                     },
                     {
                         "targets": 7, "render": function (data, type, row) {
-                            let route = "{{ route('view-profile') }}/" + data;
+                            let route = "{{ route('view-profile',[]) }}/" + data;
                             return '<a href="' + route + '" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-title="View"><i class="ti ti-external-link"></i></a>';
                         }
                     }
@@ -96,7 +96,7 @@
                 </div>
                 <div class="row">
                     <div class="col-3">
-                        <img src="data:image/png;base64,{{ base64_encode(Auth::user()->user_type != 0 ? Auth::user()->getUserProfile()->user_photo : Auth::user()->getPlatinum()->plat_photo) }}" alt="#" class="card-img w-60 border border-3">
+                        <img src="{{ Storage::url(in_array(Auth::user()->user_type, Config::get('constants.user.platOrCRMP')) ? Auth::user()->platinum->plat_photo : Auth::user()->userProfile->user_photo) }}" alt="#" class="card-img w-60 border border-3">
                     </div>
                     <div class="col-9">
                         @if(!in_array(Auth::user()->user_type, Config::get('constants.user.platOrCRMP')))

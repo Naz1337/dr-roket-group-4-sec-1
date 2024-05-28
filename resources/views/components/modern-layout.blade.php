@@ -59,7 +59,7 @@
                     <p class="navbar-text fw-semibold fs-4">Hello, {{ Auth::user()->username }}</p>
                 </li>
                 <x-profile-in-header
-                    profile-picture="{{ base64_encode(Auth::user()->user_type != 0 ? Auth::user()->getUserProfile()->user_photo : Auth::user()->getPlatinum()->plat_photo) }}">
+                    profile-picture="{{ Auth::user()->user_type != 0 ? Auth::user()->getUserProfile()->user_photo : Auth::user()->getPlatinum()->plat_photo }}">
                     <x-drop-down-menu>
                         {{-- TODO: link logout ngan yang lain dalam dropdown profile ni kepada benda yang patut --}}
                         <x-drop-down-item :href="route('modern')" icon="user">

@@ -27,5 +27,10 @@ return [
         'FPX/Credit Card/Debit Card' => 0,
         'FPX-Referral' => 1,
         'Direct Transfer/Payment' => 2
+    ],
+    'file_path' => [
+        'platinumPhoto' => '',
+        'staffPhoto' => '',
+        'payment' => ''
     ]
 ];

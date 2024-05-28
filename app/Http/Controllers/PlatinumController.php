@@ -62,6 +62,14 @@ class PlatinumController extends Controller
                 return to_route('register-platinum')->withErrors($validator)->withInput();
             }
 
+            $imagePath = null;
+
+            if ($request->hasFile('plat_photo')) {
+                $image = $request->file('plat_photo');
+                $imageName = uniqid().'.'.$image->getClientOriginalExtension(); // Generate unique image name
+                $imagePath = $image->storeAs('user_photos', $imageName, 'public'); // Store image to 'public/user_photos' folder
+            }
+
             $type = $valid['plat_discover_type'];
             if ($type == 'Others') {
                 $valid['plat_discover_type'] = $valid['plat_discover_type_other'];
@@ -85,6 +93,7 @@ class PlatinumController extends Controller
             if ($user->save()) {
                 $platinum = new Platinum;
                 $valid['user_id'] = $user->id;
+                $valid['plat_photo'] = $imagePath;
                 $inserted = $platinum->create($valid);
             }
 
