@@ -23,31 +23,31 @@
                 <div class="col">
                     <div class="row p-3">
                         <label class="form form-label">Email:</label>
-                        <input class="form form-control" type="email">
+                        <input class="form form-control" type="email" value="{{ $expert->expert_domain_emails }}">
                     </div>
                     <div class="row p-3">
                         <label class="form form-label">Phone Number:</label>
-                        <input class="form form-control" type="text">
+                        <input class="form form-control" type="text" value="{{ $expert->expert_domain_phonenumbers }}">
                     </div>
                     <div class="row p-3">
                         <label class="form form-label">Affiliation:</label>
-                        <input class="form form-control" type="text">
+                        <input class="form form-control" type="text" value="{{ $expert->expert_domain_affiliation }}" >
                     </div>
                     <div class="row p-3">
                         <label class="form form-label">Area of Expertise:</label>
-                        <input class="form form-control" type="text">
+                        <input class="form form-control" type="text" value="{{ $expert->expert_domain_research_title }}" >
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-1 p-3 d-flex justify-content-end">
-                    <a href="{{ route('viewexpert') }}" type="button" class="btn btn-primary">Back</a>
+                    <a href="{{ route('viewexpert.id', $expert->id) }}" type="button" class="btn btn-primary">Back</a>
                 </div>
                 <div class="col p-3 d-flex justify-content-end">
                     <a href="#" type="submit" class="btn btn-primary">Edit Profile</a>
                 </div>
                 <div class="col-1 p-3 d-flex justify-content-end">
-                    <a href=" {{ route('viewexpert') }} " type="button" class="btn btn-danger">Cancel</a>
+                    <a href=" {{ route('viewexpert.id', $expert->id) }} " type="button" class="btn btn-danger">Cancel</a>
                 </div>
             </div>
         </form>

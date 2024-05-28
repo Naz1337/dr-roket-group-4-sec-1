@@ -7,6 +7,7 @@ use App\Models\ExpertDomain;
 use App\Http\Requests\StoreExpertDomainRequest;
 use App\Http\Requests\UpdateExpertDomainRequest;
 use App\Models\Platinum;
+use App\Models\Publication;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
@@ -17,9 +18,16 @@ class ExpertDomainController extends Controller
     public function showMyExpert()
     {
         //Function
-        $id = Auth::id();
-        $myexperts = optional(Platinum::with('myexperts')->get());
-
+        if(Auth::check())
+        {
+            $id = Auth::user()->getPlatinum()->id;
+            $myexperts = ExpertDomain::where('platinum_id', $id)->get();
+            // dd($myexperts);
+        }
+        else
+        {
+            return Redirect::route('login');
+        }
         return view('ManageExpertDomain.myExpertDomain', compact('myexperts'));
     }
 
@@ -84,7 +92,7 @@ class ExpertDomainController extends Controller
         $ed->expert_domain_research_title = $request->research;
         $ed->expert_domain_designation = implode(',', (array) $request->designation);
         $ed->expert_domain_image = $imageData;
-        $ed->platinum_id = null;
+        $ed->platinum_id = Auth::user()->getPlatinum()->id;
         $ed->save();
 
         return Redirect::route('myexpert');
@@ -93,17 +101,24 @@ class ExpertDomainController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ExpertDomain $expertDomain)
+    public function show(ExpertDomain $expertDomain, string $id)
     {
-        //
+        // dd($expertDomain);
+        $expert = $expertDomain->findorFail($id);
+        // dd($expert);
+        $publications = Publication::where('expert_id', $id);
+
+        return view('ManageExpertDomain/viewExpertProfile', compact('expert'), compact('publications'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ExpertDomain $expertDomain)
+    public function edit(ExpertDomain $expertDomain, string $id)
     {
-        //
+        $expert = $expertDomain->findorFail($id);
+
+        return view('ManageExpertDomain/editExpertProfile', compact('expert'));
     }
 
     /**

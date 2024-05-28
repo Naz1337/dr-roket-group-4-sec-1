@@ -77,13 +77,14 @@ Route::prefix('/expert')->group(function () {
     Route::post('/addexpert', [ExpertDomainController::class, 'store']
     )->name('createprofile');
 
-    Route::get('/viewexpert', function() {
-        return view('ManageExpertDomain/viewExpertProfile');
-    })->name('viewexpert');
+    Route::get('/viewexpert/{id}', [ExpertDomainController::class, 'show']
+    )->name('viewexpert.id');
 
-    Route::get('/editexpert', function() {
-        return view('ManageExpertDomain/editExpertProfile');
-    })->name('editexpert');
+    Route::get('/editexpert/{id}', [ExpertDomainController::class, 'edit']    
+    )->name('editexpert.id');
+
+    Route::post('/deleteexpert/{id}', [ExpertDomainController::class, 'delete']
+    )->name('deleteexpert.id');
 
     Route::get('/uploadexpertpublic', function() {
         return view('ManageExpertDomain/uploadExpertPublication');
