@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Platinum;
 use App\Models\User;
+use App\Models\UserProfile;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -37,11 +40,14 @@ class UserProfileController extends Controller
             //region Where Clause
             if (in_array(Auth::user()->user_type, Config::get('constants.user.platOrCRMP'))) {
                 $query->where('user_type', '=', Config::get('constants.user.platinum'))
-                ->where('user_type', '=', Config::get('constants.user.crmp'));
+                ->orWhere('user_type', '=', Config::get('constants.user.crmp'));
             }
 
             if ($request->has('name') && $request->name != '') {
-                $query->whereRaw('plat_name like \'%' . $request->name . '%\' OR profile_name LIKE \'%' . $request->name . '%\'');
+                if (in_array(Auth::user()->user_type, Config::get('constants.user.platOrCRMP')))
+                    $query->whereRaw('plat_name like \'%' . $request->name . '%\'');
+                else
+                    $query->whereRaw('plat_name like \'%' . $request->name . '%\' OR profile_name LIKE \'%' . $request->name . '%\'');
             }
 
             if ($request->has('user_type') && $request->user_type != '') {
@@ -75,9 +81,102 @@ class UserProfileController extends Controller
         return view('ManageUserProfile/index');
     }
 
-    public function view_profile(string $id,Request $request) {
+    public function view_profile(string $id, Request $request) {
         $users = User::where('id', $id)->first();
         return view('ManageUserProfile/view-profile')->with('user', $users);
+    }
+
+    public function edit_profile(string $id, Request $request) {
+        $user = User::where('id', $id)->first();
+        return view('ManageUserProfile/edit-profile')->with('user', $user);
+    }
+
+    public function edit_profile_post(Request $request) {
+        $user = User::where('id', $request->id)->first();
+        if (in_array($user->user_type, Config::get('constants.user.platOrCRMP'))) {
+            $rules = [
+                'plat_title' => 'required|string|max:255',
+                'plat_name' => 'required|string|max:255',
+                'plat_ic' => 'required|string|max:255',
+                'plat_gender' => 'required|in:0,1',
+                'plat_photo' => 'nullable|image|mimes:jpeg,png|max:2048',
+                'plat_religion' => 'required|string|max:255',
+                'plat_race' => 'required|string|max:255',
+                'plat_citizenship' => 'required|string|max:255',
+                'plat_address' => 'required|string|max:255',
+                'plat_address2' => 'nullable|string|max:255',
+                'plat_city' => 'required|string|max:255',
+                'plat_state' => 'required|string|max:255',
+                'plat_postcode' => 'required|string|max:255',
+                'plat_country' => 'required|string|max:255',
+                'plat_phone_no' => 'required|string|max:255',
+                'plat_fbname' => 'nullable|string|max:255',
+            ];
+        }
+        else {
+            $rules = [
+                'profile_name' => 'required|string|max:255',
+                'user_photo' => 'nullable|image|mimes:jpeg,png|max:2048',
+                'birth_date' => 'required|date_format:Y-m-d',
+                'phone_no' => 'required|string|max:255',
+                'address' => 'required|string|max:255',
+                'address2' => 'nullable|string|max:255',
+                // Add more validation rules for other fields as needed
+            ];
+        }
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $valid = $validator->validated();
+
+        if (in_array($user->user_type, Config::get('constants.user.platOrCRMP'))) {
+            $plat = Platinum::find($user->platinum->id);
+
+            if ($request->hasFile('plat_photo')) {
+                $image = $request->file('plat_photo');
+                $imageName = uniqid().'.'.$image->getClientOriginalExtension(); // Generate unique image name
+                $imagePath = $image->storeAs('user_photos', $imageName, 'public'); // Store image to 'public/user_photos' folder
+                $plat->plat_photo = $imagePath;
+            }
+            $plat->plat_title = $valid['plat_title'];
+            $plat->plat_name = $valid['plat_name'];
+            $plat->plat_ic = $valid['plat_ic'];
+            $plat->plat_gender = $valid['plat_gender'];
+            $plat->plat_religion = $valid['plat_religion'];
+            $plat->plat_race = $valid['plat_race'];
+            $plat->plat_fbname = $valid['plat_fbname'];
+            $plat->plat_citizenship = $valid['plat_citizenship'];
+            $plat->plat_address = $valid['plat_address'];
+            $plat->plat_address2 = $valid['plat_address2'];
+            $plat->plat_city = $valid['plat_city'];
+            $plat->plat_state = $valid['plat_state'];
+            $plat->plat_postcode = $valid['plat_postcode'];
+            $plat->plat_country = $valid['plat_country'];
+            $plat->plat_phone_no = $valid['plat_phone_no'];
+            $plat->save();
+            return to_route('manage-user-profile');
+        }
+        $userProfile = UserProfile::find($user->userProfile->id);
+
+        if ($request->hasFile('user_photo')) {
+            $image = $request->file('user_photo');
+            $imageName = uniqid().'.'.$image->getClientOriginalExtension(); // Generate unique image name
+            $imagePath = $image->storeAs('user_photo', $imageName, 'public'); // Store image to 'public/user_photos' folder
+            $userProfile->user_photo = $imagePath;
+        }
+
+        $userProfile->profile_name = $valid['profile_name'];
+        $userProfile->phone_no = $valid['phone_no'];
+        $userProfile->birth_date = $valid['birth_date'];
+        $userProfile->address = $valid['address'];
+        $userProfile->address2 = $valid['address2'];
+        $userProfile->save();
+
+        return to_route('manage-user-profile');
     }
 
     public function generateReportExcel(Request $request) {

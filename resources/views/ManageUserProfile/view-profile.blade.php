@@ -1,4 +1,4 @@
-<x-modern-layout title="@isset($user){{ $user->user_type != 0 && $user->user_type != 1 ? $user->getUserProfile()->profile_name : $user->getPlatinum()->plat_name }}@else Profile @endisset">
+<x-modern-layout title="View Profile">
     <div class="container-fluid">
         <div class="card w-100">
             <div class="card-body p-4">
@@ -300,7 +300,16 @@
                                     <p class="fs-4 fw-bolder">Program Interest</p>
                                 </div>
                                 <div class="col">
-                                    <p class="fs-4">{{ $user->platinum->plat_prog_interest }}</p>
+                                    <p class="fs-4">
+                                        @php
+                                            echo match($user->platinum->plat_prog_interest) {
+                                                Config::get('constants.program.plat_professorship') => "Platinum Professorship",
+                                                Config::get('constants.program.plat_premier') => "Platinum Premier",
+                                                Config::get('constants.program.plat_elite') => "Platinum Elite",
+                                                Config::get('constants.program.plat_drjr') => "Platinum Dr. Jr."
+                                            }
+                                        @endphp
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -324,7 +333,7 @@
                                     <p class="fs-4 fw-bolder">Has Referral</p>
                                 </div>
                                 <div class="col">
-                                    <p class="fs-4">{{ $user->platinum->plat_has_referral }}</p>
+                                    <p class="fs-4">{{ $user->platinum->plat_has_referral == 1 ? "True" : "False" }}</p>
                                 </div>
                             </div>
                         </div>
@@ -378,7 +387,7 @@
                                     <p class="fs-4 fw-bolder">Confirmation Date</p>
                                 </div>
                                 <div class="col">
-                                    <p class="fs-4">{{ $user->platinum->plat_app_confirm_date }}</p>
+                                    <p class="fs-4">{{ date('d/m/Y',strtotime($user->platinum->plat_app_confirm_date)) }}</p>
                                 </div>
                             </div>
                         </div>
@@ -390,24 +399,24 @@
                                     <p class="fs-4 fw-bolder">Payment Type</p>
                                 </div>
                                 <div class="col">
-                                    <p class="fs-4">{{ $user->platinum->plat_payment_type }}</p>
+                                    <p class="fs-4">
+                                        @php
+                                            echo match($user->platinum->plat_payment_type) {
+                                                Config::get('constants.payment.FPX/Credit Card/Debit Card') => "FPX/Credit Card/Debit Card",
+                                                Config::get('constants.payment.FPX-Referral') => "FPX-Referral",
+                                                Config::get('constants.payment.Direct Transfer/Payment') => "Direct Transfer/Payment"
+                                            }
+                                        @endphp
+                                    </p>
                                 </div>
                             </div>
                         </div>
                         <div class="col">
-                            <div class="row">
-                                <div class="col-4">
-                                    <p class="fs-4 fw-bolder">Payment Proof</p>
-                                </div>
-                                <div class="col">
-                                    <p class="fs-4">{{ $user->platinum->plat_payment_proof }}</p>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 @endif
             </div>
         </div>
-        <a href="{{ route('manage-user-profile') }}" class="btn btn-primary float-end">Back to Manage User Profile</a>
+        <a href="{{ route('manage-user-profile') }}" class="btn btn-primary float-end mb-4">Back to Manage User Profile</a>
     </div>
 </x-modern-layout>

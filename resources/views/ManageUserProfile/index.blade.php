@@ -91,7 +91,7 @@
                         <h5 class="card-title fw-semibold fs-8 mb-4">Your User Profile</h5>
                     </div>
                     <div class="col">
-                        <a href="#" class="btn btn-primary float-end">Edit Profile</a>
+                        <a href="{{ route('edit-profile',Auth::user()->id) }}" class="btn btn-primary float-end">Edit Profile</a>
                     </div>
                 </div>
                 <div class="row">
@@ -151,6 +151,14 @@
                         @else
                             <div class="row">
                                 <div class="col-2">
+                                    <p class="fs-4 fw-bolder">Title</p>
+                                </div>
+                                <div class="col">
+                                    <p class="fs-4">{{ Auth::user()->platinum->plat_title }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-2">
                                     <p class="fs-4 fw-bolder">Name</p>
                                 </div>
                                 <div class="col">
@@ -159,42 +167,34 @@
                             </div>
                             <div class="row">
                                 <div class="col-2">
-                                    <p class="fs-4 fw-bolder">Birth Date</p>
+                                    <p class="fs-4 fw-bolder">Gender</p>
                                 </div>
                                 <div class="col">
-                                    <p class="fs-4">{{ Auth::user()->userProfile->profile_email }}</p>
+                                    <p class="fs-4">{{ Auth::user()->platinum->plat_gender == 0 ? "Male" : "Female" }}</p>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-2">
-                                    <p class="fs-4 fw-bolder">Birth Date</p>
+                                    <p class="fs-4 fw-bolder">Religion</p>
                                 </div>
                                 <div class="col">
-                                    <p class="fs-4">{{ Auth::user()->userProfile->profile_email }}</p>
+                                    <p class="fs-4">{{ Auth::user()->platinum->plat_religion }}</p>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-2">
-                                    <p class="fs-4 fw-bolder">Phone No</p>
+                                    <p class="fs-4 fw-bolder">Race</p>
                                 </div>
                                 <div class="col">
-                                    <p class="fs-4">{{ Auth::user()->userProfile->profile_email }}</p>
+                                    <p class="fs-4">{{ Auth::user()->platinum->plat_race }}</p>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-2">
-                                    <p class="fs-4 fw-bolder">Address</p>
+                                    <p class="fs-4 fw-bolder">Citizenship</p>
                                 </div>
                                 <div class="col">
-                                    <p class="fs-4">{{ Auth::user()->userProfile->profile_email }}</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-2">
-                                    <p class="fs-4 fw-bolder">Address 2</p>
-                                </div>
-                                <div class="col">
-                                    <p class="fs-4">{{ Auth::user()->userProfile->profile_email }}</p>
+                                    <p class="fs-4">{{ Auth::user()->platinum->plat_citizenship }}</p>
                                 </div>
                             </div>
                         @endif

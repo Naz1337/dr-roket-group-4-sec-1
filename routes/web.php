@@ -57,6 +57,8 @@ Route::prefix('user')->group(function() {
     Route::get('/register-platinum', [PlatinumController::class,'register_platinum'])->name('register-platinum')->middleware('auth');
     Route::post('/register-platinum-post', [PlatinumController::class,'register_platinum'])->name('register-platinum-post')->middleware('auth');
     Route::get('/register-success', [PlatinumController::class,'register_success'])->name('register-success')->middleware('auth');
+    Route::get('/edit-profile/{id}', [UserProfileController::class,'edit_profile'])->name('edit-profile')->middleware('auth');
+    Route::post('/edit-profile-post', [UserProfileController::class,'edit_profile_post'])->name('edit-profile-post')->middleware('auth');
     Route::get('/user-profile/{id}', [UserProfileController::class,'view_profile'])->name('view-profile')->middleware('auth');
     Route::get('/user-profile', [UserProfileController::class,'view_profile'])->name('view-profile')->middleware('auth');
     Route::get('/generate-excel', [UserProfileController::class,'generateReportExcel'])->name('generate-excel')->middleware('auth');
