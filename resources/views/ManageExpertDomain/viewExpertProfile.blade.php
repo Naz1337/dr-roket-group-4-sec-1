@@ -15,11 +15,11 @@
             <div class="col">
                 <div class="row p-3">
                     <label class="form form-label">Expert Image:</label>
-                    <input class="form form-control" type="text" value="pic.png" readonly>
+                    <input class="form form-control" type="text" value="{{ base64_encode($expert->expert_domain_image) }}" readonly>
                 </div>
                 <div class="row p-3">
                     <label class="form form-label">Name:</label>
-                    <input class="form form-control" type="text" value="Dr.Syafiq Fauzi Bin Kamarulzaman" readonly>
+                    <input class="form form-control" type="text" value="{{ $expert->expert_domain_names }}" readonly>
                 </div>
             </div>
         </div>
@@ -27,19 +27,19 @@
             <div class="col">
                 <div class="row p-3">
                     <label class="form form-label">Email:</label>
-                    <input class="form form-control" type="email" value="syafiqfauzi29@gmail.com" readonly>
+                    <input class="form form-control" type="email" value="{{ $expert->expert_domain_emails }}" readonly>
                 </div>
                 <div class="row p-3">
                     <label class="form form-label">Phone Number:</label>
-                    <input class="form form-control" type="text" value="0117363254" readonly>
+                    <input class="form form-control" type="text" value="{{ $expert->expert_domain_phonenumbers }}" readonly>
                 </div>
                 <div class="row p-3">
                     <label class="form form-label">Affiliation:</label>
-                    <input class="form form-control" type="text" value="Universiti Malaysia Pahang" readonly>
+                    <input class="form form-control" type="text" value="{{ $expert->expert_domain_affiliation }}" readonly>
                 </div>
                 <div class="row p-3">
                     <label class="form form-label">Area of Expertise:</label>
-                    <input class="form form-control" type="text" value="Robotics" readonly>
+                    <input class="form form-control" type="text" value="{{ $expert->expert_domain_research_title }}" readonly>
                 </div>
             </div>
         </div>
@@ -52,8 +52,8 @@
 
             </div>
             <div class="col-3 p-3 d-flex justify-content-end">
-                <a href=" {{ route('editexpert') }}" type="submit" class="btn btn-primary mx-3">Edit Profile</a>
-                <a href="#" type="button" class="btn btn-danger">Delete Profile</a>
+                <a href=" {{ route('editexpert.id', $expert->id) }}" type="button" class="btn btn-primary mx-3">Edit Profile</a>
+                <a href=" {{ route('deleteexpert.id', $expert->id) }}" type="button" class="btn btn-danger">Delete Profile</a>
             </div>
         </div>
 
@@ -70,7 +70,7 @@
         </div>
         <div class=" row p-3 bg bg-light border-bottom border-end border-start border-1  border-black">
             <div class="col">
-                @for ($i = 0; $i < 10; $i++)
+                @foreach ($publications as $publication)
                     <div class="row p-3 m-3 border border-1 border-black">
                         <div class="col border border-1 border-black ">
                             <div class="row p-3 m-3">
@@ -95,7 +95,7 @@
                             
                         </div>
                     </div>   
-                @endfor
+                @endforeach
             </div>
         </div>
     </div>
