@@ -76,9 +76,9 @@ class PlatinumController extends Controller
             }
 
             if ($request->hasFile('plat_payment_proof')) {
-                $path = $request->file('plat_payment_proof')
-                    ->storeAs('uploads', $request->file('plat_payment_proof')->getClientOriginalName()
-                );
+                $file = $request->file('plat_payment_proof');
+                $fileName = uniqid().'.'.$file->getClientOriginalExtension();
+                $path = $file->storeAs('user_files', $fileName, 'public');
                 $valid['plat_payment_proof'] = $path;
             }
             $valid['plat_app_confirm'] = $request->input('plat_app_confirm') ? 1 : 0;

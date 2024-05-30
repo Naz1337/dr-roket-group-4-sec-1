@@ -116,7 +116,7 @@
                                     <div class="col">
                                         <label for="plat_citizenship" class="form-label">Citizenship</label>
                                         <input type="text" class="form-control @error('plat_citizenship') is-invalid @enderror" id="plat_citizenship" name="plat_citizenship"
-                                               placeholder="Malaysia" value="{{ old('plat_citizenship') ?? $user->platinum->plat_citizenship }}">
+                                               placeholder="Malaysian" value="{{ old('plat_citizenship') ?? $user->platinum->plat_citizenship }}">
                                     </div>
                                 </div>
                                 <hr>
@@ -151,7 +151,7 @@
                                     <div class="col me-2">
                                         <label for="plat_postcode" class="form-label">Postcode/ ZIP Code/ Postal Code</label>
                                         <input type="text" class="form-control @error('plat_postcode') is-invalid @enderror" id="plat_postcode" name="plat_postcode"
-                                               placeholder="e.g Sabah" value="{{ old('plat_postcode') ?? $user->platinum->plat_postcode }}">
+                                               placeholder="e.g 88000" value="{{ old('plat_postcode') ?? $user->platinum->plat_postcode }}">
                                     </div>
                                     <div class="col">
                                         <label for="plat_country" class="form-label @error('plat_country') text-danger @enderror">Country</label>

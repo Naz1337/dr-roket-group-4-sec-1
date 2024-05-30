@@ -110,7 +110,7 @@
                                 <div class="col">
                                     <label for="plat_citizenship" class="form-label">Citizenship</label>
                                     <input type="text" class="form-control @error('plat_citizenship') is-invalid @enderror" id="plat_citizenship" name="plat_citizenship"
-                                           placeholder="Malaysia" value="{{ old('plat_citizenship') }}">
+                                           placeholder="Malaysian" value="{{ old('plat_citizenship') }}">
                                 </div>
                             </div>
                             <hr>
@@ -145,7 +145,7 @@
                                 <div class="col me-2">
                                     <label for="plat_postcode" class="form-label">Postcode/ ZIP Code/ Postal Code</label>
                                     <input type="text" class="form-control @error('plat_postcode') is-invalid @enderror" id="plat_postcode" name="plat_postcode"
-                                           placeholder="e.g Sabah" value="{{ old('plat_postcode') }}">
+                                           placeholder="e.g 88000" value="{{ old('plat_postcode') }}">
                                 </div>
                                 <div class="col">
                                     <label for="plat_country" class="form-label @error('plat_country') text-danger @enderror">Country</label>
@@ -311,14 +311,14 @@
                             <h4 class="card-title fw-bolder fs-7 mb-4">Education Info</h4>
                             <div class="row mb-3">
                                 <div class="col me-2">
-                                    <label for="plat_cur_edu_level" class="form-label">Current Education Field</label>
+                                    <label for="plat_cur_edu_level" class="form-label">Current Education Level</label>
                                     <input type="text" class="form-control @error('plat_cur_edu_level') is-invalid @enderror" id="plat_cur_edu_level" name="plat_cur_edu_level"
-                                           placeholder="eg. Muslim" value="{{ old('plat_cur_edu_level') }}">
+                                           placeholder="eg. Tertiary" value="{{ old('plat_cur_edu_level') }}">
                                 </div>
                                 <div class="col">
                                     <label for="plat_edu_field" class="form-label">Education Field</label>
                                     <input type="text" class="form-control @error('plat_race') is-invalid @enderror" id="plat_edu_field" name="plat_edu_field"
-                                           placeholder="eg. Malay" value="{{ old('plat_race') }}">
+                                           placeholder="eg. Software Engineering" value="{{ old('plat_race') }}">
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -418,7 +418,6 @@
                                         <option value='18.2' >18.2</option>
                                         <option value='18.3' >18.3</option>
                                         <option value='18.4' >18.4</option>
-                                        <option value='Other' >Other</option>
                                     </select>
                                 </div>
                             </div>
@@ -440,13 +439,13 @@
                             <div id="referralInfo">
                                 <div class="row mb-3">
                                     <div class="col">
-                                        <label for="plat_referral_name" class="form-label">Other type of Discover</label>
+                                        <label for="plat_referral_name" class="form-label">Referral Name</label>
                                         <input type="text" class="form-control" id="plat_referral_name" name="plat_referral_name">
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col">
-                                        <label for="plat_referral_batch" class="form-label ">Other type of Discover</label>
+                                        <label for="plat_referral_batch" class="form-label ">Referral Batch</label>
                                         <input type="text" class="form-control" id="plat_referral_batch" name="plat_referral_batch">
                                     </div>
                                 </div>

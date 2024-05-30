@@ -19,6 +19,12 @@
                                            value="{{ old('username') }}">
                                 </div>
                                 <div class="mb-3">
+                                    <label for="profile_name" class="form-label">Name</label>
+                                    <input class="form-control @error('profile_name') is-invalid @enderror"
+                                           type="text" name="profile_name" id="profile_name" placeholder="profile_name"
+                                           value="{{ old('profile_name') }}">
+                                </div>
+                                <div class="mb-3">
                                     <label for="email" class="form-label">Email Address</label>
                                     <input class="form-control @error('email') is-invalid @enderror"
                                            type="text" name="email" id="email" placeholder="Email"

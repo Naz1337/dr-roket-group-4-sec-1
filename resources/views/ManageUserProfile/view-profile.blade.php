@@ -4,7 +4,16 @@
             <div class="card-body p-4">
                 <div class="row">
                     <div class="col">
-                        <h5 class="card-title fw-semibold fs-8 mb-4">User Profile</h5>
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title fw-semibold fs-8 mb-4">User Profile</h5>
+                            </div>
+                            <div class="col">
+                                @if(Auth::user()->id == $user->id)
+                                    <a href="{{ route('edit-profile',Auth::user()->id) }}" class="btn btn-primary float-end">Edit Profile</a>
+                                @endif
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
