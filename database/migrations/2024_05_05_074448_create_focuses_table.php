@@ -16,10 +16,9 @@ return new class extends Migration
             $table->integer('focus_owner');
             $table->date('focus_start_date');
             $table->date('focus_end_date');
-            // $table->string('FocusType', 8);
             $table->enum('focus_type', ['focus', 'admin', 'social', 'recover']);
             $table->text('focus_title');
-            $table->text('focus_content');
+            $table->text('focus_content')->nullable();
             $table->text('focus_feedback')->nullable();
 
             $table->timestamps();

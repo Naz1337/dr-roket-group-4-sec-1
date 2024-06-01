@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('user_profiles', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(App\Models\User::class)->constrained();
+            $table->foreignIdFor(User::class)->constrained();
             $table->string('profile_name');
             $table->dateTime('birth_date');
             $table->string('profile_email', 200)->unique();
