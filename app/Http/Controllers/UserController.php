@@ -42,6 +42,7 @@ class UserController extends Controller
                 'birth_date' => 'required|date_format:Y-m-d',
                 'phone_no' => 'required',
 //                'phone_no' => 'required|regex:/^[0-9]{10,15}$/',
+                'profile_name' => 'required',
                 'address' => 'required|string|max:255',
                 'address2' => 'required|string|max:255',
             ]);
