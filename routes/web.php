@@ -54,12 +54,16 @@ Route::get('/profile', function() {
 })->name('profile');
 
 Route::prefix('user')->group(function() {
-    Route::get('/manage-user-profile', [UserProfileController::class,'manage_user_profile'])->name('manage-user-profile');
-    Route::get('/register-platinum', [PlatinumController::class,'register_platinum'])->name('register-platinum');
-    Route::post('/register-platinum-post', [PlatinumController::class,'register_platinum'])->name('register-platinum-post');
-    Route::get('/register-success', [PlatinumController::class,'register_success'])->name('register-success');
-    Route::get('/user-profile', [UserProfileController::class,'view_profile'])->name('view-profile');
-});
+    Route::get('/manage-user-profile', [UserProfileController::class,'manage_user_profile'])->name('manage-user-profile')->middleware('auth');
+    Route::get('/register-platinum', [PlatinumController::class,'register_platinum'])->name('register-platinum')->middleware('auth');
+    Route::post('/register-platinum-post', [PlatinumController::class,'register_platinum'])->name('register-platinum-post')->middleware('auth');
+    Route::get('/register-success', [PlatinumController::class,'register_success'])->name('register-success')->middleware('auth');
+    Route::get('/edit-profile/{id}', [UserProfileController::class,'edit_profile'])->name('edit-profile')->middleware('auth');
+    Route::post('/edit-profile-post', [UserProfileController::class,'edit_profile_post'])->name('edit-profile-post')->middleware('auth');
+    Route::get('/user-profile/{id}', [UserProfileController::class,'view_profile'])->name('view-profile-id')->middleware('auth');
+    Route::get('/user-profile', [UserProfileController::class,'view_profile'])->name('view-profile')->middleware('auth');
+    Route::get('/generate-excel', [UserProfileController::class,'generateReportExcel'])->name('generate-excel')->middleware('auth');
+})->middleware('auth');
 
 Route::prefix('/expert')->group(function () {
     Route::get('/myexpert', [ExpertDomainController::class, 'showMyExpert'])
@@ -74,13 +78,14 @@ Route::prefix('/expert')->group(function () {
     Route::post('/addexpert', [ExpertDomainController::class, 'store']
     )->name('createprofile');
 
-    Route::get('/viewexpert', function() {
-        return view('ManageExpertDomain/viewExpertProfile');
-    })->name('viewexpert');
+    Route::get('/viewexpert/{id}', [ExpertDomainController::class, 'show']
+    )->name('viewexpert.id');
 
-    Route::get('/editexpert', function() {
-        return view('ManageExpertDomain/editExpertProfile');
-    })->name('editexpert');
+    Route::get('/editexpert/{id}', [ExpertDomainController::class, 'edit']    
+    )->name('editexpert.id');
+
+    Route::post('/deleteexpert/{id}', [ExpertDomainController::class, 'delete']
+    )->name('deleteexpert.id');
 
     Route::get('/uploadexpertpublic', function() {
         return view('ManageExpertDomain/uploadExpertPublication');

@@ -38,21 +38,21 @@
             @foreach ($myexperts as $expert)
                 <div class="row p-3 m-1 border border-1 border-dark">
                     <div class="col-2 p-2">
-                        <img alt="Lecturer Image" src="#" style="height: 100px; width: 100px;">
+                        <img alt="Lecturer Image" src="{{ base64_encode($expert->expert_domain_image) }}" class="h-100 w-100">
                     </div>
                     <div class="col p-2">
                         <p>
-                            Name: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tincidunt gravida odio iaculis laoreet.
+                            Name: {{ $expert->expert_domain_names }}
                         </p>
                         <p>
-                            Current Institution: Lorem ipsum dolor sit amet
+                            Current Institution: {{ $expert->expert_domain_affiliation }}
                         </p>
                         <p>
-                            Email: Lorem ipsum dolor sit amet
+                            Email: {{ $expert->expert_domain_emails }}
                         </p>
                     </div>
                     <div class="col-1 p-2">
-                        <a href=" {{ route('viewexpert') }} " class="btn btn-primary text-decoration-none">
+                        <a href=" {{ route('viewexpert.id', $expert->id) }} " class="btn btn-primary text-decoration-none">
                             View
                         </a>
                     </div>

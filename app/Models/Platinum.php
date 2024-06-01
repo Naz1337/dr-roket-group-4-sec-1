@@ -29,7 +29,7 @@ class Platinum extends Model
         'plat_phone_no',
         'plat_email',
         'plat_fbname',
-        'plat_cur_edu_field',
+        'plat_cur_edu_level',
         'plat_edu_field',
         'plat_edu_institute',
         'plat_occupation',

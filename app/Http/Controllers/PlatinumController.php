@@ -33,7 +33,7 @@ class PlatinumController extends Controller
                 "plat_phone_no" => "required",
                 "plat_email" => "required|email",
                 "plat_fbname" => "required",
-                "plat_cur_edu_field" => "required",
+                "plat_cur_edu_level" => "required",
                 "plat_edu_field" => "required",
                 "plat_edu_institute" => "required",
                 "plat_occupation" => "required",
@@ -62,22 +62,30 @@ class PlatinumController extends Controller
                 return to_route('register-platinum')->withErrors($validator)->withInput();
             }
 
+            $imagePath = null;
+
+            if ($request->hasFile('plat_photo')) {
+                $image = $request->file('plat_photo');
+                $imageName = uniqid().'.'.$image->getClientOriginalExtension(); // Generate unique image name
+                $imagePath = $image->storeAs('user_photos', $imageName, 'public'); // Store image to 'public/user_photos' folder
+            }
+
             $type = $valid['plat_discover_type'];
             if ($type == 'Others') {
                 $valid['plat_discover_type'] = $valid['plat_discover_type_other'];
             }
 
             if ($request->hasFile('plat_payment_proof')) {
-                $path = $request->file('plat_payment_proof')
-                    ->storeAs('uploads', $request->file('plat_payment_proof')->getClientOriginalName()
-                );
+                $file = $request->file('plat_payment_proof');
+                $fileName = uniqid().'.'.$file->getClientOriginalExtension();
+                $path = $file->storeAs('user_files', $fileName, 'public');
                 $valid['plat_payment_proof'] = $path;
             }
             $valid['plat_app_confirm'] = $request->input('plat_app_confirm') ? 1 : 0;
             unset($valid['plat_discover_type_other']);
 
             $user = new User;
-            $user->username = strtolower(trim($valid['plat_name']));
+            $user->username = str_replace(' ','_',strtolower(trim($valid['plat_name'])));
             $user->email = $valid['plat_email'];
             $user->password = $valid['plat_ic'];
             $user->user_type = Config::get('constants.user.platinum');
@@ -85,6 +93,7 @@ class PlatinumController extends Controller
             if ($user->save()) {
                 $platinum = new Platinum;
                 $valid['user_id'] = $user->id;
+                $valid['plat_photo'] = $imagePath;
                 $inserted = $platinum->create($valid);
             }
 

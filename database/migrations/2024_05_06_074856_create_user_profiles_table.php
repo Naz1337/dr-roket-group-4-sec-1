@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('profile_name');
             $table->dateTime('birth_date');
             $table->string('profile_email', 200)->unique();
-            $table->binary('user_photo');
+            $table->string('user_photo');
             $table->string('phone_no');
             $table->string('address');
             $table->string('address2');

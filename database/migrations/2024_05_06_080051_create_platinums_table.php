@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('plat_religion',50);
             $table->string('plat_race');
             $table->string('plat_citizenship');
-            $table->binary('plat_photo');
+            $table->string('plat_photo');
 //            $table->integer('plat_type');
             $table->string('plat_address');
             $table->string('plat_address2');
@@ -33,7 +33,7 @@ return new class extends Migration
             $table->string('plat_phone_no',20);
             $table->string('plat_email',100);
             $table->string('plat_fbname');
-            $table->string('plat_cur_edu_field',20);
+            $table->string('plat_cur_edu_level',20);
             $table->string('plat_edu_field',100);
             $table->string('plat_edu_institute',100);
             $table->string('plat_occupation',100);

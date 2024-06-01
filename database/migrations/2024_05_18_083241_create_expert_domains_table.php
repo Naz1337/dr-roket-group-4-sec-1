@@ -20,9 +20,9 @@ return new class extends Migration
             $table->string('expert_domain_affiliation');
             $table->string('expert_domain_designation');
             $table->string('expert_domain_research_title');
-            $table->string('expert_domain_image');
+            $table->binary('expert_domain_image');
             $table->timestamps();
-            $table->foreignId(Platinum::class)->constrained();
+            $table->foreignIdFor(Platinum::class)->constrained();
         });
     }
 

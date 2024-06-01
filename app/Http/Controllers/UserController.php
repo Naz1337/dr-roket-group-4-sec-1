@@ -16,10 +16,9 @@ class UserController extends Controller
         $message = $request->query('message', '');
         if(request()->isMethod('POST')) {
             $credentials = request()->validate([
-                'username' => 'required',
+                'email' => 'required',
                 'password' => 'required',
             ]);
-            unset($credentials['email']);
 
             $loginResult = Auth::attempt($credentials);
             if (!$loginResult) {
@@ -46,11 +45,12 @@ class UserController extends Controller
                 'address' => 'required|string|max:255',
                 'address2' => 'required|string|max:255',
             ]);
-            $imageData = null;
+            $imagePath = null;
 
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
-                $imageData = file_get_contents($image->getRealPath());
+                $imageName = uniqid().'.'.$image->getClientOriginalExtension(); // Generate unique image name
+                $imagePath = $image->storeAs('user_photos', $imageName, 'public'); // Store image to 'public/user_photos' folder
             }
 
             $newUser = new User;
@@ -63,10 +63,10 @@ class UserController extends Controller
 
                 $userProfile = new UserProfile;
                 $userProfile->user_id = $newUser->id;
-                $userProfile->profile_name = $validated['username']; // Example profile name
+                $userProfile->profile_name = $validated['profile_name']; // Example profile name
                 $userProfile->birth_date = $validated['birth_date']; // Example birth date
                 $userProfile->profile_email = $newUser->email;
-                $userProfile->user_photo = $imageData; // Save image data
+                $userProfile->user_photo = $imagePath; // Save image data
                 $userProfile->phone_no = $validated['phone_no'];
                 $userProfile->address = $validated['address'];
                 $userProfile->address2 = $validated['address2'];

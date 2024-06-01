@@ -35,7 +35,8 @@
 
             @if(Auth::user()->user_type != Config::get('constants.user.staff'))
                 <x-nav-header>Expert Domain</x-nav-header>
-                <x-nav-item href="#" icon="certificate">Manage Expert Domain</x-nav-item>
+                <x-nav-item href="{{ route('myexpert') }}" icon="certificate">My Expert Domain</x-nav-item>
+                <x-nav-item href="{{ route('listexpert') }}" icon="certificate">Expert Domain List</x-nav-item>
 
                 <x-nav-header>Publication</x-nav-header>
                 <x-nav-item href="#" icon="script">Manage Publication Data</x-nav-item>
@@ -55,18 +56,13 @@
             <!--  Header Start -->
             <x-modern-header>
                 <li class="navbar-item pt-3">
-                    <p class="navbar-text fw-semibold fs-4">Hello, {{ Auth::user()->username }}</p>
+                    <p class="navbar-text fw-semibold fs-4">Hello, {{ !in_array(Auth::user()->user_type, Config::get('constants.user.platOrCRMP')) ? Auth::user()->userProfile->profile_name : Auth::user()->getPlatinum()->plat_name }}</p>
                 </li>
                 <x-profile-in-header
-                    profile-picture="{{ base64_encode(Auth::user()->user_type != 0 ? Auth::user()->getUserProfile()->user_photo : Auth::user()->getPlatinum()->plat_photo) }}">
+                    profile-picture="{{ !in_array(Auth::user()->user_type, Config::get('constants.user.platOrCRMP')) ? Auth::user()->getUserProfile()->user_photo : Auth::user()->getPlatinum()->plat_photo }}">
                     <x-drop-down-menu>
-                        {{-- TODO: link logout ngan yang lain dalam dropdown profile ni kepada benda yang patut --}}
-                        <x-drop-down-item :href="route('modern')" icon="user">
+                        <x-drop-down-item :href="route('view-profile-id', Auth::user()->id)" icon="user">
                             My Profile
-                        </x-drop-down-item>
-
-                        <x-drop-down-item :href="route('modern')" icon="list-check">
-                            My Task
                         </x-drop-down-item>
 
                         <x-drop-down-item-button :href="route('logout')">
