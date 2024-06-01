@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(App\Models\User::class)->constrained();
             $table->string('profile_name');
             $table->dateTime('birth_date');
-            $table->string('profile_email', 200)->unique();
+            $table->string('profile_email', 200)->unique()->nullable();
             $table->string('user_photo');
             $table->string('phone_no');
             $table->string('address');

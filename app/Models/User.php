@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use \Illuminate\Database\Eloquent\Relations\HasOne;
 
 class User extends Authenticatable
 {
@@ -47,12 +48,12 @@ class User extends Authenticatable
         ];
     }
 
-    public function userProfile()
+    public function userProfile(): HasOne
     {
         return $this->hasOne(UserProfile::class);
     }
 
-    public function platinum()
+    public function platinum(): HasOne
     {
         return $this->hasOne(PLatinum::class);
     }
