@@ -1,5 +1,7 @@
-@php use Illuminate\Support\Facades\Auth;use Illuminate\Support\Facades\Config; @endphp
-    <!doctype html>
+@php
+    use Illuminate\Support\Facades\Auth;use Illuminate\Support\Facades\Config;
+@endphp
+<!doctype html>
 <html lang="en">
 
 <head>
@@ -42,7 +44,7 @@
                 <x-nav-item href="#" icon="script">Manage Publication Data</x-nav-item>
             @endif
 
-            <x-nav-header>Monitoring</x-nav-header>
+            <x-nav-header>Progress Monitoring</x-nav-header>
             @if(Auth::user()->user_type != Config::get('constants.user.staff'))
                 <x-nav-item href="#" icon="trending-up">Platinum Progress</x-nav-item>
             @endif
