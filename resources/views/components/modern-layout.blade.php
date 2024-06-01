@@ -46,10 +46,10 @@
             @endif
 
             <x-nav-header>Progress Monitoring</x-nav-header>
-            @if(Auth::user()->user_type != Config::get('constants.user.staff'))
-                <x-nav-item href="#" icon="trending-up">Platinum Progress</x-nav-item>
-            @endif
-            <x-nav-item href="#" icon="user-plus">Assign CRMP</x-nav-item>
+{{--            @if(Auth::user()->user_type != Config::get('constants.user.staff'))--}}
+{{--                <x-nav-item href="#" icon="trending-up">Platinum Progress</x-nav-item>--}}
+{{--            @endif--}}
+{{--            <x-nav-item href="#" icon="user-plus">Assign CRMP</x-nav-item>--}}
         </x-modern-sidebar>
         <!--  Sidebar End -->
 
