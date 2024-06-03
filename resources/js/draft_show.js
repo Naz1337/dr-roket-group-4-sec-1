@@ -15,7 +15,10 @@ const formattedDate = localCreatedAt.toFormat('cccc, d LLLL yyyy, hh:mm a')
 createdAtEl.value = formattedDate;
 
 document.querySelector('#removeBtn').addEventListener('click', (e) => {
-    document.querySelector('#deleteForm').submit();
+    const confirmText = 'Are you sure you want to delete this record? This action cannot be undone.';
+    const isToRemove = confirm(confirmText);
+    if (isToRemove)
+        document.querySelector('#deleteForm').submit();
 })
 
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggler="tooltip"]')
