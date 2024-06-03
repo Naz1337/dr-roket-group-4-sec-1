@@ -10,13 +10,8 @@ class Draft extends Model
 {
     protected $guarded = ['id'];
 
-    protected $attributes = [
-        'draft_owner' => 1  // Tunggu Juel-san
-    ];
-
-    /* TODO: tunggu juel buat keje and then uncomment ni V */
-    /*public function owner(): BelongsTo
+    public function platinum(): BelongsTo
     {
-        return $this->belongsTo(Platinum::class, 'draft_owner');
-    }*/
+        return $this->belongsTo(Platinum::class);
+    }
 }
