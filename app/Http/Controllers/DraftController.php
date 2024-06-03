@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Smalot\PdfParser\Parser;
+use Carbon\Carbon;
 
 class DraftController extends Controller
 {
@@ -17,7 +18,32 @@ class DraftController extends Controller
      */
     public function index()
     {
-        return view('drafts.index');
+        $platinum = Auth::user()->getPlatinum();
+
+        if ($platinum === null) {
+            return to_route('modern');
+        }
+
+        $platinumId = $platinum->id;
+        $earliestDraft = Draft::where('platinum_id', $platinumId)->orderBy('draft_completion_date', 'asc')->first();
+
+        if ($earliestDraft !== null) {
+            $carbonObject = Carbon::parse($earliestDraft->draft_completion_date);
+            for ($i = 0; $i < $earliestDraft->draft_days_taken; $i++) {
+                $carbonObject = $carbonObject->subDay(1);
+                if ($carbonObject->dayOfWeek == 0)
+                    $carbonObject = $carbonObject->subDay(1);
+            }
+            $formattedDate = $carbonObject->format('d F Y');
+        }
+        else {
+            $formattedDate = 'None!';
+        }
+
+        return view('drafts.index', [
+            'firstStartDate' => $formattedDate,
+            'drafts' => Draft::where('platinum_id', $platinumId)->get()
+        ]);
     }
 
     /**
@@ -109,6 +135,9 @@ class DraftController extends Controller
      */
     public function show(Draft $draft)
     {
+        if (request('download') === '1')
+            return Storage::download($draft->draft_filepath, $draft->draft_filename);
+
         return view('drafts.show', compact('draft'));
     }
 

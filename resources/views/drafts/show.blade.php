@@ -10,7 +10,7 @@
                     <div class="col-md-3 col-form-label">Draft Title:</div>
                     <div class="col-md-3 ">
                         <input type="text" class="form-control-plaintext" readonly
-                               value="{{ $draft->draft_title }}">
+                               title="{{ $draft->draft_title }}"  value="{{ $draft->draft_title }}">
                     </div>
                     <div class="col-md-3 col-form-label">Draft Number:</div>
                     <div class="col-md-3">
@@ -49,7 +49,7 @@
                     <div class="col-md-3 col-form-label">Filename:</div>
                     <div class="col-md-3">
                         <input type="text" class="form-control-plaintext" readonly
-                               value="{{ $draft->draft_filename }}">
+                               value="{{ $draft->draft_filename }}" title="{{ $draft->draft_filename }}">
                     </div>
                     <div class="col-md-3 col-form-label">Submitted At:</div>
                     <div class="col-md-3">

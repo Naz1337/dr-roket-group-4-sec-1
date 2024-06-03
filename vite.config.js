@@ -8,7 +8,11 @@ export default defineConfig({
             input: [
                 'resources/js/app.js',
                 'resources/js/inertia_app.js',
-                'resources/js/modernApp.js'],
+                'resources/js/modernApp.js',
+                'resources/js/draft_form.js',
+                'resources/js/draft_index.js',
+                'resources/js/draft_show.js',
+            ],
             refresh: true,
         }),
         svelte({}),
