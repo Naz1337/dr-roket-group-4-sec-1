@@ -102,8 +102,17 @@ class DraftController extends Controller
         $draft_filename = $draft_file->getClientOriginalName();
         $draft_filepath = $draft_file->store('drafts');
 
-        $parser = new Parser();
-        $document = $parser->parseFile(Storage::path($draft_filepath));
+        $extension = pathinfo($draft_filename, PATHINFO_EXTENSION);
+
+        if ($extension === 'pdf') {
+            $parser = new Parser();
+            $document = $parser->parseFile(Storage::path($draft_filepath));
+            $draft_page_count = count($document->getPages());
+        }
+        else {
+            $draft_page_count = 1;
+        }
+
 
 
         $draft = new Draft;
@@ -122,7 +131,7 @@ class DraftController extends Controller
         $draft->draft_filename = $draft_filename;
         $draft->draft_filepath = $draft_filepath;
         $draft->draft_days_taken = $validated['days_taken'];
-        $draft->draft_page_count = count($document->getPages());
+        $draft->draft_page_count = $draft_page_count;
         $draft->save();
 
 
