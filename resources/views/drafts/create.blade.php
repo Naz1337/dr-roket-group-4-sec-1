@@ -52,7 +52,13 @@
                     <div id="dropArea" class="drag-drop-area">
                         Drag and drop your file here or click to select a file.
                     </div>
-                    <input type="file" id="draftFile" class="form-control d-none" accept=".pdf, .txt" name="draft_file">
+                    <input type="file" id="draftFile" class="form-control d-none @error('draft_file') is-invalid @enderror " accept=".pdf, .txt" name="draft_file">
+                    @error('draft_file')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                    @enderror
+
                 </div>
 
                 <!-- Submit Button -->
