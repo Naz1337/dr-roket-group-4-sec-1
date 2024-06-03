@@ -135,10 +135,22 @@ class DraftController extends Controller
      */
     public function show(Draft $draft)
     {
+        $platinumProfile = Auth::user()->getPlatinum();
+        if ($platinumProfile->id !== $draft->platinum_id) {
+            return to_route('draft.index');
+        }
+
         if (request('download') === '1')
             return Storage::download($draft->draft_filepath, $draft->draft_filename);
 
-        return view('drafts.show', compact('draft'));
+        $latestDraft = Draft::where('platinum_id', $platinumProfile->id)
+            ->orderBy('draft_completion_date', 'desc')->first();
+        $canDelete = $latestDraft->id === $draft->id;
+
+        return view('drafts.show', [
+            'draft' => $draft,
+            'canDelete' => $canDelete
+        ]);
     }
 
     /**
@@ -162,7 +174,10 @@ class DraftController extends Controller
      */
     public function destroy(Draft $draft)
     {
-        //
+        if (Auth::user()->getPlatinum()->id === $draft->platinum_id) {
+            $draft->delete();
+        }
+        return to_route('draft.index');
     }
 
     public function upload(Request $request)

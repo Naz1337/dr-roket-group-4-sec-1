@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon';
+import { Tooltip } from "bootstrap";
 
 const createdAtEl = document.querySelector('#createdAt');
 const createdAt = DateTime.fromMillis(
@@ -13,4 +14,10 @@ const formattedDate = localCreatedAt.toFormat('cccc, d LLLL yyyy, hh:mm a')
 
 createdAtEl.value = formattedDate;
 
+document.querySelector('#removeBtn').addEventListener('click', (e) => {
+    document.querySelector('#deleteForm').submit();
+})
 
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggler="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new Tooltip(tooltipTriggerEl))
+window.tooltipList = tooltipList
