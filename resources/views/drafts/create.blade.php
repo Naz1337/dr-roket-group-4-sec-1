@@ -9,7 +9,8 @@
                 <div class="mb-3">
                     <label for="draftTitle" class="form-label">Draft Title</label>
                     <input type="text" class="form-control" id="draftTitle" name="draft_title"
-                           placeholder="Enter draft title" required maxlength="255">
+                           placeholder="Enter draft title" required maxlength="255"
+                           value="{{ $lastDraftTitle }}">
                 </div>
 
                 <!-- Draft Number and Draft DDC (shared row) -->
@@ -18,7 +19,7 @@
                         <label for="draftNumber" class="form-label">Draft Number</label>
                         <input type="text" class="form-control" id="draftNumber" name="draft_number"
                                placeholder="Draft number will be assigned by the system" readonly disabled
-                               value="1">
+                               value="{{ $nextDraftNumber }}">
                     </div>
                     <div class="col-md-6">
                         <label for="draftDdc" class="form-label">Draft DDC</label>
@@ -33,11 +34,11 @@
 
                 <!-- Completion Date, Number of Days Taken, and First Draft Start Date (shared row) -->
                 <div class="row mb-3">
-                {{-- TODO: have server insert past completion date for auto fill relevant information, could be null --}}
                     <div class="col-md-6">
                         <label for="draftCompletionDate" class="form-label">Completion Date</label>
                         <input type="date" class="form-control" id="draftCompletionDate"
-                               name="draft_completion_date" required data-previous-completion-date="">
+                               name="draft_completion_date" required
+                               data-previous-completion-date="{{ $previousCompletionDate }}">
                     </div>
                     <div class="col-md-6">
                         <label for="daysTaken" class="form-label">Number of Days Taken</label>
@@ -57,17 +58,6 @@
                 <!-- Submit Button -->
                 <button type="submit" class="btn btn-primary">Submit Draft</button>
             </form>
-            <div>
-                @if ($errors->any())
-                <div class="">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-                @endif
-            </div>
         </div>
     </div>
 </x-modern-layout>

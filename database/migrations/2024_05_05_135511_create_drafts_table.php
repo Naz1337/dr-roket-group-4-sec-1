@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('draft_ddc');
             $table->text('draft_filename');
             $table->text('draft_filepath');
+            $table->integer('draft_page_count', false, true);
 
             $table->timestamps();
         });

@@ -5,8 +5,8 @@
 
             <!-- Draft Information -->
             <div class="mb-4">
-                <h5 class="mb-2">Draft Information</h5>
-                <div class="row mb-3">
+                <h5 class="mb-3">Draft Information</h5>
+                <div class="row">
                     <div class="col-md-3 col-form-label">Draft Title:</div>
                     <div class="col-md-3 ">
                         <input type="text" class="form-control-plaintext" readonly
@@ -18,7 +18,7 @@
                         value="{{ $draft->draft_number }}">
                     </div>
                 </div>
-                <div class="row mb-3">
+                <div class="row">
                     <div class="col-md-3 col-form-label">Completion Date:</div>
                     <div class="col-md-3">
                         @php
@@ -33,7 +33,7 @@
                                value="{{ $draft->draft_days_taken }}">
                     </div>
                 </div>
-                <div class="row mb-3">
+                <div class="row">
                     <div class="col-md-3 col-form-label">Draft DDC:</div>
                     <div class="col-md-3">
                         <input type="text" class="form-control-plaintext" readonly
@@ -44,8 +44,8 @@
 
             <!-- File Information -->
             <div class="mb-4">
-                <h5 class="mb-2">Draft File Information</h5>
-                <div class="row mb-3">
+                <h5 class="mb-3">Draft File Information</h5>
+                <div class="row">
                     <div class="col-md-3 col-form-label">Filename:</div>
                     <div class="col-md-3">
                         <input type="text" class="form-control-plaintext" readonly
@@ -58,14 +58,20 @@
                                value="" data-time="{{ $draft->created_at->getPreciseTimestamp(3) }}">
                         </div>
                 </div>
-                <div class="row mb-3">
-
+                <div class="row">
+                    <div class="col-md-3 col-form-label">
+                        Page Count:
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control-plaintext"
+                               readonly value="{{ $draft->draft_page_count }}">
+                    </div>
                 </div>
             </div>
 
             <!-- Download Button -->
             <div class="text-center">
-                <a href="[DOWNLOAD_LINK]" class="btn btn-primary">Download Draft</a>
+                <a href="{{ route('draft.show', ['draft' => $draft->id,  'download' => true]) }}" class="btn btn-primary">Download Draft</a>
             </div>
         </div>
     </div>

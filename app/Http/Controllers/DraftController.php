@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
-use function PHPUnit\Framework\isNull;
+use Illuminate\Support\Facades\Storage;
+use Smalot\PdfParser\Parser;
 
 class DraftController extends Controller
 {
@@ -24,7 +25,29 @@ class DraftController extends Controller
      */
     public function create()
     {
-        return view('drafts.create');
+        $currentUser = Auth::user();
+        $platinumProfile = $currentUser->getPlatinum();
+        if (!isset($platinumProfile)) {
+            return to_route('logout');
+        }
+
+        $latestDraft = Draft::where('platinum_id', $platinumProfile->id)
+            ->orderBy('draft_completion_date', 'desc')->first();
+
+        if ($latestDraft) {
+        return view('drafts.create', [
+            'previousCompletionDate' => $latestDraft->draft_completion_date,
+            'nextDraftNumber' => $latestDraft->draft_number + 1,
+            'lastDraftTitle' => $latestDraft->draft_title
+        ]);
+        }
+        else {
+            return view('drafts.create', [
+                'previousCompletionDate' => '',
+                'nextDraftNumber' => '1',
+                'lastDraftTitle' => ''
+            ]);
+        }
     }
 
     /**
@@ -46,7 +69,6 @@ class DraftController extends Controller
         $currentUser = Auth::user();
 
         if ($currentUser->user_type !== config()->get('constants.user.platinum')) {
-//            return to_route('drafts.create')->with('error', 'You are not allowed to create drafts.');
             abort(401);
         }
 
@@ -54,12 +76,16 @@ class DraftController extends Controller
         $draft_filename = $draft_file->getClientOriginalName();
         $draft_filepath = $draft_file->store('drafts');
 
+        $parser = new Parser();
+        $document = $parser->parseFile(Storage::path($draft_filepath));
+
+
         $draft = new Draft;
         $draft->platinum_id = $currentUser->getPlatinum()->id;
         $draft->draft_title = $validated['draft_title'];
 
         $currentMaxDraftNumber = Draft::where('platinum_id', $currentUser->getPlatinum()->id)->max('draft_number');
-        if (isnull($currentMaxDraftNumber)) {
+        if (!isset($currentMaxDraftNumber)) {
             $currentMaxDraftNumber = 0;
         }
 
@@ -70,9 +96,12 @@ class DraftController extends Controller
         $draft->draft_filename = $draft_filename;
         $draft->draft_filepath = $draft_filepath;
         $draft->draft_days_taken = $validated['days_taken'];
+        $draft->draft_page_count = count($document->getPages());
         $draft->save();
 
-        return to_route('drafts.index', ['scs'=>$draft->id]);
+
+
+        return to_route('draft.show', ['draft' => $draft->id]);
     }
 
     /**
