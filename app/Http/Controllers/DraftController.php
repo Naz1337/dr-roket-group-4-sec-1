@@ -6,6 +6,8 @@ use App\Models\Draft;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
+use function PHPUnit\Framework\isNull;
 
 class DraftController extends Controller
 {
@@ -41,11 +43,36 @@ class DraftController extends Controller
 
         $validated = $request->validate($rules);
 
-        return Blade::render(<<<EOL
-            @php
-            var_dump(\$stuffs);
-            @endphp
-            EOL, ['stuffs' => $validated], true);
+        $currentUser = Auth::user();
+
+        if ($currentUser->user_type !== config()->get('constants.user.platinum')) {
+//            return to_route('drafts.create')->with('error', 'You are not allowed to create drafts.');
+            abort(401);
+        }
+
+        $draft_file = $request->file('draft_file');
+        $draft_filename = $draft_file->getClientOriginalName();
+        $draft_filepath = $draft_file->store('drafts');
+
+        $draft = new Draft;
+        $draft->platinum_id = $currentUser->getPlatinum()->id;
+        $draft->draft_title = $validated['draft_title'];
+
+        $currentMaxDraftNumber = Draft::where('platinum_id', $currentUser->getPlatinum()->id)->max('draft_number');
+        if (isnull($currentMaxDraftNumber)) {
+            $currentMaxDraftNumber = 0;
+        }
+
+        $draft->draft_number = ++$currentMaxDraftNumber;
+
+        $draft->draft_completion_date = $validated['draft_completion_date'];
+        $draft->draft_ddc = $validated['draft_ddc'];
+        $draft->draft_filename = $draft_filename;
+        $draft->draft_filepath = $draft_filepath;
+        $draft->draft_days_taken = $validated['days_taken'];
+        $draft->save();
+
+        return to_route('drafts.index', ['scs'=>$draft->id]);
     }
 
     /**
@@ -53,7 +80,7 @@ class DraftController extends Controller
      */
     public function show(Draft $draft)
     {
-        //
+        return view('drafts.show', compact('draft'));
     }
 
     /**

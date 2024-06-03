@@ -66,15 +66,15 @@ function getDays(milliseconds) {
 }
 
 draft_date.addEventListener('change', function(event) {
-    if (previousDate.valueOf() === 0) {
-        return
-    }
-
     const inputDate = new Date(event.target.value);
     if (inputDate.getDay() === 0) {
         // it is sunday
         inputDate.setDate(inputDate.getDate() - 1);
         event.target.value = getDate(inputDate);
+    }
+
+    if (previousDate.valueOf() === 0) {
+        return
     }
 
     document.getElementById('daysTaken').value =

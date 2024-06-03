@@ -23,6 +23,7 @@
         "datatables.net-dt": "^2.0.7",
         "datatables.net-select-bs5": "^2.0.2",
         "jquery": "^3.7.1",
+        "luxon": "^3.4.4",
         "simplebar": "^6.2.6"
     }
 }

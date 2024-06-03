@@ -81,7 +81,7 @@ Route::prefix('/expert')->group(function () {
     Route::get('/viewexpert/{id}', [ExpertDomainController::class, 'show']
     )->name('viewexpert.id');
 
-    Route::get('/editexpert/{id}', [ExpertDomainController::class, 'edit']    
+    Route::get('/editexpert/{id}', [ExpertDomainController::class, 'edit']
     )->name('editexpert.id');
 
     Route::post('/deleteexpert/{id}', [ExpertDomainController::class, 'delete']
@@ -104,7 +104,7 @@ Route::prefix('/publication')->group(function () {
 });
 
 
-Route::resource('drafts', DraftController::class);
+Route::resource('draft', DraftController::class)->middleware('auth');
 
 
 

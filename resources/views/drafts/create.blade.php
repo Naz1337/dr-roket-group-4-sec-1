@@ -3,7 +3,7 @@
     <div class="card">
         <div class="card-body">
             <h4 class="mb-4">Draft Form</h4>
-            <form action="{{ route('drafts.store') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('draft.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <!-- Draft Title -->
                 <div class="mb-3">

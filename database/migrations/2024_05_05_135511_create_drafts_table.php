@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('drafts', function (Blueprint $table) {
             $table->id();
-            $table->integer('draft_owner');
+            $table->foreignIdFor(App\Models\Platinum::class);
             $table->text('draft_title');
             $table->integer('draft_number');
             $table->date('draft_completion_date');
+            $table->integer('draft_days_taken',false, true);
             $table->integer('draft_ddc');
-            $table->text('draft_feedback')->nullable();
+            $table->text('draft_filename');
             $table->text('draft_filepath');
 
             $table->timestamps();
