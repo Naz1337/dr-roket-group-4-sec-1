@@ -113,8 +113,6 @@ class DraftController extends Controller
             $draft_page_count = 1;
         }
 
-
-
         $draft = new Draft;
         $draft->platinum_id = $currentUser->getPlatinum()->id;
         $draft->draft_title = $validated['draft_title'];
@@ -133,8 +131,6 @@ class DraftController extends Controller
         $draft->draft_days_taken = $validated['days_taken'];
         $draft->draft_page_count = $draft_page_count;
         $draft->save();
-
-
 
         return to_route('draft.show', ['draft' => $draft->id]);
     }
