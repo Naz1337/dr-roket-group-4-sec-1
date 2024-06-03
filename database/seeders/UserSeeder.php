@@ -27,5 +27,12 @@ class UserSeeder extends Seeder
         $secondUser->password = Hash::make('1');
         $secondUser->user_type = 0;
         $secondUser->save();
+
+        $third = new User;
+        $third->username = 'Student 2';
+        $third->email = 'w@w';
+        $third->password = Hash::make('1');
+        $third->user_type = 0;
+        $third->save();
     }
 }
