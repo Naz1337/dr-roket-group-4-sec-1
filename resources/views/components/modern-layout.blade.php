@@ -60,7 +60,7 @@
                     <p class="navbar-text fw-semibold fs-4">Hello, {{ !in_array(Auth::user()->user_type, Config::get('constants.user.platOrCRMP')) ? Auth::user()->userProfile->profile_name : Auth::user()->getPlatinum()->plat_name }}</p>
                 </li>
                 <x-profile-in-header
-                    profile-picture="{{ !in_array(Auth::user()->user_type, Config::get('constants.user.platOrCRMP')) ? Auth::user()->getUserProfile()->user_photo : Auth::user()->getPlatinum()->plat_photo }}">
+                    profile-picture="{{ !in_array(Auth::user()->user_type, Config::get('constants.user.platOrCRMP')) ? Auth::user()->userProfile->user_photo : Auth::user()->getPlatinum()->plat_photo }}">
                     <x-drop-down-menu>
                         <x-drop-down-item :href="route('view-profile-id', Auth::user()->id)" icon="user">
                             My Profile
