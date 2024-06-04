@@ -34,5 +34,14 @@ class UserSeeder extends Seeder
         $third->password = Hash::make('1');
         $third->user_type = 0;
         $third->save();
+
+        $mentor = new User;
+        $mentor->username = 'Mentor 1';
+        $mentor->email = 'm@m';
+        $mentor->password = Hash::make('1');
+        $mentor->user_type = 3;
+        $mentor->save();
+
+        //
     }
 }
