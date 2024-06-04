@@ -96,7 +96,22 @@
                 </div>
                 <div class="row">
                     <div class="col-3">
-                        <img src="{{ Storage::url(in_array(Auth::user()->user_type, Config::get('constants.user.platOrCRMP')) ? Auth::user()->platinum->plat_photo : Auth::user()->userProfile->user_photo) }}" alt="#" class="card-img w-60 border border-3">
+                        @php
+                            // Determine the user type
+                            $isPlatOrCRMP = in_array(Auth::user()->user_type, Config::get('constants.user.platOrCRMP'));
+
+                            // Choose the photo based on the user type
+                            $photo = $isPlatOrCRMP ? Auth::user()->platinum->plat_photo : Auth::user()->userProfile->user_photo;
+
+                            // Get the URL of the photo
+                            $image_url = Storage::url($photo);
+
+                            // if image_url is just '/storage/', then use '/assets/images/profile/user-1.jpg'
+                            if ($image_url === '/storage/') {
+                                $image_url = '/assets/images/profile/user-1.jpg';
+                            }
+                        @endphp
+                        <img src="{{ $image_url }}" alt="#" class="card-img w-60 border border-3">
                     </div>
                     <div class="col-9">
                         @if(!in_array(Auth::user()->user_type, Config::get('constants.user.platOrCRMP')))
