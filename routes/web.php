@@ -65,11 +65,11 @@ Route::prefix('user')->group(function() {
 })->middleware('auth');
 
 Route::prefix('/expert')->group(function () {
-    Route::get('/myexpert', [ExpertDomainController::class, 'showMyExpert'])
-    ->name('myexpert');
+    Route::get('/my-expert', [ExpertDomainController::class, 'showMyExpert'])
+    ->name('my-expert');
 
-    Route::get('/listexpert', [ExpertDomainController::class, 'showListExpert']
-    )->name('listexpert');
+    Route::get('/list-expert', [ExpertDomainController::class, 'showListExpert']
+    )->name('list-expert');
 
     Route::get('/addexpert', [ExpertDomainController::class, 'create']
     )->name('addprofile');
@@ -77,14 +77,14 @@ Route::prefix('/expert')->group(function () {
     Route::post('/addexpert', [ExpertDomainController::class, 'store']
     )->name('createprofile');
 
-    Route::get('/viewexpert/{id}', [ExpertDomainController::class, 'show']
-    )->name('viewexpert.id');
+    Route::get('/view-expert/{id}', [ExpertDomainController::class, 'show']
+    )->name('view-expert.id');
 
-    Route::get('/editexpert/{id}', [ExpertDomainController::class, 'edit']    
-    )->name('editexpert.id');
+    Route::get('/edit-expert/{id}', [ExpertDomainController::class, 'edit']    
+    )->name('edit-expert.id');
 
-    Route::post('/deleteexpert/{id}', [ExpertDomainController::class, 'delete']
-    )->name('deleteexpert.id');
+    Route::post('/delete-expert/{id}', [ExpertDomainController::class, 'delete']
+    )->name('delete-expert.id');
 
     Route::get('/uploadexpertpublic', function() {
         return view('ManageExpertDomain/uploadExpertPublication');

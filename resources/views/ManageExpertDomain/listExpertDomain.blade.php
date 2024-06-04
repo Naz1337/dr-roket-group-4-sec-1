@@ -42,17 +42,17 @@
                 </div>
                 <div class="col p-2">
                     <p>
-                        Name: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tincidunt gravida odio iaculis laoreet.
+                        Name: {{ $expert->expert_domain_names }}.
                     </p>
                     <p>
-                        Current Institution: Lorem ipsum dolor sit amet
+                        Current Institution: {{ $expert->expert_domain_affiliation }}
                     </p>
                     <p>
-                        Email: Lorem ipsum dolor sit amet
+                        Email: {{ $expert->expert_domain_emails }}
                     </p>
                 </div>
                 <div class="col-1 p-2">
-                    <a class="btn btn-primary text-decoration-none" href="{{ route('viewexpert') }}">
+                    <a class="btn btn-primary text-decoration-none" href="{{ route('view-expert.id', $expert->id) }}">
                         View
                     </a>
                 </div>

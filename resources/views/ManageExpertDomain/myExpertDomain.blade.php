@@ -52,7 +52,7 @@
                         </p>
                     </div>
                     <div class="col-1 p-2">
-                        <a href=" {{ route('viewexpert.id', $expert->id) }} " class="btn btn-primary text-decoration-none">
+                        <a href=" {{ route('view-expert.id', $expert->id) }} " class="btn btn-primary text-decoration-none">
                             View
                         </a>
                     </div>

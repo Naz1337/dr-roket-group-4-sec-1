@@ -36,8 +36,8 @@
 
             @if(Auth::user()->user_type != Config::get('constants.user.staff'))
                 <x-nav-header>Expert Domain</x-nav-header>
-                <x-nav-item href="{{ route('myexpert') }}" icon="certificate">My Expert Domain</x-nav-item>
-                <x-nav-item href="{{ route('listexpert') }}" icon="certificate">Expert Domain List</x-nav-item>
+                <x-nav-item href="{{ route('my-expert') }}" icon="certificate">My Expert Domain</x-nav-item>
+                <x-nav-item href="{{ route('list-expert') }}" icon="certificate">Expert Domain List</x-nav-item>
 
                 <x-nav-header>Publication</x-nav-header>
                 <x-nav-item href="#" icon="script">Manage Publication Data</x-nav-item>

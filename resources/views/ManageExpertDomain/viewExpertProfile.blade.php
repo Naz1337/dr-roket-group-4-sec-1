@@ -52,8 +52,8 @@
 
             </div>
             <div class="col-3 p-3 d-flex justify-content-end">
-                <a href=" {{ route('editexpert.id', $expert->id) }}" type="button" class="btn btn-primary mx-3">Edit Profile</a>
-                <a href=" {{ route('deleteexpert.id', $expert->id) }}" type="button" class="btn btn-danger">Delete Profile</a>
+                <a href=" {{ route('edit-expert.id', $expert->id) }}" type="button" class="btn btn-primary mx-3">Edit Profile</a>
+                <a href=" {{ route('delete-expert.id', $expert->id) }}" onclick="return confirm('Are you sure?')" type="button" class="btn btn-danger">Delete Profile</a>
             </div>
         </div>
 
