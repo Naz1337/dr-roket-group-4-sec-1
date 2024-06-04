@@ -18,7 +18,13 @@
                 </div>
                 <div class="row">
                     <div class="col-3">
-                        <img src="{{ Storage::url(in_array($user->user_type, Config::get('constants.user.platOrCRMP')) ? $user->platinum->plat_photo : $user->userProfile->user_photo) }}" alt="#" class="card-img w-60 border border-3">
+                        @php
+                            $isPlatOrCRMP = in_array($user->user_type, Config::get('constants.user.platOrCRMP'));
+                            $photoPath = $isPlatOrCRMP ? $user->platinum->plat_photo : $user->userProfile->user_photo;
+                            $storageUrl = Storage::url($photoPath);
+                            $place = $storageUrl == '/storage/' ? '/assets/images/profile/user-1.jpg' : $storageUrl;
+                        @endphp
+                        <img src="{{ $place }}" alt="#" class="card-img w-60 border border-3">
                     </div>
                     <div class="col-9">
                         @if(!in_array($user->user_type, Config::get('constants.user.platOrCRMP')))
