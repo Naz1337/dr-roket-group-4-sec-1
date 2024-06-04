@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('drafts', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(App\Models\Platinum::class);
+            $table->foreignIdFor(\App\Models\Platinum::class);
             $table->text('draft_title');
             $table->integer('draft_number');
             $table->date('draft_completion_date');
