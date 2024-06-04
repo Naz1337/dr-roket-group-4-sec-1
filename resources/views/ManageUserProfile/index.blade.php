@@ -4,9 +4,12 @@
             let name = $("#name").val();
             let user_type = $("#user_type").val();
             let edu_level = $("#plat_cur_edu_level").val();
-            let institute = $("#plat_edu_institute").val();
+            let institute = $("#plat_institute").val();
             let batch = $("#plat_batch").val();
             let table = $('#profile-table').DataTable({
+                "language": {
+                    "processing": '<p class="text-center p-4"><i class="ti ti-refresh fa-spin"></i> Loading...</p>',
+                },
                 "layout": {
                     topStart: '',
                     topEnd: '',
@@ -71,11 +74,16 @@
                 ]
             });
 
+            $.ajaxSetup({
+                // Disable caching of AJAX responses
+                cache: false
+            });
+
             $("#searchBtn").on("click", function() {
                 name = $("#name").val();
                 user_type = $("#user_type").val();
                 edu_level = $("#plat_cur_edu_level").val();
-                institute = $("#plat_edu_institute").val();
+                institute = $("#plat_institute").val();
                 batch = $("#plat_batch").val();
                 table.draw();
             });
