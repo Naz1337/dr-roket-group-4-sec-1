@@ -149,7 +149,7 @@ class DraftController extends Controller
             return Storage::download($draft->draft_filepath, $draft->draft_filename);
 
         $latestDraft = Draft::where('platinum_id', $platinumProfile->id)
-            ->orderBy('draft_completion_date', 'desc')->first();
+            ->orderBy('draft_number', 'desc')->first();
         $canDelete = $latestDraft->id === $draft->id;
 
         return view('drafts.show', [
@@ -163,7 +163,58 @@ class DraftController extends Controller
      */
     public function edit(Draft $draft)
     {
-        //
+        // pass kat user max value of days taken.
+        // cara nak kira, max value dia kalau dia yang
+        // hujung skali, max value dia ialah tarikh completion date sebelum dia, sampai hari ni.
+        // kalau dia tak hujung skali, max value dia ialah tarikh sebelum dia sampai
+        // completion date dia. aka, current value days taken.
+
+        $platinum = Auth::user()->platinum;
+        $draftNumber = $draft->draft_number;
+        $minDate = '';
+
+        if ($draftNumber === 1) {
+            $maxDaysTaken = INF;
+            $maxDate = $draft->draft_completion_date;
+        }
+        else {
+            // use Draft model to get the max value of draft number where that draft platinum_id is
+            // equal to current user
+            $maxDraftNumber = Draft::where('platinum_id', $platinum->id)->max('draft_number');
+            // minDate is the completion date of the draft before this draft
+            $minDate = Draft::where('platinum_id', $platinum->id)
+                ->where('draft_number', $draftNumber - 1)->first()->draft_completion_date;
+            if ($draftNumber === $maxDraftNumber) {
+                // get the draft before the maxDraftNumber that is owned by the current platinum
+                $previousDraft = Draft::where('platinum_id', $platinum->id)
+                    ->where('draft_number', $maxDraftNumber - 1)->first();
+
+                $maxDaysTaken = Carbon::parse($previousDraft->draft_completion_date)->diffInDays(Carbon::now());
+
+                // round up the maxDaysTaken
+                $maxDaysTaken = floor($maxDaysTaken);
+
+                // but we need to minus sundays
+                $copy = $maxDaysTaken;
+                for ($i = 0; $i < $copy; $i++) {
+                    if (Carbon::now()->subDay($i)->dayOfWeek === 0) {
+                        $maxDaysTaken--;
+                    }
+                }
+                $maxDate = Carbon::now()->format('Y-m-d');
+            }
+            else {
+                $maxDaysTaken = $draft->draft_days_taken;
+                $maxDate = $draft->draft_completion_date;
+            }
+        }
+
+        return view('drafts.edit', [
+            'draft' => $draft,
+            'maxDaysTaken' => $maxDaysTaken,
+            'maxDate' => $maxDate,
+            'minDate' => $minDate
+        ]);
     }
 
     /**
@@ -171,7 +222,56 @@ class DraftController extends Controller
      */
     public function update(Request $request, Draft $draft)
     {
-        //
+//        return Blade::render(<<<EOL
+//            @php
+//            var_dump(\$request->all());
+//            @endphp
+//            EOL, ['request' => $request]);
+
+        $rules = [
+            'draft_title' => 'required|string|max:255',
+            'draft_ddc' => 'required|integer|min:1|max:100',
+            'draft_completion_date' => 'required|date',
+            'days_taken' => 'required|integer|min:0',
+            'draft_file' => 'nullable|file|mimes:pdf,txt|max:2048', // Max size 2MB
+        ];
+
+        $validated = $request->validate($rules);
+
+        $currentUser = Auth::user();
+
+        if ($currentUser->user_type !== config()->get('constants.user.platinum')) {
+            abort(401);
+        }
+
+        $draft_file = $request->file('draft_file');
+        if ($draft_file) {
+            $draft_filename = $draft_file->getClientOriginalName();
+            $draft_filepath = $draft_file->store('drafts');
+
+            $extension = pathinfo($draft_filename, PATHINFO_EXTENSION);
+
+            if ($extension === 'pdf') {
+                $parser = new Parser();
+                $document = $parser->parseFile(Storage::path($draft_filepath));
+                $draft_page_count = count($document->getPages());
+            }
+            else {
+                $draft_page_count = 1;
+            }
+
+            $draft->draft_filename = $draft_filename;
+            $draft->draft_filepath = $draft_filepath;
+            $draft->draft_page_count = $draft_page_count;
+        }
+
+        $draft->draft_title = $validated['draft_title'];
+        $draft->draft_completion_date = $validated['draft_completion_date'];
+        $draft->draft_ddc = $validated['draft_ddc'];
+        $draft->draft_days_taken = $validated['days_taken'];
+        $draft->save();
+
+        return to_route('draft.show', ['draft' => $draft->id]);
     }
 
     /**
