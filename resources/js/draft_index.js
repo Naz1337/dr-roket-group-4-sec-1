@@ -19,12 +19,7 @@ let table = new DataTable('#draftsTable', {
     "order" : [
         [0, 'desc']
     ],
-    "scrollX": false,
-    "columnDefs": [
-        {
-            "targets": [1]
-        }
-    ]
+    "scrollX": false
 })
 
 document.querySelector('#draftsTable tbody').addEventListener('click', function (event) {
