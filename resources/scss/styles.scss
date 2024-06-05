@@ -93,25 +93,3 @@ body {
     opacity: 0.9;
     cursor: pointer;
 }
-
-.panel {
-    margin-right: auto;
-    margin-left: auto;
-
-    width: 80%;
-
-    background-color: white;
-
-    padding-left: 4rem;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-    border-radius: 2rem;
-
-    /* height: 1000px; */
-
-    display: flex;
-
-    flex-direction: column;
-    /* justify-content: center; */
-    align-items: start;
-}

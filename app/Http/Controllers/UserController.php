@@ -24,10 +24,10 @@ class UserController extends Controller
             if (!$loginResult) {
                 return to_route('login')->with('error', 'Wrong username or password!')->with('error-type', 'danger');
             }
-            return to_route('modern');
+            return to_route('dashboard');
         }
         if(Auth::check()) {
-            return to_route('modern');
+            return to_route('dashboard');
         }
         return view('modern-login', ['message' => $message]);
     }

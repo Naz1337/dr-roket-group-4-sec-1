@@ -4,6 +4,7 @@ use App\Http\Controllers\DraftController;
 use App\Http\Controllers\PlatinumController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Middleware\EnsureUserStaffMentor;
 use App\Models\UserProfile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -14,33 +15,28 @@ use App\Http\Controllers\PublicationController;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Http\Request;
 
-Route::get('/modern', function () {
-   return view('modern');
-})->name('modern')->middleware('auth');
+Route::get('/dashboard', function () {
+   return view('dashboard');
+})->name('dashboard')->middleware('auth');
 
-Route::get('/modern-login', [UserController::class,'login'])->name('modern-login');
-
-Route::get('/modern_login', function() {
-    return view('components.modern-layout');
-})->name('modern-login');
+//Route::get('/modern-login', [UserController::class,'login'])->name('modern-login');
+//
+//Route::get('/modern_login', function() {
+//    return view('components.modern-layout');
+//})->name('modern-login');
 
 Route::get('/', function () {
-    return redirect('modern');
+    return redirect('dashboard');
 })->middleware('auth');
 
-
 Route::get('/register', [UserController::class,'register'])->name('register');
-
 Route::post('/register', [UserController::class,'register'])->name('register-post');
 
 Route::get('/login', [UserController::class,'login'])->name('login');
-
 Route::post('/login', [UserController::class,'login'])->name('login-post');
-
 
 Route::get('/logout', [UserController::class,'logout'])->name('logout');
 
-// UNTUK DIBUANG
 Route::get('/app', [DummyController::class, 'show']);
 
 
@@ -54,23 +50,23 @@ Route::get('/profile', function() {
 })->name('profile');
 
 Route::prefix('user')->group(function() {
-    Route::get('/manage-user-profile', [UserProfileController::class,'manage_user_profile'])->name('manage-user-profile')->middleware('auth');
-    Route::get('/register-platinum', [PlatinumController::class,'register_platinum'])->name('register-platinum')->middleware('auth');
-    Route::post('/register-platinum-post', [PlatinumController::class,'register_platinum'])->name('register-platinum-post')->middleware('auth');
-    Route::get('/register-success', [PlatinumController::class,'register_success'])->name('register-success')->middleware('auth');
-    Route::get('/edit-profile/{id}', [UserProfileController::class,'edit_profile'])->name('edit-profile')->middleware('auth');
-    Route::post('/edit-profile-post', [UserProfileController::class,'edit_profile_post'])->name('edit-profile-post')->middleware('auth');
-    Route::get('/user-profile/{id}', [UserProfileController::class,'view_profile'])->name('view-profile-id')->middleware('auth');
-    Route::get('/user-profile', [UserProfileController::class,'view_profile'])->name('view-profile')->middleware('auth');
-    Route::get('/generate-excel', [UserProfileController::class,'generateReportExcel'])->name('generate-excel')->middleware('auth');
+    Route::get('/manage-user-profile', [UserProfileController::class,'manage_user_profile'])->name('manage-user-profile');
+    Route::get('/register-platinum', [PlatinumController::class,'register_platinum'])->name('register-platinum')->middleware(EnsureUserStaffMentor::class);
+    Route::post('/register-platinum-post', [PlatinumController::class,'register_platinum'])->name('register-platinum-post');
+    Route::get('/register-success', [PlatinumController::class,'register_success'])->name('register-success');
+    Route::get('/edit-profile/{id}', [UserProfileController::class,'edit_profile'])->name('edit-profile');
+    Route::post('/edit-profile-post', [UserProfileController::class,'edit_profile_post'])->name('edit-profile-post');
+    Route::get('/user-profile/{id}', [UserProfileController::class,'view_profile'])->name('view-profile-id');
+    Route::get('/user-profile', [UserProfileController::class,'view_profile'])->name('view-profile');
+    Route::get('/generate-excel', [UserProfileController::class,'generateReportExcel'])->name('generate-excel');
 })->middleware('auth');
 
 Route::prefix('/expert')->group(function () {
-    Route::get('/myexpert', [ExpertDomainController::class, 'showMyExpert'])
-    ->name('myexpert');
+    Route::get('/my-expert', [ExpertDomainController::class, 'showMyExpert'])
+    ->name('my-expert');
 
-    Route::get('/listexpert', [ExpertDomainController::class, 'showListExpert']
-    )->name('listexpert');
+    Route::get('/list-expert', [ExpertDomainController::class, 'showListExpert']
+    )->name('list-expert');
 
     Route::get('/addexpert', [ExpertDomainController::class, 'create']
     )->name('addprofile');
@@ -78,14 +74,14 @@ Route::prefix('/expert')->group(function () {
     Route::post('/addexpert', [ExpertDomainController::class, 'store']
     )->name('createprofile');
 
-    Route::get('/viewexpert/{id}', [ExpertDomainController::class, 'show']
-    )->name('viewexpert.id');
+    Route::get('/view-expert/{id}', [ExpertDomainController::class, 'show']
+    )->name('view-expert.id');
 
-    Route::get('/editexpert/{id}', [ExpertDomainController::class, 'edit']
-    )->name('editexpert.id');
+    Route::get('/edit-expert/{id}', [ExpertDomainController::class, 'edit']
+    )->name('edit-expert.id');
 
-    Route::post('/deleteexpert/{id}', [ExpertDomainController::class, 'delete']
-    )->name('deleteexpert.id');
+    Route::post('/delete-expert/{id}', [ExpertDomainController::class, 'delete']
+    )->name('delete-expert.id');
 
     Route::get('/uploadexpertpublic', function() {
         return view('ManageExpertDomain/uploadExpertPublication');

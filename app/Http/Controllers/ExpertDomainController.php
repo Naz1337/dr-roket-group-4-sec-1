@@ -34,8 +34,14 @@ class ExpertDomainController extends Controller
     public function showListExpert()
     {
         //Function
-        $listexperts = optional(ExpertDomain::all());
-
+        if(Auth::check())
+        {
+        $listexperts = ExpertDomain::all();
+        }
+        else
+        {
+            return Redirect::route('login');
+        }
         return view('ManageExpertDomain/listExpertDomain', compact('listexperts'));
     }
 
@@ -95,7 +101,7 @@ class ExpertDomainController extends Controller
         $ed->platinum_id = Auth::user()->getPlatinum()->id;
         $ed->save();
 
-        return Redirect::route('myexpert');
+        return Redirect::route('my-expert');
     }
 
     /**
@@ -103,11 +109,17 @@ class ExpertDomainController extends Controller
      */
     public function show(ExpertDomain $expertDomain, string $id)
     {
-        // dd($expertDomain);
-        $expert = $expertDomain->findorFail($id);
-        // dd($expert);
-        $publications = Publication::where('expert_id', $id);
-
+        if(Auth::check())
+        {
+            // dd($expertDomain);
+            $expert = $expertDomain->findorFail($id);
+            // dd($expert);
+            $publications = Publication::where('expert_id', $id);
+        }
+        else
+        {
+            return Redirect::route('login');
+        }
         return view('ManageExpertDomain/viewExpertProfile', compact('expert'), compact('publications'));
     }
 
@@ -116,8 +128,14 @@ class ExpertDomainController extends Controller
      */
     public function edit(ExpertDomain $expertDomain, string $id)
     {
-        $expert = $expertDomain->findorFail($id);
-
+        if(Auth::check())
+        {
+            $expert = $expertDomain->findorFail($id);
+        }
+        else
+        {
+            return Redirect::route('login');
+        }
         return view('ManageExpertDomain/editExpertProfile', compact('expert'));
     }
 
@@ -132,8 +150,11 @@ class ExpertDomainController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ExpertDomain $expertDomain)
+    public function destroy(ExpertDomain $expertDomain, string $id)
     {
-        //
+        $ed = $expertDomain->findorFail($id);
+        $ed->destroy();
+
+        return Redirect::route('my-expert');
     }
 }
