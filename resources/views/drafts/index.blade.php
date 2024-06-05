@@ -6,7 +6,7 @@
             <div class="mb-2">
                 <strong>First Draft Start Date:</strong> {{ $firstStartDate }}
             </div>
-            <table class="table display nowrap mb-4" id="draftsTable" style="min-width: 100%">
+            <table class="table display mb-4" id="draftsTable" style="min-width: 100%">
                 <thead>
                     <tr>
                         <th>Draft No</th>
