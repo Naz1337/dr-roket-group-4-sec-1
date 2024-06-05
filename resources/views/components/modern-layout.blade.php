@@ -50,7 +50,7 @@
 {{--                <x-nav-item href="#" icon="trending-up">Platinum Progress</x-nav-item>--}}
 {{--            @endif--}}
 {{--            <x-nav-item href="#" icon="user-plus">Assign CRMP</x-nav-item>--}}
-            <x-nav-item :href="route('draft.index')" icon="edit">Draft Thesis</x-nav-item>
+            <x-nav-item :href="route('draft.index')" icon="edit">My Draft Progression</x-nav-item>
         </x-modern-sidebar>
         <!--  Sidebar End -->
 
