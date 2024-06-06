@@ -11,7 +11,7 @@ class Roles
     const STAFF = 2;
     const MENTOR = 3;
 
-    function getEnumValue($role) {
+    static function getEnumValue($role) {
         switch ($role) {
             case 'platinum':
                 return Roles::PLATINUM;

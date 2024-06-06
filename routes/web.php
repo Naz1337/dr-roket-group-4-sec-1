@@ -99,8 +99,9 @@ Route::prefix('/publication')->group(function () {
     Route::post('/addpublication', [PublicationController::class, 'store'])->name('storepublication');
 });
 
-
-Route::resource('draft', DraftController::class)->middleware('auth');
+Route::middleware(['auth'])->group(function () {
+    Route::resource('draft', DraftController::class)->middleware('role:platinum,mentor');
+});
 
 
 

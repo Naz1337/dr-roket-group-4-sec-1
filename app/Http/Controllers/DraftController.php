@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Roles;
 use App\Models\Draft;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
@@ -18,11 +19,12 @@ class DraftController extends Controller
      */
     public function index()
     {
-        $platinum = Auth::user()->getPlatinum();
-
-        if ($platinum === null) {
-            return to_route('modern');
+        if (Auth::user()->user_type === Roles::MENTOR) {
+            // TODO: page drafts untuk mentor
+            return to_route('dashboard');
         }
+
+        $platinum = Auth::user()->getPlatinum();
 
         $platinumId = $platinum->id;
         $earliestDraft = Draft::where('platinum_id', $platinumId)->orderBy('draft_completion_date', 'asc')->first();
