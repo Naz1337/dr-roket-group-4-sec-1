@@ -28,7 +28,7 @@
                 <div class="card shadow-lg">
                     <div class="card-body d-flex align-items-center" style="padding: 1rem;">
                         <div class="me-3">
-                            <img src="/assets/images/profile/user-1.jpg" alt=""
+                            <img src="{{ \Illuminate\Support\Facades\Storage::url($platinum->plat_photo) }}" alt=""
                                  class="rounded-circle ratio ratio-1x1" style="max-height: 2.5rem">
                         </div>
                         <div class="d-flex align-items-start flex-column justify-content-center">
@@ -43,9 +43,9 @@
                         <form class="ms-auto" method="post"
                               action="{{ route('crmp.toggle_crmp', ['platinum' => $platinum]) }}">
                             @if ($platinum->is_crmp)
-                            <button class="btn btn-danger stretched-link" type="submit" onclick="on_click_toggle(event)">Remove as CRMP</button>
+                            <button class="btn btn-danger stretched-link" type="submit">Remove as CRMP</button>
                             @else
-                            <button class="btn btn-success stretched-link" type="submit" onclick="on_click_toggle(event)">Assign as CRMP</button>
+                            <button class="btn btn-success stretched-link" type="submit">Set as CRMP</button>
                             @endif
                             @csrf
                         </form>
