@@ -1,0 +1,30 @@
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+
+.drag-drop-area {
+    border: 2px dashed #ccc;
+    border-radius: 5px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #999;
+    cursor: pointer;
+    transition: border-color ease-out .13s, color ease-out .13s;
+}
+
+.drag-drop-area-valid {
+    border-color: tint-color($success, 55%);
+    color: tint-color($success, 55%);
+}
+
+.drag-drop-area:hover {
+    border-color: shade-color(#ccc, 40%);
+    color: shade-color(#999, 40%);
+}
+
+.drag-drop-area-invalid {
+    border-color: tint-color($danger, 60%);
+    color: tint-color($danger, 60%);
+}

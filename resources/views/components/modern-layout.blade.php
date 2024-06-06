@@ -1,5 +1,8 @@
-@php use Illuminate\Support\Facades\Auth;use Illuminate\Support\Facades\Config; @endphp
-    <!doctype html>
+@php
+    use Illuminate\Support\Facades\Auth;
+    use Illuminate\Support\Facades\Config;
+@endphp
+<!doctype html>
 <html lang="en">
 
 <head>
@@ -18,7 +21,6 @@
 <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
      data-sidebar-position="fixed" data-header-position="fixed">
 
-    {{--    @if(!request()->routeIs('modern-login'))--}}
     @if(Auth::check() && !request()->routeIs('register'))
         <!-- Sidebar Start -->
         <x-modern-sidebar>
@@ -43,11 +45,10 @@
                 <x-nav-item href="#" icon="script">Manage Publication Data</x-nav-item>
             @endif
 
-            <x-nav-header>Monitoring</x-nav-header>
-            @if(Auth::user()->user_type != Config::get('constants.user.staff'))
-                <x-nav-item href="#" icon="trending-up">Platinum Progress</x-nav-item>
+            <x-nav-header>Progress Monitoring</x-nav-header>
+            @if(auth()->user()->platinum !== null)
+            <x-nav-item :href="route('draft.index')" icon="edit">My Draft Progression</x-nav-item>
             @endif
-            <x-nav-item href="#" icon="user-plus">Assign CRMP</x-nav-item>
         </x-modern-sidebar>
         <!--  Sidebar End -->
 

@@ -1,0 +1,14 @@
+.table.dataTable > tbody > tr > td {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    cursor: pointer;
+}
+
+.rs-title-col {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.card {
+    color: black;
+}

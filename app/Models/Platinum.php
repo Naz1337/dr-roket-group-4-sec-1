@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Platinum extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'user_id',
         'plat_name',
@@ -55,6 +53,11 @@ class Platinum extends Model
     public function publications()
     {
         return $this->hasMany(Publication::class);
+    }
+
+    public function drafts()
+    {
+        return $this->hasMany(Draft::class);
     }
 
 }

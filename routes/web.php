@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DraftController;
 use App\Http\Controllers\PlatinumController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserProfileController;
@@ -97,3 +98,9 @@ Route::prefix('/publication')->group(function () {
     Route::get('/addpublication', [PublicationController::class, 'create'])->name('addpublication');
     Route::post('/addpublication', [PublicationController::class, 'store'])->name('storepublication');
 });
+
+
+Route::resource('draft', DraftController::class)->middleware('auth');
+
+
+

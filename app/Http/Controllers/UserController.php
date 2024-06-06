@@ -65,7 +65,7 @@ class UserController extends Controller
                 $userProfile = new UserProfile;
                 $userProfile->user_id = $newUser->id;
                 $userProfile->profile_name = $validated['profile_name']; // Example profile name
-                $userProfile->birth_date = $validated['birth_date']; // Example birth date
+                $userProfile->birth_date = $validated['birth_date']; // Example birthdate
                 $userProfile->profile_email = $newUser->email;
                 $userProfile->user_photo = $imagePath; // Save image data
                 $userProfile->phone_no = $validated['phone_no'];

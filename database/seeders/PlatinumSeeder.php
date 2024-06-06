@@ -113,7 +113,11 @@ class PlatinumSeeder extends Seeder
         $tempFilePath = sys_get_temp_dir() . '/' . Str::random(10) . '.' . $extension;
         file_put_contents($tempFilePath, $binaryData);
 
-        $filePath = Storage::putFile($directory, new File($tempFilePath), $visibility);
+        if ($visibility === 'public')
+            $filePath = Storage::putFile('public/' . $directory, new File($tempFilePath), $visibility);
+        else
+            $filePath = Storage::putFile($directory, new File($tempFilePath), $visibility);
+
         assert($filePath !== false, 'Can\'t upload this ' . $extension . ' file.');
         return $filePath;
     }
