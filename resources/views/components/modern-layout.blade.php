@@ -46,11 +46,9 @@
             @endif
 
             <x-nav-header>Progress Monitoring</x-nav-header>
-{{--            @if(Auth::user()->user_type != Config::get('constants.user.staff'))--}}
-{{--                <x-nav-item href="#" icon="trending-up">Platinum Progress</x-nav-item>--}}
-{{--            @endif--}}
-{{--            <x-nav-item href="#" icon="user-plus">Assign CRMP</x-nav-item>--}}
+            @if(auth()->user()->platinum !== null)
             <x-nav-item :href="route('draft.index')" icon="edit">My Draft Progression</x-nav-item>
+            @endif
         </x-modern-sidebar>
         <!--  Sidebar End -->
 
