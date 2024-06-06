@@ -72,7 +72,7 @@
             <!-- Download Button -->
             <div class="d-flex justify-content-center gap-3">
                 <a href="{{ route('draft.show', ['draft' => $draft->id,  'download' => true]) }}" class="btn btn-primary">Download Draft</a>
-                <a href="{{ route('draft.edit', ['draft' => $draft->id]) }}" class="btn btn-outline-secondary">Edit Draft</a>
+                <a href="{{ route('draft.edit', ['draft' => $draft->id]) }}" class="btn btn-outline-secondary" id="editBtn">Edit Draft</a>
                 <div @if(!$canDelete) data-bs-title="Can only delete if current draft is the latest!" data-bs-toggler="tooltip" data-bs-placement="top" @endif>
                     <button class="btn btn-outline-danger" type="button" id="removeBtn" @if(!$canDelete) disabled @endif >Remove Draft</button>
                 </div>

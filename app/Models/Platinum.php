@@ -55,4 +55,9 @@ class Platinum extends Model
         return $this->hasMany(Publication::class);
     }
 
+    public function drafts()
+    {
+        return $this->hasMany(Draft::class);
+    }
+
 }

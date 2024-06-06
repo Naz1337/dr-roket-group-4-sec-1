@@ -189,7 +189,9 @@ class DraftController extends Controller
                 $previousDraft = Draft::where('platinum_id', $platinum->id)
                     ->where('draft_number', $maxDraftNumber - 1)->first();
 
-                $maxDaysTaken = Carbon::parse($previousDraft->draft_completion_date)->diffInDays(Carbon::now());
+                $timeZone = request()->input('tz', 'UTC');
+
+                $maxDaysTaken = Carbon::parse($previousDraft->draft_completion_date)->diffInDays(Carbon::now($timeZone));
 
                 // round up the maxDaysTaken
                 $maxDaysTaken = floor($maxDaysTaken);
@@ -197,11 +199,11 @@ class DraftController extends Controller
                 // but we need to minus sundays
                 $copy = $maxDaysTaken;
                 for ($i = 0; $i < $copy; $i++) {
-                    if (Carbon::now()->subDay($i)->dayOfWeek === 0) {
+                    if (Carbon::now($timeZone)->subDay($i)->dayOfWeek === 0) {
                         $maxDaysTaken--;
                     }
                 }
-                $maxDate = Carbon::now()->format('Y-m-d');
+                $maxDate = Carbon::now($timeZone)->format('Y-m-d');
             }
             else {
                 $maxDaysTaken = $draft->draft_days_taken;
@@ -232,7 +234,7 @@ class DraftController extends Controller
             'draft_title' => 'required|string|max:255',
             'draft_ddc' => 'required|integer|min:1|max:100',
             'draft_completion_date' => 'required|date',
-            'days_taken' => 'required|integer|min:0',
+            'draft_days_taken' => 'required|integer|min:0',
             'draft_file' => 'nullable|file|mimes:pdf,txt|max:2048', // Max size 2MB
         ];
 
@@ -268,8 +270,38 @@ class DraftController extends Controller
         $draft->draft_title = $validated['draft_title'];
         $draft->draft_completion_date = $validated['draft_completion_date'];
         $draft->draft_ddc = $validated['draft_ddc'];
-        $draft->draft_days_taken = $validated['days_taken'];
+        $draft->draft_days_taken = $validated['draft_days_taken'];
         $draft->save();
+
+//        $currentUser->platinum->drafts->where('draft_number', '>', $draft->draft_number)->each(function ($draft_) {
+//            $carbonObject = Carbon::parse($draft_->draft_completion_date);
+//            for ($i = 0; $i < $draft_->draft_days_taken; $i++) {
+//                $carbonObject = $carbonObject->addDay(1);
+//                if ($carbonObject->dayOfWeek === 0) {
+//                    $carbonObject = $carbonObject->addDay(1);
+//                }
+//            }
+//            $draft_->draft_completion_date = $carbonObject->format('Y-m-d');
+//            $draft_->save();
+//        });
+        $draftsAfterCurrent = $currentUser->platinum->drafts->where('draft_number', '>', $draft->draft_number);
+
+        // put the $draft into the first position of the array above
+        $draftsAfterCurrent->prepend($draft);
+
+        // for every element in the array $draftsAfterCurrent, starting from its second element
+        for ($i = 1; $i < $draftsAfterCurrent->count(); $i++) {
+            $carbonObject = Carbon::parse($draftsAfterCurrent[$i - 1]->draft_completion_date);
+            for ($j = 0; $j < $draftsAfterCurrent[$i]->draft_days_taken; $j++) {
+                $carbonObject = $carbonObject->addDay(1);
+                if ($carbonObject->dayOfWeek === 0) {
+                    $carbonObject = $carbonObject->addDay(1);
+                }
+            }
+            $draftsAfterCurrent[$i]->draft_completion_date = $carbonObject->format('Y-m-d');
+            $draftsAfterCurrent[$i]->save();
+        }
+
 
         return to_route('draft.show', ['draft' => $draft->id]);
     }

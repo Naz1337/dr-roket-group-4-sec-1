@@ -24,3 +24,6 @@ document.querySelector('#removeBtn').addEventListener('click', (e) => {
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggler="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new Tooltip(tooltipTriggerEl))
 window.tooltipList = tooltipList
+
+const editBtnEl = document.getElementById('editBtn')
+editBtnEl.href += '?tz=' + Intl.DateTimeFormat().resolvedOptions().timeZone;
