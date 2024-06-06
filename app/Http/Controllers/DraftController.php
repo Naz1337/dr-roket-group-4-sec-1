@@ -172,24 +172,54 @@ class DraftController extends Controller
         $platinum = Auth::user()->platinum;
         $draftNumber = $draft->draft_number;
         $minDate = '';
+        $timeZone = request()->input('tz', 'UTC');
+        $maxDraftNumber = Draft::where('platinum_id', $platinum->id)->max('draft_number');
 
         if ($draftNumber === 1) {
             $maxDaysTaken = INF;
-            $maxDate = $draft->draft_completion_date;
+            if ($draftNumber === Draft::where('platinum_id', $platinum->id)->max('draft_number'))
+                $maxDate = '';
+            else {
+                $latestDraftCDate = Auth::user()->platinum->drafts
+                    ->where('draft_number', $maxDraftNumber)->first()->draft_completion_date;
+                $latestDraftCDate = Carbon::parse($latestDraftCDate, $timeZone);
+
+                $today = Carbon::now($timeZone);
+
+                $betweenNowAndLatestDraft = floor($latestDraftCDate->diffInDays($today));
+                $copy = $betweenNowAndLatestDraft;
+
+                for ($i = 0; $i < $copy; $i++) {
+                    if ($today->subDay($i)->dayOfWeek === 0) {
+                        $betweenNowAndLatestDraft--;
+                    }
+                }
+
+                $currentCompletionDate = $draft->draft_completion_date;
+                $currentCompletionDate = Carbon::parse($currentCompletionDate, $timeZone);
+                for ($j = 0; $j < $betweenNowAndLatestDraft; $j++) {
+                    // add 1 day to the current completion date
+                    $currentCompletionDate = $currentCompletionDate->addDay(1);
+                    // if the day after adding 1 day is sunday, add another day
+                    if ($currentCompletionDate->dayOfWeek === 0) {
+                        $currentCompletionDate = $currentCompletionDate->addDay(1);
+                    }
+                }
+                $maxDate = $currentCompletionDate->format('Y-m-d');
+            }
         }
         else {
             // use Draft model to get the max value of draft number where that draft platinum_id is
             // equal to current user
-            $maxDraftNumber = Draft::where('platinum_id', $platinum->id)->max('draft_number');
+
             // minDate is the completion date of the draft before this draft
             $minDate = Draft::where('platinum_id', $platinum->id)
                 ->where('draft_number', $draftNumber - 1)->first()->draft_completion_date;
+
             if ($draftNumber === $maxDraftNumber) {
                 // get the draft before the maxDraftNumber that is owned by the current platinum
                 $previousDraft = Draft::where('platinum_id', $platinum->id)
                     ->where('draft_number', $maxDraftNumber - 1)->first();
-
-                $timeZone = request()->input('tz', 'UTC');
 
                 $maxDaysTaken = Carbon::parse($previousDraft->draft_completion_date)->diffInDays(Carbon::now($timeZone));
 
@@ -207,7 +237,35 @@ class DraftController extends Controller
             }
             else {
                 $maxDaysTaken = $draft->draft_days_taken;
-                $maxDate = $draft->draft_completion_date;
+
+                $latestDraftCDate = Auth::user()->platinum->drafts->
+                    where('draft_number', $maxDraftNumber)->first()->draft_completion_date;
+                $latestDraftCDate = Carbon::parse($latestDraftCDate, $timeZone);
+
+                $today = Carbon::now($timeZone);
+
+                $betweenNowAndLatestDraft = floor($latestDraftCDate->diffInDays($today));
+                $copy = $betweenNowAndLatestDraft;
+
+                for ($i = 0; $i < $copy; $i++) {
+                    if ($today->subDay($i)->dayOfWeek === 0) {
+                        $betweenNowAndLatestDraft--;
+                    }
+                }
+
+                $maxDaysTaken += $betweenNowAndLatestDraft;
+
+                $currentCompletionDate = $draft->draft_completion_date;
+                $currentCompletionDate = Carbon::parse($currentCompletionDate, $timeZone);
+                for ($j = 0; $j < $betweenNowAndLatestDraft; $j++) {
+                    // add 1 day to the current completion date
+                    $currentCompletionDate = $currentCompletionDate->addDay(1);
+                    // if the day after adding 1 day is sunday, add another day
+                    if ($currentCompletionDate->dayOfWeek === 0) {
+                        $currentCompletionDate = $currentCompletionDate->addDay(1);
+                    }
+                }
+                $maxDate = $currentCompletionDate->format('Y-m-d');
             }
         }
 
@@ -224,12 +282,6 @@ class DraftController extends Controller
      */
     public function update(Request $request, Draft $draft)
     {
-//        return Blade::render(<<<EOL
-//            @php
-//            var_dump(\$request->all());
-//            @endphp
-//            EOL, ['request' => $request]);
-
         $rules = [
             'draft_title' => 'required|string|max:255',
             'draft_ddc' => 'required|integer|min:1|max:100',
@@ -268,39 +320,32 @@ class DraftController extends Controller
         }
 
         $draft->draft_title = $validated['draft_title'];
+        $previous_days_taken = $draft->draft_completion_date;
         $draft->draft_completion_date = $validated['draft_completion_date'];
         $draft->draft_ddc = $validated['draft_ddc'];
         $draft->draft_days_taken = $validated['draft_days_taken'];
         $draft->save();
 
-//        $currentUser->platinum->drafts->where('draft_number', '>', $draft->draft_number)->each(function ($draft_) {
-//            $carbonObject = Carbon::parse($draft_->draft_completion_date);
-//            for ($i = 0; $i < $draft_->draft_days_taken; $i++) {
-//                $carbonObject = $carbonObject->addDay(1);
-//                if ($carbonObject->dayOfWeek === 0) {
-//                    $carbonObject = $carbonObject->addDay(1);
-//                }
-//            }
-//            $draft_->draft_completion_date = $carbonObject->format('Y-m-d');
-//            $draft_->save();
-//        });
-        $draftsAfterCurrent = $currentUser->platinum->drafts->where('draft_number', '>', $draft->draft_number);
+        if ($previous_days_taken !== $draft->draft_completion_date) {
+            $draftsAfterCurrent = $currentUser->platinum->drafts->where('draft_number', '>', $draft->draft_number);
 
-        // put the $draft into the first position of the array above
-        $draftsAfterCurrent->prepend($draft);
+            // put the $draft into the first position of the array above
+            $draftsAfterCurrent->prepend($draft);
 
-        // for every element in the array $draftsAfterCurrent, starting from its second element
-        for ($i = 1; $i < $draftsAfterCurrent->count(); $i++) {
-            $carbonObject = Carbon::parse($draftsAfterCurrent[$i - 1]->draft_completion_date);
-            for ($j = 0; $j < $draftsAfterCurrent[$i]->draft_days_taken; $j++) {
-                $carbonObject = $carbonObject->addDay(1);
-                if ($carbonObject->dayOfWeek === 0) {
+            // for every element in the array $draftsAfterCurrent, starting from its second element
+            for ($i = 1; $i < $draftsAfterCurrent->count(); $i++) {
+                $carbonObject = Carbon::parse($draftsAfterCurrent[$i - 1]->draft_completion_date);
+                for ($j = 0; $j < $draftsAfterCurrent[$i]->draft_days_taken; $j++) {
                     $carbonObject = $carbonObject->addDay(1);
+                    if ($carbonObject->dayOfWeek === 0) {
+                        $carbonObject = $carbonObject->addDay(1);
+                    }
                 }
+                $draftsAfterCurrent[$i]->draft_completion_date = $carbonObject->format('Y-m-d');
+                $draftsAfterCurrent[$i]->save();
             }
-            $draftsAfterCurrent[$i]->draft_completion_date = $carbonObject->format('Y-m-d');
-            $draftsAfterCurrent[$i]->save();
         }
+
 
 
         return to_route('draft.show', ['draft' => $draft->id]);

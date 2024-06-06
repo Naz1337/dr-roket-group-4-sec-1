@@ -29,6 +29,9 @@ draftDateEl.addEventListener('change', function(event) {
 
     // get the min from the element
     const min = draftDateEl.min;
+    if (min === '') {
+        return;
+    }
 
     // using luxon, convert the min and the current date to DateTime object
     // and use for loop to count the amount of days between the two dates
@@ -55,6 +58,9 @@ daysTakenEl.addEventListener('change', function(event) {
     const daysTaken = daysTakenEl.value;
     // get the date of the min from the draftDateEl in the form of DateTime
     const min = draftDateEl.min;
+    if (min === '') {
+        return;
+    }
 
     // using for loop, loop for the amount of daysTaken and increment the date
     // by 1. if the date is sunday, increment it by 1 again.
