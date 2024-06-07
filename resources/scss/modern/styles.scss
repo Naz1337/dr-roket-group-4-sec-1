@@ -21,3 +21,8 @@
 @import 'utilities/background';
 
 @import 'pages/dashboard1';
+
+.logged-in-as {
+    color: tint-color($dark, 50%);
+    font-size: 0.875rem;
+}
