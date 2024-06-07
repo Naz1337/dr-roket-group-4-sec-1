@@ -46,9 +46,9 @@ Route::get('/home', function() {
 })->name('home');
 
 
-Route::get('/profile', function() {
-    return view('profile');
-})->name('profile');
+//Route::get('/profile', function() {
+//    return view('profile');
+//})->name('profile');
 
 Route::prefix('user')->group(function() {
     Route::get('/manage-user-profile', [UserProfileController::class,'manage_user_profile'])->name('manage-user-profile');
