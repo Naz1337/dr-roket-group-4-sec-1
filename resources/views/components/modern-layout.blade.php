@@ -47,6 +47,9 @@
 
             <x-nav-header>Progress Monitoring</x-nav-header>
             @if(auth()->user()->platinum !== null)
+                @if (auth()->user()->platinum->crmp !== null)
+                    <x-nav-item :href="route('view-profile-id', ['id' => auth()->user()->platinum->crmp->id])" icon="user">My CRMP</x-nav-item>
+                @endif
                 <x-nav-item :href="route('draft.index')" icon="edit">My Draft Progression</x-nav-item>
             @endif
             @if (auth()->user()->user_type === \App\Enums\Roles::getEnumValue('staff'))
