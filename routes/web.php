@@ -93,10 +93,10 @@ Route::prefix('/expert')->group(function () {
 })->middleware('auth');
 
 
-Route::prefix('/publication')->group(function () {
-    Route::get('/mypublication', [PublicationController::class, 'index'])->name('mypublication');
-    Route::get('/addpublication', [PublicationController::class, 'create'])->name('addpublication');
-    Route::post('/addpublication', [PublicationController::class, 'store'])->name('storepublication');
+Route::middleware('auth')->group(function() {
+    Route::get('/publications', [PublicationController::class, 'index'])->name('publications.index');
+    Route::post('/publications', [PublicationController::class, 'store'])->name('publications.store');
+    // Other routes...
 });
 
 Route::middleware(['auth'])->group(function () {

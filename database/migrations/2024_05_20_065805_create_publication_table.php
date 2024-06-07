@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Platinum;
+// use App\Models\ExpertDomain;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,19 +15,18 @@ return new class extends Migration
     {
         Schema::create('publications', function (Blueprint $table) {
             $table->id();
-            $table->string('authors' );
-            $table->string('title');
-            $table->date('published_date');
-            $table->string('type');
-            $table->string('volume');
-            $table->string('issues');
-            $table->string('pages');
-            $table->string('publisher');
-            $table->string('description');
-            $table->string('p_path');
-            $table->foreignId('expert_domain_id')->nullable();
-            $table->foreignId('platinum_id');
-            
+            $table->string('P_authors' );
+            $table->string('P_title');
+            $table->date('P_published_date');
+            $table->string('P_type');
+            $table->integer('P_volume');
+            $table->integer('P_issues');
+            $table->integer('P_pages');
+            $table->string('P_publisher');
+            $table->string('P_description');
+            $table->string('P_path');
+            $table->foreignIdFor(Platinum::class)->constrained();
+            // $table->foreignIdFor(expert::class)->constrained();
             $table->timestamps();
         });
     }

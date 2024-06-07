@@ -50,9 +50,9 @@ class Platinum extends Model
         return $this->hasMany(ExpertDomain::class, 'platinum_id');
     }
 
-    public function publications()
+    public function publications(): HasMany
     {
-        return $this->hasMany(Publication::class);
+        return $this->hasMany(Publication::class, 'platinum_id');
     }
 
     public function drafts()

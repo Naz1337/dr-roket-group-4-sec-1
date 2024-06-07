@@ -8,19 +8,19 @@
 
 <div class="mb-3">
     <label for="authors" class="form-label">Authors</label>
-    <input type="text" class="form-control" id="authors" name="authors" value="{{ old('authors', $publication->authors) }}" required>
+    <input type="text" class="form-control" id="authors" name="authors" value="{{  $publication->authors) }}" required>
 </div>
 <div class="mb-3">
     <label for="title" class="form-label">Title</label>
-    <input type="text" class="form-control" id="title" name="title" value="{{ old('title', $publication->title) }}" required>
+    <input type="text" class="form-control" id="title" name="title" value="{{  $publication->title) }}" required>
 </div>
 <div class="mb-3">
     <label for="publisheddate" class="form-label">Published Date</label>
-    <input type="date" class="form-control" id="publisheddate" name="publisheddate" value="{{ old('publisheddate', $publication->publisheddate) }}" required>
+    <input type="date" class="form-control" id="publisheddate" name="publisheddate" value="{{  $publication->publisheddate) }}" required>
 </div>
 <div class="mb-3">
     <label for="type" class="form-label">Type</label>
-    <input type="text" class="form-control" id="type" name="type" value="{{ old('type', $publication->type) }}" required>
+    <input type="text" class="form-control" id="type" name="type" value="{{  $publication->type) }}" required>
 </div>
 <div class="mb-3">
     <label for="description" class="form-label">Description</label>
