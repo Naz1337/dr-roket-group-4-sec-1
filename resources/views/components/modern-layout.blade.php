@@ -1,6 +1,7 @@
 @php
     use Illuminate\Support\Facades\Auth;
     use Illuminate\Support\Facades\Config;
+    use App\Enums\Roles;
 @endphp
 <!doctype html>
 <html lang="en">
@@ -25,7 +26,7 @@
         <!-- Sidebar Start -->
         <x-modern-sidebar>
             <div class="fw-bold logged-in-as" >
-                Logged in as: {{ ucwords(\App\Enums\Roles::getEnumKey(auth()->user()->user_type)) }}
+                Logged in as: {{ ucwords(Roles::getEnumKey(auth()->user()->user_type)) }}
             </div>
             <x-nav-header>User</x-nav-header>
             <x-nav-item href="{{ route('register-platinum') }}" icon="user-plus">Registration</x-nav-item>
@@ -41,13 +42,23 @@
             @endif
 
             <x-nav-header>Progress Monitoring</x-nav-header>
+
             @if(auth()->user()->platinum !== null)
+
                 @if (auth()->user()->platinum->crmp !== null)
                     <x-nav-item :href="route('view-profile-id', ['id' => auth()->user()->platinum->crmp->id])" icon="user">My CRMP</x-nav-item>
                 @endif
                 <x-nav-item :href="route('draft.index')" icon="edit">My Draft Progression</x-nav-item>
+
+
             @endif
-            @if (auth()->user()->user_type === \App\Enums\Roles::getEnumValue('staff'))
+
+            @if (auth()->user()->user_type === Roles::MENTOR ||
+                auth()->user()->user_type === Roles::PLATINUM && auth()->user()->platinum->is_crmp)
+                <x-nav-item href="https://google.com" icon="chart-line">Check Platinum Progress</x-nav-item>
+            @endif
+
+            @if (auth()->user()->user_type === Roles::STAFF)
                 <x-nav-item :href="route('crmp.index')" icon="user">Assign CRMP</x-nav-item>
             @endif
         </x-modern-sidebar>
