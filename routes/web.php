@@ -14,6 +14,7 @@ use App\Http\Controllers\ExpertDomainController;
 use App\Http\Controllers\PublicationController;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Http\Request;
+use App\Http\Controllers\CrmpController;
 
 Route::get('/dashboard', function () {
    return view('dashboard');
@@ -45,9 +46,9 @@ Route::get('/home', function() {
 })->name('home');
 
 
-Route::get('/profile', function() {
-    return view('profile');
-})->name('profile');
+//Route::get('/profile', function() {
+//    return view('profile');
+//})->name('profile');
 
 Route::prefix('user')->group(function() {
     Route::get('/manage-user-profile', [UserProfileController::class,'manage_user_profile'])->name('manage-user-profile');
@@ -100,7 +101,24 @@ Route::prefix('/publication')->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
+
     Route::resource('draft', DraftController::class)->middleware('role:platinum,mentor');
+
+    Route::middleware(['role:staff'])->group(function () {
+        Route::get('/crmp', [CrmpController::class, 'index'])->name('crmp.index');
+        Route::post('/crmp/{platinum}', [CrmpController::class, 'toggleCrmp'])
+            ->name('crmp.toggle_crmp');
+
+        Route::post('/crmp/unassign/{platinum}', [CrmpController::class, 'unassignCrmp'])
+            ->name('crmp.unassign_crmp');
+
+        Route::get('/crmp/assign/{platinum}', [CrmpController::class, 'assignCrmp'])
+            ->name('crmp.assign_crmp');
+        Route::post('/crmp/assign/{platinum}/{crmp}', [CrmpController::class, 'assignCrmp'])
+            ->name('crmp.assign_crmp_post');
+
+    });
+
 });
 
 
