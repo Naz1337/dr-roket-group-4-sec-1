@@ -104,21 +104,23 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('draft', DraftController::class)->middleware('role:platinum,mentor');
 
-    Route::middleware(['role:staff'])->group(function () {
-        Route::get('/crmp', [CrmpController::class, 'index'])->name('crmp.index');
-        Route::post('/crmp/{platinum}', [CrmpController::class, 'toggleCrmp'])
-            ->name('crmp.toggle_crmp');
+    Route::prefix('crmp')->group(function () {
+        Route::middleware(['role:staff'])->group(function () {
 
-        Route::post('/crmp/unassign/{platinum}', [CrmpController::class, 'unassignCrmp'])
-            ->name('crmp.unassign_crmp');
+            Route::get('/', [CrmpController::class, 'index'])->name('crmp.index');
+            Route::post('/{platinum}', [CrmpController::class, 'toggleCrmp'])
+                ->name('crmp.toggle_crmp');
 
-        Route::get('/crmp/assign/{platinum}', [CrmpController::class, 'assignCrmp'])
-            ->name('crmp.assign_crmp');
-        Route::post('/crmp/assign/{platinum}/{crmp}', [CrmpController::class, 'assignCrmp'])
-            ->name('crmp.assign_crmp_post');
+            Route::post('/unassign/{platinum}', [CrmpController::class, 'unassignCrmp'])
+                ->name('crmp.unassign_crmp');
 
+            Route::get('/assign/{platinum}', [CrmpController::class, 'assignCrmp'])
+                ->name('crmp.assign_crmp');
+            Route::post('/assign/{platinum}/{crmp}', [CrmpController::class, 'assignCrmp'])
+                ->name('crmp.assign_crmp_post');
+
+        });
     });
-
 });
 
 
