@@ -24,14 +24,9 @@
     @if(Auth::check() && !request()->routeIs('register'))
         <!-- Sidebar Start -->
         <x-modern-sidebar>
-            @php
-                echo match (Auth::user()->user_type) {
-                    Config::get('constants.user.platinum') => ('Platinum'),
-                    Config::get('constants.user.crmp') => ('CRMP'),
-                    Config::get('constants.user.staff') => ('Staff'),
-                    Config::get('constants.user.mentor') => ('Mentor'),
-                };
-            @endphp
+            <div class="fw-bold logged-in-as" >
+                Logged in as: {{ ucwords(\App\Enums\Roles::getEnumKey(auth()->user()->user_type)) }}
+            </div>
             <x-nav-header>User</x-nav-header>
             <x-nav-item href="{{ route('register-platinum') }}" icon="user-plus">Registration</x-nav-item>
             <x-nav-item href="{{ route('manage-user-profile') }}" icon="user-cog">Manage User Profile</x-nav-item>
@@ -47,6 +42,9 @@
 
             <x-nav-header>Progress Monitoring</x-nav-header>
             @if(auth()->user()->platinum !== null)
+                @if (auth()->user()->platinum->crmp !== null)
+                    <x-nav-item :href="route('view-profile-id', ['id' => auth()->user()->platinum->crmp->id])" icon="user">My CRMP</x-nav-item>
+                @endif
                 <x-nav-item :href="route('draft.index')" icon="edit">My Draft Progression</x-nav-item>
             @endif
             @if (auth()->user()->user_type === \App\Enums\Roles::getEnumValue('staff'))

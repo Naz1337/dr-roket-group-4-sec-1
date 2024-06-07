@@ -12,15 +12,21 @@ class Roles
     const MENTOR = 3;
 
     static function getEnumValue($role) {
-        switch ($role) {
-            case 'platinum':
-                return Roles::PLATINUM;
-            case 'staff':
-                return Roles::STAFF;
-            case 'mentor':
-                return Roles::MENTOR;
-            default:
-                return null;
-        }
+        return match ($role) {
+            'platinum' => Roles::PLATINUM,
+            'staff' => Roles::STAFF,
+            'mentor' => Roles::MENTOR,
+            default => null,
+        };
     }
+
+    static function getEnumKey($value) {
+        return match ($value) {
+            Roles::PLATINUM => 'platinum',
+            Roles::STAFF => 'staff',
+            Roles::MENTOR => 'mentor',
+            default => null,
+        };
+    }
+
 }
