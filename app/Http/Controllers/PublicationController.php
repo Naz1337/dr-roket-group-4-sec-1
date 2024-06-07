@@ -16,14 +16,14 @@ class PublicationController extends Controller
      */
     public function index()
     {
-        if (Auth::check()) 
-        {
+        if (Auth::check()) {
             $id = Auth::user()->getPlatinum()->id;
             $publications = Publication::where('platinum_id', $id)->get();
             return view('ManagePublication.mypublication', compact('publications'));
         }
         return Redirect::route('login');
     }
+
     public function showListPublication()
     {
         if (Auth::check()) {
@@ -39,7 +39,8 @@ class PublicationController extends Controller
      */
     public function create()
     {
-        
+        $id = Auth::user()->getPlatinum()->id;
+        return view('ManagePublication.myPublication');
     }
 
     /**
@@ -47,9 +48,7 @@ class PublicationController extends Controller
      */
     public function store(Request $request)
     {
-        \Log::info('Form Data:', $request->all());
-    dd($request->all());
-        $data=$request->validate([
+        $request->validate([
             'P_authors' => 'required|string',
             'P_title' => 'required|string',
             'P_published_date' => 'required|date',
@@ -61,43 +60,22 @@ class PublicationController extends Controller
             'P_description' => 'required|string',
             'P_path' => 'required|string',
         ]);
-        \Log::info('Validated Data:', $data);
-        $currentUser = Auth::user();
-        $publication = new Publication();
-        $publication->platinum_id = $currentUser->getPlatinum()->id;
-        $publication->P_authors = $data['P_authors'];
-        $publication->P_title = $data['P_title'];
-        $publication->P_published_date = $data ['P_published_date'];
-        $publication->P_type = json_encode($data['P_type']); // Save as JSON
-        $publication->P_volume = $data ['P_volume'];
-        $publication->P_issue = $data ['P_issue'];
-        $publication->P_pages = $data['P_pages'];
-        $publication->P_publisher = $data['P_publisher'];
-        $publication->P_description = $data ['P_description'];
-        $publication->P_path = $data['P_path'];
-        // $publication->platinum_id = Auth::user()->getPlatinum()->id;
-        $publication->save();
-        \Log::info('Publication:', $publication);
-            // Check if publication is saved
-            if ($publication->save()) {
-                \Log::info('Publication saved:', $publication->toArray());
-                return redirect()->route('publications.index')->with('success', 'Publication created successfully.');
-            } else {
-                \Log::error('Failed to save spublication');
-                return back()->with('error', 'Failed to create publication.');
-            }
-    }
 
-    
+        $publication = new Publication($request->all());
+        $publication->platinum_id = Auth::user()->getPlatinum()->id;
+        $publication->save();
+
+        return redirect()->route('mypublication')->with('success', 'Publication created successfully.');
+    }
 
     /**
      * Display the specified resource.
      */
-    // public function show(string $id)
-    // {
-    //     $publication = Publication::findOrFail($id);
-    //     return view('publications.show', compact('publication'));
-    // }
+    public function show(string $id)
+    {
+        $publication = Publication::findOrFail($id);
+        return view('publications.show', compact('publication'));
+    }
 
     /**
      * Show the form for editing the specified resource.
