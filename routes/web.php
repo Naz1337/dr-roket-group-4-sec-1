@@ -120,6 +120,11 @@ Route::middleware(['auth'])->group(function () {
                 ->name('crmp.assign_crmp_post');
 
         });
+
+        Route::middleware(['role:platinum,mentor'])->group(function () {
+            Route::get('/my-platinums', [CrmpController::class, 'myPlatinums'])
+                ->name('crmp.my_platinums');
+        });
     });
 });
 

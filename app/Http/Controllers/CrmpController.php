@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Roles;
 use App\Models\Platinum;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CrmpController extends Controller
 {
@@ -31,6 +33,11 @@ class CrmpController extends Controller
     public function toggleCrmp(Platinum $platinum) {
         $platinum->is_crmp = ! $platinum->is_crmp;
         $platinum->save();
+
+        if (!$platinum->is_crmp) {
+            Platinum::where('assigned_crmp_id', $platinum->id)->update(['assigned_crmp_id' => null]);
+        }
+
         return to_route('crmp.index');
     }
 
@@ -64,5 +71,20 @@ class CrmpController extends Controller
         $platinum->assigned_crmp_id = $crmp->id;
         $platinum->save();
         return to_route('view-profile-id', ['id' => $platinum->user_id]);
+    }
+
+    public function myPlatinums() {
+        $isMentor = Auth::user()->user_type === Roles::MENTOR;
+
+        if ($isMentor) {
+            $platinums = Platinum::where('is_crmp', true)->get();
+        }
+        else {
+            $platinums = Platinum::where('assigned_crmp_id', Auth::user()->id)->get();
+        }
+
+        return view('crmp.my_platinums', [
+            'platinums' => $platinums
+        ]);
     }
 }

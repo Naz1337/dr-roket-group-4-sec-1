@@ -55,7 +55,7 @@
 
             @if (auth()->user()->user_type === Roles::MENTOR ||
                 auth()->user()->user_type === Roles::PLATINUM && auth()->user()->platinum->is_crmp)
-                <x-nav-item href="https://google.com" icon="chart-line">Check Platinum Progress</x-nav-item>
+                <x-nav-item :href="route('crmp.my_platinums')" icon="chart-line">Check Platinum Progress</x-nav-item>
             @endif
 
             @if (auth()->user()->user_type === Roles::STAFF)
