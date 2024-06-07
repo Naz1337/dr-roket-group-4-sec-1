@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Platinum;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CrmpController extends Controller
@@ -31,5 +32,37 @@ class CrmpController extends Controller
         $platinum->is_crmp = ! $platinum->is_crmp;
         $platinum->save();
         return to_route('crmp.index');
+    }
+
+    public function unassignCrmp(Platinum $platinum) {
+        $platinum->assigned_crmp_id = null;
+        $platinum->save();
+        return to_route('view-profile-id', ['id' => $platinum->user_id]);
+    }
+
+    public function assignCrmp(Request $request, Platinum $platinum, User $crmp = null) {
+        if ($request->isMethod('GET')) {
+            $query = request()->input('query', '');
+            if ($query !== '') {
+                $query = substr($query, 0, 50);
+                $crmps = Platinum::where(function ($q) use ($query) {
+                    $q->where('plat_name', 'like', "%$query%")
+                        ->orWhere('plat_email', 'like', "%$query%");
+                })->where('is_crmp', true)->get();
+            }
+            else {
+                $crmps = Platinum::where('is_crmp', true)->get();
+            }
+
+            return view('crmp.assign', [
+                'platinum1' => $platinum,
+                'crmps' => $crmps,
+                'query' => $query
+            ]);
+        }
+
+        $platinum->assigned_crmp_id = $crmp->id;
+        $platinum->save();
+        return to_route('view-profile-id', ['id' => $platinum->user_id]);
     }
 }

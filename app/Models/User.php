@@ -67,4 +67,9 @@ class User extends Authenticatable
     {
         return $this->user_type == Config::get('constants.user.staff') ? $this->userProfile : null;
     }
+
+    public function assigned_platinums()
+    {
+        return $this->hasMany(Platinum::class, 'assigned_crmp_id');
+    }
 }

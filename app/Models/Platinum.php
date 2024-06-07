@@ -60,4 +60,14 @@ class Platinum extends Model
         return $this->hasMany(Draft::class);
     }
 
+    public function crmp()
+    {
+        return $this->belongsTo(User::class, 'assigned_crmp_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }
