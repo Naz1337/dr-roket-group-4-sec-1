@@ -1,3 +1,26 @@
+@section('scripts')
+    <script type="module">
+        $(document).ready(function () {
+            //$("#imagePreview").hide();
+            $("#{{ "expert_domain_image" }}").on("change",function(e){
+                var arrTemp = this.value.split('\\');
+                document.getElementById("imagePreview").value = arrTemp[arrTemp.length - 1];
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#imagePreview').attr('src', e.target.result);
+                        $('#imagePreview').show();
+                    }
+
+                    reader.readAsDataURL(this.files[0]);
+                    $("#imagePreview").show();
+                }
+            });
+        })
+    </script>
+@stop
+
+
 <x-modern-layout>
     <div class="p-3 bg-white h-100 content">
         {{-- <div class="row-1 p-2">
@@ -9,13 +32,13 @@
         <div class="row p-3 bg bg-light border-top border-end border-start border-1 border-black ">
             <div class="col-3">
                 <div class="row h-100 p-3 border border-1 border-dark">
-                    <img class="h-100 w-50" src="#" alt="Image Uploaded">
+                    <img id="imagePreview" class="h-100 w-50" src="{{ Storage::url($expert->expert_domain_image) }}" alt="Image Uploaded">
                 </div>
             </div>
             <div class="col">
                 <div class="row p-3">
                     <label class="form form-label">Expert Image:</label>
-                    <input class="form form-control" type="text" value="{{ base64_encode($expert->expert_domain_image) }}" readonly>
+                    <input class="form form-control" type="text" value="{{ $expert->expert_domain_image }}" readonly>
                 </div>
                 <div class="row p-3">
                     <label class="form form-label">Name:</label>
@@ -53,7 +76,7 @@
             </div>
             <div class="col-3 p-3 d-flex justify-content-end">
                 <a href=" {{ route('edit-expert.id', $expert->id) }}" type="button" class="btn btn-primary mx-3">Edit Profile</a>
-                <a href=" {{ route('delete-expert.id', $expert->id) }}" onclick="return confirm('Are you sure?')" type="button" class="btn btn-danger">Delete Profile</a>
+                <a href="{{ route('delete-expert.id', $expert->id) }}" onclick="return confirm('Are you sure?')" type="button" class="btn btn-danger">Delete Profile</a>
             </div>
         </div>
 

@@ -87,7 +87,8 @@ class ExpertDomainController extends Controller
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imageData = file_get_contents($image->getRealPath());
+            $imageName = uniqid().'.'.$image->getClientOriginalExtension();
+            $imagePath = $image->storeAs('expert_photos', $imageName, 'public');
         }
 
         $ed = new ExpertDomain;
@@ -97,7 +98,7 @@ class ExpertDomainController extends Controller
         $ed->expert_domain_affiliation = $request->affiliation;
         $ed->expert_domain_research_title = $request->research;
         $ed->expert_domain_designation = implode(',', (array) $request->designation);
-        $ed->expert_domain_image = $imageData;
+        $ed->expert_domain_image = $imagePath;
         $ed->platinum_id = Auth::user()->getPlatinum()->id;
         $ed->save();
 
@@ -153,7 +154,7 @@ class ExpertDomainController extends Controller
     public function destroy(ExpertDomain $expertDomain, string $id)
     {
         $ed = $expertDomain->findorFail($id);
-        $ed->destroy();
+        $ed->delete();
 
         return Redirect::route('my-expert');
     }

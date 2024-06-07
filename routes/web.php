@@ -81,7 +81,7 @@ Route::prefix('/expert')->group(function () {
     Route::get('/edit-expert/{id}', [ExpertDomainController::class, 'edit']
     )->name('edit-expert.id');
 
-    Route::post('/delete-expert/{id}', [ExpertDomainController::class, 'delete']
+    Route::get('/delete-expert/{id}', [ExpertDomainController::class, 'destroy']
     )->name('delete-expert.id');
 
     Route::get('/uploadexpertpublic', function() {
