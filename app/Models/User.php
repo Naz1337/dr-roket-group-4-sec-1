@@ -73,4 +73,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Platinum::class, 'assigned_crmp_id');
     }
+
+    public function user_profile()
+    {
+        return $this->hasOne(UserProfile::class);
+    }
 }
