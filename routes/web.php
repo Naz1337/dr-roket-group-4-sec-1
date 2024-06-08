@@ -124,6 +124,10 @@ Route::middleware(['auth'])->group(function () {
         Route::middleware(['role:platinum,mentor'])->group(function () {
             Route::get('/my-platinums', [CrmpController::class, 'myPlatinums'])
                 ->name('crmp.my_platinums');
+            Route::get('/my-platinums/{platinum}/drafts', [CrmpController::class, 'viewDraftProgress'])
+                ->name('crmp.view_draft_progress');
+            Route::post('/my-platinums/feedback/{type}/{platinum}', [CrmpController::class, 'feedback'])
+                ->name('crmp.feedback');
         });
     });
 });

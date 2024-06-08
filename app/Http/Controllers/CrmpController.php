@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Roles;
+use App\Models\Draft;
+use App\Models\FeedbackMessage;
 use App\Models\Platinum;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -86,5 +89,47 @@ class CrmpController extends Controller
         return view('crmp.my_platinums', [
             'platinums' => $platinums
         ]);
+    }
+
+    public function viewDraftProgress(Platinum $platinum)
+    {
+        $platinumId = $platinum->id;
+        $earliestDraft = Draft::where('platinum_id', $platinumId)->orderBy('draft_completion_date', 'asc')->first();
+
+        if ($earliestDraft !== null) {
+            $carbonObject = Carbon::parse($earliestDraft->draft_completion_date);
+            for ($i = 0; $i < $earliestDraft->draft_days_taken; $i++) {
+                $carbonObject = $carbonObject->subDay(1);
+                if ($carbonObject->dayOfWeek == 0)
+                    $carbonObject = $carbonObject->subDay(1);
+            }
+            $formattedDate = $carbonObject->format('d F Y');
+        } else {
+            $formattedDate = 'None!';
+        }
+
+        return view('crmp.draft_progress', [
+            'platinum' => $platinum,
+            'firstStartDate' => $formattedDate,
+            'drafts' => Draft::where('platinum_id', $platinumId)->get()
+        ]);
+    }
+
+    public function feedback(Request $request, String $type, Platinum $platinum )
+    {
+        $rules = [
+            'feedback' => 'required|string|max:255'
+        ];
+
+        $validated = $request->validate($rules);
+
+        $platinum->feedbackMessages()->create([
+            'message' => $validated['feedback'],
+            'type' => $type,
+            'user_id' => Auth::id()
+        ]);
+
+        // return them to where they come from
+        return back();
     }
 }

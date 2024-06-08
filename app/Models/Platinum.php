@@ -35,4 +35,9 @@ class Platinum extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function feedbackMessages(): HasMany
+    {
+        return $this->hasMany(FeedbackMessage::class);
+    }
+
 }

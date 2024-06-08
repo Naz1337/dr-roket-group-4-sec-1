@@ -23,8 +23,8 @@
                                     </div>
                                 </div>
                                 <div class="card-footer d-flex justify-content-center gap-3 align-items-center">
-                                    <button class="btn btn-outline-secondary">Draft Progress</button>
-                                    <button class="btn btn-outline-secondary">Weekly Focus</button>
+                                    <a class="btn btn-outline-secondary" href="{{ route('crmp.view_draft_progress', ['platinum' => $platinum]) }}">Draft Progress</a>
+                                    <a class="btn btn-outline-secondary">Weekly Focus</a>
                                 </div>
                             </div>
                         </div>
