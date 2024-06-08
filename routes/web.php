@@ -94,11 +94,15 @@ Route::prefix('/expert')->group(function () {
 })->middleware('auth');
 
 
-Route::middleware('auth')->group(function() {
-    Route::get('/publications', [PublicationController::class, 'index'])->name('publications.index');
-    Route::post('/publications', [PublicationController::class, 'store'])->name('publications.store');
-    // Other routes...
-});
+Route::prefix('/publication')->group(function () {
+    Route::get('/addpublications', [PublicationController::class, 'create'])->name('addpublication');
+    Route::post('/savepublications', [PublicationController::class, 'store'])->name('savepublication');
+    Route::get('/editpublication/{id}', [PublicationController::class, 'edit'])->name('editpublication');
+    Route::get('/mypublications', [PublicationController::class, 'index'])->name('mypublication');
+    Route::delete('/deletepublications/{id}', [PublicationController::class, 'destroy'])->name('deletepublication');
+    Route::put('/updatepublication/{id}', [PublicationController::class, 'update'])->name('updatepublication');
+    Route::get('/viewpublication/{id}', [PublicationController::class, 'show'])->name('viewpublication');
+})->middleware('auth');
 
 Route::middleware(['auth'])->group(function () {
 

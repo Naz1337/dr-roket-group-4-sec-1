@@ -19,28 +19,18 @@ class PublicationController extends Controller
         if (Auth::check()) {
             $id = Auth::user()->getPlatinum()->id;
             $publications = Publication::where('platinum_id', $id)->get();
-            return view('ManagePublication.mypublication', compact('publications'));
+            return view('ManagePublication.myPublication', compact('publications'));
         }
         return Redirect::route('login');
     }
 
-    public function showListPublication()
-    {
-        if (Auth::check()) {
-            $listexperts = ExpertDomain::all();
-            return view('ManagePublication.listExpertDomain', compact('listexperts'));
-        } else {
-            return Redirect::route('login');
-        }
-    }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        $id = Auth::user()->getPlatinum()->id;
-        return view('ManagePublication.myPublication');
+        return view('ManagePublication/AddPublication');
     }
 
     /**
@@ -48,11 +38,12 @@ class PublicationController extends Controller
      */
     public function store(Request $request)
     {
+        $currentUser = Auth::user();
         $request->validate([
             'P_authors' => 'required|string',
             'P_title' => 'required|string',
             'P_published_date' => 'required|date',
-            'P_type' => 'required|integer',
+            'P_type' => 'required|string', // Ensure this matches your input type
             'P_volume' => 'required|integer',
             'P_issues' => 'required|integer',
             'P_pages' => 'required|integer',
@@ -61,20 +52,38 @@ class PublicationController extends Controller
             'P_path' => 'required|string',
         ]);
 
-        $publication = new Publication($request->all());
-        $publication->platinum_id = Auth::user()->getPlatinum()->id;
-        $publication->save();
+       
+            $publication = new Publication;
+            $publication->platinum_id = $currentUser->getPlatinum()->id;
+            $publication->P_authors = $request['P_authors'];
+            $publication->P_title = $request['P_title'];
+            $publication->P_published_date = $request['P_published_date'];
+            $publication->P_type = $request['P_type'];
+            $publication->P_volume = $request['P_volume'];
+            $publication->P_issues = $request['P_issues'];
+            $publication->P_pages = $request['P_pages'];
+            $publication->P_publisher = $request['P_publisher'];
+            $publication->P_description = $request['P_description'];
+            $publication->P_path = $request['P_path'];
+            $publication->save();
 
-        return redirect()->route('mypublication')->with('success', 'Publication created successfully.');
+            return redirect()->route('mypublication')->with('success', 'Publication created successfully.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Publication $publication, string $id)
     {
-        $publication = Publication::findOrFail($id);
-        return view('publications.show', compact('publication'));
+        if(Auth::check())
+        {
+            $publication = Publication::findOrFail($id); 
+        }
+        else
+        {
+            return Redirect::route('login');
+        }
+        return view('ManagePublication.ViewPublication', compact('publication'));
     }
 
     /**
@@ -85,19 +94,19 @@ class PublicationController extends Controller
         $publication = Publication::findOrFail($id);
         $expertDomains = ExpertDomain::all();
         $platinums = Platinum::all();
-        return view('publications.edit', compact('publication', 'expertDomains', 'platinums'));
+        return view('ManagePublication.EditPublication', compact('publication'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Publication $publication)
+   public function update(Request $request, string $id)
     {
         $request->validate([
             'P_authors' => 'required|string',
             'P_title' => 'required|string',
             'P_published_date' => 'required|date',
-            'P_type' => 'required|integer',
+            'P_type' => 'required|string',
             'P_volume' => 'required|integer',
             'P_issues' => 'required|integer',
             'P_pages' => 'required|integer',
@@ -106,18 +115,26 @@ class PublicationController extends Controller
             'P_path' => 'required|string',
         ]);
 
+        $publication = Publication::findOrFail($id);
+
         $publication->update($request->all());
 
         return Redirect::route('mypublication')->with('success', 'Publication updated successfully.');
     }
-
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Publication $publication)
+    public function destroy( Publication $publication, string $id)
     {
+        $publication = Publication::findOrFail($id);
+
+    // Check if the authenticated user owns the publication
+    if (Auth::user()->getPlatinum()->id === $publication->platinum_id) {
         $publication->delete();
         return Redirect::route('mypublication')->with('success', 'Publication deleted successfully.');
     }
+
+    return Redirect::route('mypublication')->with('error', 'You are not authorized to delete this publication.');
+}
     
 }

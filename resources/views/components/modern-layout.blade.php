@@ -37,7 +37,7 @@
                 <x-nav-item href="{{ route('list-expert') }}" icon="certificate">Expert Domain List</x-nav-item>
 
                 <x-nav-header>Publication</x-nav-header>
-                <x-nav-item href="{{ route('publications.index') }}" icon="script">Manage Publication Data</x-nav-item>
+                <x-nav-item href="{{ route('mypublication') }}" icon="script">Manage Publication</x-nav-item>
             @endif
 
             <x-nav-header>Progress Monitoring</x-nav-header>

@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Publication extends Model
 {
     use HasFactory;
-
+    
+    protected $guarded = ['id'];
     protected $fillable = [
         'P_authors', 
         'P_title', 
@@ -24,10 +25,10 @@ class Publication extends Model
         ];    
 
      
-    public function expertDomain()
-    {
-        return $this->belongsTo(ExpertDomain::class);
-    }
+    // public function expertDomain()
+    // {
+    //     return $this->belongsTo(ExpertDomain::class);
+    // }
 
     public function platinum()
     {
