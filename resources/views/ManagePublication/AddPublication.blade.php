@@ -59,15 +59,10 @@
                     <div class="row p-3">
                         <div class="col">
                             <label for="link" class="form-label">DOI:</label>
-                            <input class="form-control" placeholder="Publication DOI" type="text" name="P_dois[]" id="link" required>
+                            <input class="form-control" placeholder="Publication DOI" type="text" name="P_path" id="link" required>
                         </div>
                     </div>
-                    <div id="additional-dois"></div>
-                    <div class="row p-3">
-                        <div class="col">
-                            <button type="button" class="btn btn-secondary" onclick="addDoiField()">Add Another DOI</button>
-                        </div>
-                    </div>
+                   
                     <div class="row p-3">
                         <div class="col">
                             <label for="description" class="form-label">Description:</label>
@@ -86,17 +81,5 @@
         </div>
     </div>
 
-    <script>
-        function addDoiField() {
-            var container = document.getElementById('additional-dois');
-            var div = document.createElement('div');
-            div.classList.add('row', 'p-3');
-            div.innerHTML = `
-                <div class="col">
-                    <label for="link" class="form-label">DOI:</label>
-                    <input class="form-control" placeholder="Publication DOI" type="text" name="P_dois[]" required>
-                </div>`;
-            container.appendChild(div);
-        }
-    </script>
+ 
 </x-modern-layout>
