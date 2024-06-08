@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Database\Seeders\UserSeeder;
 use Database\Seeders\PlatinumSeeder;
 use Database\Seeders\UserProfileSeeder;
+use Database\Seeders\SanestSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,6 +19,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             UserProfileSeeder::class,
             PlatinumSeeder::class,
+            SanestSeeder::class
         ]);
     }
 }

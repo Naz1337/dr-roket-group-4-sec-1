@@ -40,9 +40,11 @@
                 </tfoot>
             </table>
 
-            <div class="d-flex gap-2 justify-content-md-start justify-content-center">
+            <div class="d-flex gap-2 justify-content-md-start justify-content-center mb-4">
                 <a href="{{ route('draft.create') }}" class="btn btn-primary">Upload Draft</a>
             </div>
+
+            <x-feedback-component :platinumId="auth()->user()->platinum->id" />
         </div>
     </div>
 </x-modern-layout>
