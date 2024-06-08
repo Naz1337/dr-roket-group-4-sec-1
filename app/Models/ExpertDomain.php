@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ExpertDomain extends Model
 {
@@ -28,4 +29,5 @@ class ExpertDomain extends Model
     {
         return $this->belongsTo(Platinum::class, 'platinum_id');
     }
+    
 }

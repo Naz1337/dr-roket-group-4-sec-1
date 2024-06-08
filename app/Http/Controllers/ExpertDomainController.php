@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\ExpertDomain;
 use App\Http\Requests\StoreExpertDomainRequest;
 use App\Http\Requests\UpdateExpertDomainRequest;
-use App\Models\Platinum;
 use App\Models\Publication;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -54,14 +53,6 @@ class ExpertDomainController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Show the form for creating a new resource.
      */
     public function create()
@@ -83,6 +74,8 @@ class ExpertDomainController extends Controller
         // ]);
         
         // dd($request->name);
+
+
         $imageData = null;
 
         if ($request->hasFile('image')) {
@@ -115,7 +108,9 @@ class ExpertDomainController extends Controller
             // dd($expertDomain);
             $expert = $expertDomain->findorFail($id);
             // dd($expert);
-            $publications = Publication::where('expert_id', $id);
+            $publications = Publication::where('expert_domain_id', '=', $id)->get();
+
+            // dd($publications);
         }
         else
         {
@@ -143,9 +138,36 @@ class ExpertDomainController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateExpertDomainRequest $request, ExpertDomain $expertDomain)
+    public function update(UpdateExpertDomainRequest $request, ExpertDomain $expertDomain, string $id)
     {
-        //
+        if(Auth::check())
+        {
+            $ed = $expertDomain->findorFail($id);
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = uniqid().'.'.$image->getClientOriginalExtension();
+                $imagePath = $image->storeAs('expert_photos', $imageName, 'public');
+            }
+            else
+            {
+                $imagePath = $ed->expert_domain_image;
+            }
+            
+            $ed->expert_domain_names = $request->name;
+            $ed->expert_domain_emails = $request->email;
+            $ed->expert_domain_phonenumbers = $request->phonenum;
+            $ed->expert_domain_affiliation = $request->affiliation;
+            $ed->expert_domain_research_title = $request->research;
+            $ed->expert_domain_designation = implode(',', (array) $request->designation);
+            $ed->expert_domain_image = $imagePath;
+
+            $ed->save();
+        }
+        else
+        {
+            return Redirect::route('login');
+        }
+        return Redirect::route('view-expert.id', $id);
     }
 
     /**
@@ -157,5 +179,15 @@ class ExpertDomainController extends Controller
         $ed->delete();
 
         return Redirect::route('my-expert');
+    }
+
+    public function addpublication(string $id)
+    {
+        return view('ManageExpertDomain/uploadExpertPublication', ["id" => $id]);
+    }
+
+    public function publication(string $id)
+    {
+
     }
 }

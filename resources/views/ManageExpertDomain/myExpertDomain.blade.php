@@ -38,7 +38,7 @@
             @foreach ($myexperts as $expert)
                 <div class="row p-3 m-1 border border-1 border-dark">
                     <div class="col-2 p-2">
-                        <img alt="Lecturer Image" src="{{ $expert->expert_domain_image }}" class="h-100 w-100">
+                        <img alt="Lecturer Image" src="{{ Storage::url($expert->expert_domain_image) }}" class="h-100 w-100">
                     </div>
                     <div class="col p-2">
                         <p>
