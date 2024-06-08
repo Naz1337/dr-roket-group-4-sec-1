@@ -4,6 +4,7 @@ use App\Http\Controllers\DraftController;
 use App\Http\Controllers\PlatinumController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\WeeklyFocusController;
 use App\Http\Middleware\EnsureUserStaffMentor;
 use App\Models\UserProfile;
 use Illuminate\Support\Facades\Auth;
@@ -41,9 +42,9 @@ Route::get('/logout', [UserController::class,'logout'])->name('logout');
 Route::get('/app', [DummyController::class, 'show']);
 
 
-Route::get('/home', function() {
-    return view('home');
-})->name('home');
+//Route::get('/home', function() {
+//    return view('home');
+//})->name('home');
 
 
 //Route::get('/profile', function() {
@@ -63,30 +64,40 @@ Route::prefix('user')->group(function() {
 })->middleware('auth');
 
 Route::prefix('/expert')->group(function () {
+    //My Expert List
     Route::get('/my-expert', [ExpertDomainController::class, 'showMyExpert'])
     ->name('my-expert');
 
+    //All Expert List
     Route::get('/list-expert', [ExpertDomainController::class, 'showListExpert']
     )->name('list-expert');
 
+    //Add my expert
     Route::get('/addexpert', [ExpertDomainController::class, 'create']
     )->name('addprofile');
 
+    //Store my expert
     Route::post('/addexpert', [ExpertDomainController::class, 'store']
     )->name('createprofile');
 
+    //Show expert
     Route::get('/view-expert/{id}', [ExpertDomainController::class, 'show']
     )->name('view-expert.id');
 
     Route::get('/edit-expert/{id}', [ExpertDomainController::class, 'edit']
     )->name('edit-expert.id');
 
+    Route::post('/update-expert/{id}', [ExpertDomainController::class, 'update']
+    )->name('update-expert.id');
+
     Route::get('/delete-expert/{id}', [ExpertDomainController::class, 'destroy']
     )->name('delete-expert.id');
 
-    Route::get('/uploadexpertpublic', function() {
-        return view('ManageExpertDomain/uploadExpertPublication');
-    })->name('uploadexpertpublic');
+    Route::get('/upload-expert-publication/{id}', [ExpertDomainController::class, 'addpublication']
+    )->name('upload-expert-publication.id');
+
+    Route::post('/create-expert-publication/{id}', [ExpertDomainController::class, 'publication']
+    )->name('create-expert-publication.id');
 
     Route::get('/generatereport', [ExpertDomainController::class, 'generateReport']
     )->name('generatereport');
@@ -108,7 +119,7 @@ Route::prefix('/publication')->group(function () {
 
 Route::middleware(['auth'])->group(function () {
 
-    Route::resource('draft', DraftController::class)->middleware('role:platinum,mentor');
+    Route::resource('draft', DraftController::class)->middleware('role:platinum');
 
     Route::prefix('crmp')->group(function () {
         Route::middleware(['role:staff'])->group(function () {
@@ -136,6 +147,8 @@ Route::middleware(['auth'])->group(function () {
                 ->name('crmp.feedback');
         });
     });
+
+    Route::resource('weekly-focus', WeeklyFocusController::class)->middleware('role:platinum');
 });
 
 

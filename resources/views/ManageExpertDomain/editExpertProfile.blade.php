@@ -1,11 +1,33 @@
+@section('scripts')
+    <script type="module">
+        $(document).ready(function () {
+            //$("#imagePreview").hide();
+            $("#{{ "expert_domain_image" }}").on("change",function(e){
+                var arrTemp = this.value.split('\\');
+                document.getElementById("imagePreview").value = arrTemp[arrTemp.length - 1];
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#imagePreview').attr('src', e.target.result);
+                        $('#imagePreview').show();
+                    }
+
+                    reader.readAsDataURL(this.files[0]);
+                    $("#imagePreview").show();
+                }
+            });
+        })
+    </script>
+@stop
 <x-modern-layout>
     <div class="p-3 bg-white h-100 content">
         {{-- Page Content --}}
-        <form action="#" method="POST">
+        <form action="{{ route('update-expert.id', $expert->id) }}" method="post">
+            @csrf
             <div class="row p-3 bg bg-light border-top border-end border-start border-1 border-black ">
                 <div class="col-3">
                     <div class="row h-100 p-3 border border-1 border-dark">
-                        <img class="h-100 w-50" src="#" alt="Image Uploaded">
+                        <img class="h-100 w-50" src="{{ Storage::url($expert->expert_domain_image) }}" alt="Image Uploaded" accept="">
                     </div>
                 </div>
                 <div class="col">
@@ -41,26 +63,26 @@
                     <div class="row p-3">
                         <div class="col">
                             <label class="form form-label">Name:</label>
-                            <input class="form form-control" value="{{ $expert->expert_domain_names }}" type="text">
+                            <input class="form form-control" value="{{ $expert->expert_domain_names }}" type="text" name="name">
                         </div>
                         <div class="col">
                             <label class="form form-label">Email:</label>
-                            <input class="form form-control" type="email" value="{{ $expert->expert_domain_emails }}">
+                            <input class="form form-control" type="email" value="{{ $expert->expert_domain_emails }} " name="email">
                         </div>
                     </div>
                     <div class="row p-3">
                         <div class="col">
                             <label class="form form-label">Phone Number:</label>
-                            <input class="form form-control" type="text" value="{{ $expert->expert_domain_phonenumbers }}">
+                            <input class="form form-control" type="text" value="{{ $expert->expert_domain_phonenumbers }}" name="phonenum">
                         </div>
                         <div class="col">
                             <label class="form form-label">Affiliation:</label>
-                            <input class="form form-control" type="text" value="{{ $expert->expert_domain_affiliation }}" >
+                            <input class="form form-control" type="text" value="{{ $expert->expert_domain_affiliation }}" name="affiliation">
                         </div>
                     </div>
                     <div class="row p-3">
                         <label class="form form-label">Area of Expertise:</label>
-                        <input class="form form-control" type="text" value="{{ $expert->expert_domain_research_title }}" >
+                        <input class="form form-control" type="text" value="{{ $expert->expert_domain_research_title }}" name="research">
                     </div>
                 </div>
             </div>
@@ -69,7 +91,7 @@
                     <a href="{{ route('view-expert.id', $expert->id) }}" type="button" class="btn btn-primary">Back</a>
                 </div>
                 <div class="col p-3 d-flex justify-content-end">
-                    <a href="#" type="submit" class="btn btn-primary">Edit Profile</a>
+                    <button type="submit" class="btn btn-primary">Edit Profile</button>
                 </div>
                 <div class="col-1 p-3 d-flex justify-content-end">
                     <a href=" {{ route('view-expert.id', $expert->id) }} " type="button" class="btn btn-danger">Cancel</a>

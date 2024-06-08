@@ -1,26 +1,3 @@
-@section('scripts')
-    <script type="module">
-        $(document).ready(function () {
-            //$("#imagePreview").hide();
-            $("#{{ "expert_domain_image" }}").on("change",function(e){
-                var arrTemp = this.value.split('\\');
-                document.getElementById("imagePreview").value = arrTemp[arrTemp.length - 1];
-                if (this.files && this.files[0]) {
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        $('#imagePreview').attr('src', e.target.result);
-                        $('#imagePreview').show();
-                    }
-
-                    reader.readAsDataURL(this.files[0]);
-                    $("#imagePreview").show();
-                }
-            });
-        })
-    </script>
-@stop
-
-
 <x-modern-layout>
     <div class="p-3 bg-white h-100 content">
         {{-- <div class="row-1 p-2">
@@ -42,7 +19,7 @@
                 </div>
                 <div class="row p-3">
                     <label class="form form-label">Name:</label>
-                    <input class="form form-control" type="text" value="{{ $expert->expert_domain_names }}" readonly>
+                    <input class="form form-control" type="text" value="{{ str_replace(',', ' ',$expert->expert_domain_designation) . ' ' .$expert->expert_domain_names }}" readonly>
                 </div>
             </div>
         </div>
@@ -88,37 +65,47 @@
                 {{-- An empty box --}}
             </div>
             <div class="p-3 col col-3 col-sm-3 col-md-2 col-lg-2 col-xl-2">
-                <a href=" {{ route('uploadexpertpublic') }} " class=" p-3 btn btn-primary">Upload Articles</a>
+                <a href=" {{ route('upload-expert-publication.id', $expert->id) }} " class=" p-3 btn btn-primary">Upload Articles</a>
             </div>
         </div>
         <div class=" row p-3 bg bg-light border-bottom border-end border-start border-1  border-black">
             <div class="col">
-                @foreach ($publications as $publication)
+                @if (!$publications->isEmpty())
+                    @foreach ($publications as $publication)
+                        <div class="row p-3 m-3 border border-1 border-black">
+                            <div class="col border border-1 border-black ">
+                                <div class="row p-3 m-3">
+                                    <p>Title: Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                        Eaque laudantium error esse, perspiciatis facere commodi eum, 
+                                        voluptas quia dolore quisquam sit vel maxime nostrum dolor atque
+                                        officiis modi officia dolores?</p>
+                                </div>
+                                <div class="row p-3 m-3">
+                                    <p>
+                                        Type: Journal
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-3 border border-1 border-black ">
+                                <div class="row p-1 m-1">
+                                    <a class="btn btn-primary">Edit Articles</a>    
+                                </div>
+                                <div class="row p-1 m-1">
+                                    <a class="btn btn-danger">Delete Articles</a>
+                                </div>
+                                
+                            </div>
+                        </div>   
+                    @endforeach
+                @else
                     <div class="row p-3 m-3 border border-1 border-black">
-                        <div class="col border border-1 border-black ">
+                        <div class="col border border-1 border-black">
                             <div class="row p-3 m-3">
-                                <p>Title: Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                    Eaque laudantium error esse, perspiciatis facere commodi eum, 
-                                    voluptas quia dolore quisquam sit vel maxime nostrum dolor atque
-                                    officiis modi officia dolores?</p>
-                            </div>
-                            <div class="row p-3 m-3">
-                                <p>
-                                    Type: Journal
-                                </p>
+                                <p>There are no publications</p>
                             </div>
                         </div>
-                        <div class="col-3 border border-1 border-black ">
-                            <div class="row p-1 m-1">
-                                <a class="btn btn-primary">Edit Articles</a>    
-                            </div>
-                            <div class="row p-1 m-1">
-                                <a class="btn btn-danger">Delete Articles</a>
-                            </div>
-                            
-                        </div>
-                    </div>   
-                @endforeach
+                    </div>
+                @endif
             </div>
         </div>
     </div>

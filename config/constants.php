@@ -32,5 +32,11 @@ return [
         'platinumPhoto' => '',
         'staffPhoto' => '',
         'payment' => ''
+    ],
+    'designation' => [
+        'Prof.' => 'Prof.',
+        'Ir.' => 'Ir.',
+        'Ts.' => 'Ts.',
+        'Dr.' => 'Dr.'
     ]
 ];
