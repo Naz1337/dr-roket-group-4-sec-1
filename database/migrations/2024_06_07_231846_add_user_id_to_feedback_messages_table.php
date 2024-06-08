@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('platinums', function (Blueprint $table) {
-            $table->foreignId('assigned_crmp_id')->nullable()->constrained('users');
+        Schema::table('feedback_messages', function (Blueprint $table) {
+            $table->foreignIdFor(\App\Models\User::class);
         });
     }
 
@@ -21,9 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('platinums', function (Blueprint $table) {
-            $table->dropForeign(['assigned_crmp_id']);
-            $table->dropColumn('assigned_crmp_id');
+        Schema::table('feedback_messages', function (Blueprint $table) {
+            $table->dropColumn('user_id');
         });
     }
 };

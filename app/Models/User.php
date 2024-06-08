@@ -20,9 +20,10 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'username',
         'email',
         'password',
+        'user_type'
     ];
 
     /**
@@ -71,5 +72,10 @@ class User extends Authenticatable
     public function assigned_platinums()
     {
         return $this->hasMany(Platinum::class, 'assigned_crmp_id');
+    }
+
+    public function user_profile()
+    {
+        return $this->hasOne(UserProfile::class);
     }
 }

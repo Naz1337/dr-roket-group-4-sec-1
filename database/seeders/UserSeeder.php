@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Roles;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -42,6 +43,6 @@ class UserSeeder extends Seeder
         $mentor->user_type = 3;
         $mentor->save();
 
-        //
+
     }
 }

@@ -19,11 +19,6 @@ class DraftController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->user_type === Roles::MENTOR) {
-            // TODO: page drafts untuk mentor
-            return to_route('dashboard');
-        }
-
         $platinum = Auth::user()->getPlatinum();
 
         $platinumId = $platinum->id;

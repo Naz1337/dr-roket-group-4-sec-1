@@ -106,7 +106,7 @@ class PlatinumSeeder extends Seeder
         $platinum2->save();
     }
 
-    private function upload($directory, $visibility, $extension, $base64)
+    static function upload($directory, $visibility, $extension, $base64)
     {
         $binaryData = base64_decode($base64);
 
