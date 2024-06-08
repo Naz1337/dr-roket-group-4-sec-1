@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Date;
 use Illuminate\Http\Request;
 use App\Models\Publication;
 use App\Models\Platinum;
 use App\Models\ExpertDomain;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class PublicationController extends Controller
 {
@@ -189,21 +192,30 @@ public function searchOtherPublications(Request $request)
     return view('ManagePublication.ListPublication', compact('publications', 'totalPublications'));
 }
 
-
-public function generateReport()
+public function generateReport(Request $request)
 {
-    // Fetch publications from the database
-    $publications = Publication::all();
+    // For GET request, just return the view for generating the report
+    if ($request->isMethod('get')) {
+        return view('ManagePublication.PublicationReport');
+    }
 
-    // Generate report using a package like Maatwebsite/Excel
-    $report = Excel::create('publications_report', function($excel) use ($publications) {
-        $excel->sheet('Publications', function($sheet) use ($publications) {
-            $sheet->fromArray($publications);
-        });
-    })->store('xlsx', storage_path('reports'));
+    // Handle the POST request to generate and display the report
+    // Fetch publications based on the selected university and year
+    $selectedUniversity = $request->input('university');
+    $selectedYear = $request->input('year');
+    
+    // Fetch publications based on the selected university and year
+    $publications = Publication::whereHas('platinum', function ($query) use ($selectedUniversity) {
+        $query->where('plat_edu_institute', $selectedUniversity);
+    })->whereYear('P_published_date', $selectedYear)->get();
 
-    // Return a download link to the generated report
-    return Response::download($report);
+    // Pass the report details to the 'PublicationReport' view
+    return view('ManagePublication.PublicationReport', [
+        'publications' => $publications,
+        'reportDate' => Date::now()->format('Y-m-d'), // Set the report date to the current date
+        'totalPublications' => $publications->count(),
+    ]);
 }
+
     
 }

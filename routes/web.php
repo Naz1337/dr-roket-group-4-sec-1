@@ -114,7 +114,8 @@ Route::prefix('/publication')->group(function () {
     Route::delete('/deletepublications/{id}', [PublicationController::class, 'destroy'])->name('deletepublication');
     Route::get('/viewpublication/{id}', [PublicationController::class, 'show'])->name('viewpublication');
     Route::get('/search', [PublicationController::class, 'searchOtherPublications'])->name('searchpublication');
-    Route::get('/publicationreport', [PublicationController::class, 'generateReport'])->name('publicationreport');
+    Route::get('/publicationreport', [PublicationController::class, 'generateReport'])->name('publicationreport.page');
+    Route::post('/publicationreport', [PublicationController::class, 'generateReport'])->name('publicationreport');
 })->middleware('auth');
 
 Route::middleware(['auth'])->group(function () {
