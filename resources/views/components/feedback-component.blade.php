@@ -37,7 +37,7 @@
                                     <div class="col">
                                         <div class="form-label" style="font-size: 0.875rem">
                                             @if ($message->user->user_type === \App\Enums\Roles::MENTOR)
-                                                {{ $message->user->user_profile->profile_name }} <span class="badge rounded-pill text-bg-primary">Mentor</span>
+                                                {{ $message->user->user_profile->profile_name }} <span class="badge rounded-pill text-bg-secondary">Mentor</span>
                                             @else
                                                 {{ $message->user->platinum->plat_name }} <span class="badge rounded-pill text-bg-success ">CRMP</span>
                                             @endif
