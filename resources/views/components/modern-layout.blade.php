@@ -36,9 +36,16 @@
                 <x-nav-header>Expert Domain</x-nav-header>
                 <x-nav-item href="{{ route('my-expert') }}" icon="certificate">My Expert Domain</x-nav-item>
                 <x-nav-item href="{{ route('list-expert') }}" icon="certificate">Expert Domain List</x-nav-item>
-
-                <x-nav-header>Publication</x-nav-header>
+            @endif
+            @if (auth()->user()->user_type === Roles::PLATINUM )
+            <x-nav-header>Publication</x-nav-header>
                 <x-nav-item href="{{ route('mypublication') }}" icon="script">Manage Publication</x-nav-item>
+                <x-nav-item href="{{ route('searchpublication') }}" icon="search">Search Other Publication</x-nav-item>
+            @endif  
+            @if (auth()->user()->user_type === Roles::MENTOR )
+                <x-nav-header>Publication</x-nav-header>
+                <x-nav-item href="{{ route('searchpublication') }}" icon="search">Search Other Publication</x-nav-item>
+                <x-nav-item href="{{ route('publicationreport') }}" icon="report">Publication Report</x-nav-item>
             @endif
 
             <x-nav-header>Progress Monitoring</x-nav-header>

@@ -19,7 +19,8 @@ class PublicationController extends Controller
         if (Auth::check()) {
             $id = Auth::user()->getPlatinum()->id;
             $publications = Publication::where('platinum_id', $id)->get();
-            return view('ManagePublication.myPublication', compact('publications'));
+            $totalPublications = $publications->count();
+            return view('ManagePublication.myPublication', compact('publications','totalPublications'));
         }
         return Redirect::route('login');
     }
@@ -78,12 +79,13 @@ class PublicationController extends Controller
         if(Auth::check())
         {
             $publication = Publication::findOrFail($id); 
+            $referrer = request()->query('referrer', 'mypublication'); // Default to 'mypublication' if no referrer is provided
         }
         else
         {
             return Redirect::route('login');
         }
-        return view('ManagePublication.ViewPublication', compact('publication'));
+        return view('ManagePublication.ViewPublication', compact('publication', 'referrer'));
     }
 
     /**
@@ -135,6 +137,73 @@ class PublicationController extends Controller
     }
 
     return Redirect::route('mypublication')->with('error', 'You are not authorized to delete this publication.');
+}
+
+// public function search(Request $request)
+// {
+//     if (Auth::check()) {
+//         $id = Auth::user()->getPlatinum()->id;
+//         $query = Publication::where('platinum_id', $id);
+
+//         if ($request->filled('search-query')) {
+//             $searchQuery = $request->input('search-query');
+//             $query->where(function ($q) use ($searchQuery) {
+//                 $q->where('P_title', 'like', "%{$searchQuery}%")
+//                   ->orWhere('P_authors', 'like', "%{$searchQuery}%");
+//             });
+//         }
+
+//         if ($request->filled('search-year')) {
+//             $searchYear = $request->input('search-year');
+//             $query->whereYear('P_published_date', $searchYear);
+//         }
+
+//         $publications = $query->get();
+//         $totalPublications = $publications->count();
+
+//         return view('ManagePublication.ListPublication', compact('publications', 'totalPublications'));
+//     }
+//     return Redirect::route('login');
+// }
+
+public function searchOtherPublications(Request $request)
+{
+    $query = Publication::query();
+
+            if ($request->filled('search-query')) {
+            $searchQuery = $request->input('search-query');
+            $query->where(function ($q) use ($searchQuery) {
+                $q->where('P_title', 'like', "%{$searchQuery}%")
+                  ->orWhere('P_authors', 'like', "%{$searchQuery}%");
+            });
+        }
+
+        if ($request->filled('search-year')) {
+            $searchYear = $request->input('search-year');
+            $query->whereYear('P_published_date', $searchYear);
+        }
+
+        $publications = $query->get();
+        $totalPublications = $publications->count();
+
+    return view('ManagePublication.ListPublication', compact('publications', 'totalPublications'));
+}
+
+
+public function generateReport()
+{
+    // Fetch publications from the database
+    $publications = Publication::all();
+
+    // Generate report using a package like Maatwebsite/Excel
+    $report = Excel::create('publications_report', function($excel) use ($publications) {
+        $excel->sheet('Publications', function($sheet) use ($publications) {
+            $sheet->fromArray($publications);
+        });
+    })->store('xlsx', storage_path('reports'));
+
+    // Return a download link to the generated report
+    return Response::download($report);
 }
     
 }

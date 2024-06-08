@@ -94,8 +94,8 @@
                         </div>
                     </div>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-                        <a href="{{ route('mypublication') }}" type="button" class="btn btn-secondary me-md-2">Cancel</a>
-                        <button type="submit" class="btn btn-primary">Confirm</button>
+                        <a href="{{ route('mypublication') }}" type="button" class="btn btn-danger me-md-2">Cancel</a>
+                        <button type="submit" class="btn btn-primary" onsubmit="return confirm('Are you sure?')">Confirm</button>
                     </div>
                 </form>
             </div>

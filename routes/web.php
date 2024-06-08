@@ -98,10 +98,12 @@ Route::prefix('/publication')->group(function () {
     Route::get('/addpublications', [PublicationController::class, 'create'])->name('addpublication');
     Route::post('/savepublications', [PublicationController::class, 'store'])->name('savepublication');
     Route::get('/editpublication/{id}', [PublicationController::class, 'edit'])->name('editpublication');
+    Route::put('/updatepublication/{id}', [PublicationController::class, 'update'])->name('updatepublication');
     Route::get('/mypublications', [PublicationController::class, 'index'])->name('mypublication');
     Route::delete('/deletepublications/{id}', [PublicationController::class, 'destroy'])->name('deletepublication');
-    Route::put('/updatepublication/{id}', [PublicationController::class, 'update'])->name('updatepublication');
     Route::get('/viewpublication/{id}', [PublicationController::class, 'show'])->name('viewpublication');
+    Route::get('/search', [PublicationController::class, 'searchOtherPublications'])->name('searchpublication');
+    Route::get('/publicationreport', [PublicationController::class, 'generateReport'])->name('publicationreport');
 })->middleware('auth');
 
 Route::middleware(['auth'])->group(function () {

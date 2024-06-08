@@ -1,34 +1,26 @@
 <x-modern-layout>
-    <div class="p-3 bg-white content">
         {{-- Page Content --}}
-        <div class="row">   
-            <div class="col-1">
-                <label class="form-label p-2">Search:</label>
+        <div class="card" style="width: 18rem;">
+        <div class="card-body d-flex align-items-center">
+            <div>
+                <h5 class="card-title">Total Publication:</h5>
+                <p class="card-text">{{ $totalPublications }}</p>
             </div>
-            <div class="col">
-                <input class="form-control" list="datalistOptions" type="text" placeholder="Search...">
-                <datalist id="datalistOptions">
-                </datalist>
-            </div>
-            <div class="col-2 d-flex justify-content-end mb-4">
-                <i class="bi bi-search"></i>
-                &nbsp;
-                <a href="#" class="btn btn-primary text-decoration-none">Search</a>
-            </div>        
         </div>
+    </div>
 
-        <hr>
-
-        <div class="row p-3 bg-light">
-            <div class="col d-flex justify-content-start ">
-                <h1 >My Publication</h1>
-            </div>
-            <div class="col d-flex justify-content-end mb-4">
-                <a href="{{ route('addpublication') }}" class="btn btn-primary">Create New Publication</a>
-            </div>
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
+                    <div class="row">
+                        <div class="col d-flex justify-content-start ">
+                        <h1 >My Publication</h1>
+                        </div>
+                        <div class="col d-flex justify-content-end mb-4">
+                            <a href="{{ route('addpublication') }}" class="btn btn-primary">Create New Publication</a>
+                        </div>
+                        </div>
+                        <hr>
                         <table class="table table-hover">
                             <thead>
                                 <tr>
@@ -50,7 +42,7 @@
                                     <td>{{ $publication->P_published_date }}</td>
                                     <td>
                                         <div class="d-flex" role="group">
-                                        <button class="btn btn-primary btn-sm me-1" onclick="window.location='{{ route('viewpublication', $publication->id) }}'">View</button>
+                                        <a href="{{ route('viewpublication', ['id' => $publication->id, 'referrer' => 'mypublication']) }}">View</a>
                                             <button class="btn btn-warning btn-sm me-1" onclick="window.location='{{ route('editpublication', $publication->id) }}'">Edit</button>
                                             <form action="{{ route('deletepublication', $publication->id) }}" method="POST" onsubmit="return confirm('Are you sure?')">
                                                 @csrf

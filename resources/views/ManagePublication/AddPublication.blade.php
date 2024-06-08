@@ -72,7 +72,7 @@
 
                     <div class="row">
                         <div class="col p-3 d-flex justify-content-start">
-                            <a href="{{ route('mypublication') }}" type="button" class="btn btn-secondary me-2">Cancel</a>
+                            <a href="{{ route('mypublication') }}" type="button" class="btn btn-danger me-2">Cancel</a>
                             <button type="submit" class="btn btn-primary">Add Publication</button>
                         </div>
                     </div>
