@@ -4,6 +4,7 @@ use App\Http\Controllers\DraftController;
 use App\Http\Controllers\PlatinumController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\WeeklyFocusController;
 use App\Http\Middleware\EnsureUserStaffMentor;
 use App\Models\UserProfile;
 use Illuminate\Support\Facades\Auth;
@@ -41,9 +42,9 @@ Route::get('/logout', [UserController::class,'logout'])->name('logout');
 Route::get('/app', [DummyController::class, 'show']);
 
 
-Route::get('/home', function() {
-    return view('home');
-})->name('home');
+//Route::get('/home', function() {
+//    return view('home');
+//})->name('home');
 
 
 //Route::get('/profile', function() {
@@ -106,7 +107,7 @@ Route::prefix('/publication')->group(function () {
 
 Route::middleware(['auth'])->group(function () {
 
-    Route::resource('draft', DraftController::class)->middleware('role:platinum,mentor');
+    Route::resource('draft', DraftController::class)->middleware('role:platinum');
 
     Route::prefix('crmp')->group(function () {
         Route::middleware(['role:staff'])->group(function () {
@@ -134,6 +135,8 @@ Route::middleware(['auth'])->group(function () {
                 ->name('crmp.feedback');
         });
     });
+
+    Route::resource('weekly-focus', WeeklyFocusController::class)->middleware('role:platinum');
 });
 
 

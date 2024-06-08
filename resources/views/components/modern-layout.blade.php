@@ -49,7 +49,7 @@
                     <x-nav-item :href="route('view-profile-id', ['id' => auth()->user()->platinum->crmp->id])" icon="user">My CRMP</x-nav-item>
                 @endif
                 <x-nav-item :href="route('draft.index')" icon="edit">My Draft Progression</x-nav-item>
-
+                <x-nav-item :href="route('weekly-focus.create')" icon="calendar">Weekly Focus</x-nav-item>
 
             @endif
 
