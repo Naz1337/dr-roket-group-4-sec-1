@@ -29,7 +29,7 @@ class UserProfileController extends Controller
                 ->selectRaw('
             CASE WHEN users.user_type != 0 AND users.user_type != 1 THEN up.profile_name ELSE p.plat_name END as name,
             users.email,
-            users.user_type,
+            CASE WHEN users.user_type != 0 AND users.user_type != 1 THEN users.user_type ELSE p.is_crmp END as user_type,
             CASE WHEN users.user_type != 0 AND users.user_type != 1 THEN "" ELSE p.plat_cur_edu_level END as cur_level,
             CASE WHEN users.user_type != 0 AND users.user_type != 1 THEN "" ELSE p.plat_edu_institute END as institute,
             CASE WHEN users.user_type != 0 AND users.user_type != 1 THEN "" ELSE p.plat_batch END as batch,

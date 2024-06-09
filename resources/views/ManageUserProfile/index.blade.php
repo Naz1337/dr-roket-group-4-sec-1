@@ -252,7 +252,6 @@
                                 <select name="user_type" id="user_type" class="form-select">
                                     <option value="">--- SELECT ---</option>
                                     <option value="{{ Config::get('constants.user.platinum') }}">Platinum</option>
-                                    <option value="{{ Config::get('constants.user.crmp') }}">CRMP</option>
                                     <option value="{{ Config::get('constants.user.staff') }}">Staff</option>
                                     <option value="{{ Config::get('constants.user.mentor') }}">Mentor</option>
                                 </select>
