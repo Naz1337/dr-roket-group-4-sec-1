@@ -22,7 +22,9 @@ class UserProfileController extends Controller
 {
     public function manage_user_profile(Request $request)
     {
+        // Check if the request is an AJAX request.
         if ($request->ajax()) {
+            // Build the query to fetch user data with left joins to platinums and user_profiles tables.
             $query = DB::table('users')
                 ->leftJoin('platinums as p', 'p.user_id', '=', 'users.id')
                 ->leftJoin('user_profiles as up', 'up.user_id', '=', 'users.id')
@@ -36,7 +38,7 @@ class UserProfileController extends Controller
             CASE WHEN users.user_type != 0 AND users.user_type != 1 THEN "" ELSE p.plat_app_confirm_date END as confirm,
             users.id
             ');
-
+            // Apply filters based on user type and input parameters.
             //region Where Clause
             if (in_array(Auth::user()->user_type, Config::get('constants.user.platOrCRMP'))) {
                 $query->where('user_type', '=', Config::get('constants.user.platinum'))
@@ -67,10 +69,13 @@ class UserProfileController extends Controller
             }
             //endregion
 
+            // Execute the query and get the results.
             $users = $query->get();
 
+            // Get the total count of users.
             $totalCount = count($users);
 
+            // Return the results as JSON
             return response()->json([
                 'data' => $users,
                 'recordsTotal' => $totalCount, // Total records before filtering
@@ -82,17 +87,23 @@ class UserProfileController extends Controller
     }
 
     public function view_profile(string $id, Request $request) {
+        // Find the user by ID.
         $users = User::where('id', $id)->first();
+        // Return the view with the user's data.
         return view('ManageUserProfile/view-profile')->with('user', $users);
     }
 
     public function edit_profile(string $id, Request $request) {
+        // Find the user by ID.
         $user = User::where('id', $id)->first();
+        // Return the view with the user's data.
         return view('ManageUserProfile/edit-profile')->with('user', $user);
     }
 
     public function edit_profile_post(Request $request) {
+        // Find the user by ID.
         $user = User::where('id', $request->id)->first();
+        // Define validation rules based on user type.
         if (in_array($user->user_type, Config::get('constants.user.platOrCRMP'))) {
             $rules = [
                 'plat_title' => 'required|string|max:255',
@@ -125,23 +136,28 @@ class UserProfileController extends Controller
             ];
         }
 
+        // Validate the request data.
         $validator = Validator::make($request->all(), $rules);
 
+        // If validation fails, redirect back with errors and input.
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-
         $valid = $validator->validated();
 
+        // Update the user data based on user type.
         if (in_array($user->user_type, Config::get('constants.user.platOrCRMP'))) {
+            // Find the related platinum record.
             $plat = Platinum::find($user->platinum->id);
 
+            // Check if a new photo was uploaded.
             if ($request->hasFile('plat_photo')) {
                 $image = $request->file('plat_photo');
                 $imageName = uniqid().'.'.$image->getClientOriginalExtension(); // Generate unique image name
                 $imagePath = $image->storeAs('user_photos', $imageName, 'public'); // Store image to 'public/user_photos' folder
                 $plat->plat_photo = $imagePath;
             }
+            // Update the platinum user data.
             $plat->plat_title = $valid['plat_title'];
             $plat->plat_name = $valid['plat_name'];
             $plat->plat_ic = $valid['plat_ic'];
@@ -157,18 +173,20 @@ class UserProfileController extends Controller
             $plat->plat_postcode = $valid['plat_postcode'];
             $plat->plat_country = $valid['plat_country'];
             $plat->plat_phone_no = $valid['plat_phone_no'];
-            $plat->save();
-            return to_route('manage-user-profile');
+            $plat->save(); // Save the updated platinum user data.
+            return to_route('manage-user-profile'); // Redirect to the manage user profile page.
         }
+        // Find the related user profile record.
         $userProfile = UserProfile::find($user->userProfile->id);
 
+        // Check if a new photo was uploaded.
         if ($request->hasFile('user_photo')) {
             $image = $request->file('user_photo');
             $imageName = uniqid().'.'.$image->getClientOriginalExtension(); // Generate unique image name
             $imagePath = $image->storeAs('user_photo', $imageName, 'public'); // Store image to 'public/user_photos' folder
             $userProfile->user_photo = $imagePath;
         }
-
+        // Update the user profile data.
         $userProfile->profile_name = $valid['profile_name'];
         $userProfile->phone_no = $valid['phone_no'];
         $userProfile->birth_date = $valid['birth_date'];
@@ -181,6 +199,7 @@ class UserProfileController extends Controller
 
     public function generateReportExcel(Request $request) {
         //region Eloquent Query
+        // Build the query to fetch user data with left joins to platinums and user_profiles tables.
         $query = DB::table('users')
             ->leftJoin('platinums as p', 'p.user_id', '=', 'users.id')
             ->leftJoin('user_profiles as up', 'up.user_id', '=', 'users.id')
@@ -226,6 +245,7 @@ class UserProfileController extends Controller
         //endregion
 
         //region Where Clause
+        // Apply filters based on input parameters.
         if ($request->has('name') && $request->name != '') {
             $query->whereRaw('plat_name like \'%' . $request->name . '%\' OR profile_name LIKE \'%' . $request->name . '%\'');
         }
@@ -247,21 +267,25 @@ class UserProfileController extends Controller
         }
         //endregion
 
+        // Execute the query and get the results.
         $queryResults = $query->get();
 
         //region Excel convert
         // Load Excel file
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
+
+        // Define the headers for the Excel sheet.
         $headers = [
             'Name', 'Email', 'User Type', 'Current Level', 'Institute', 'Batch', 'IC', 'Title', 'Gender', 'Religion', 'Race',
             'Citizenship', 'Address', 'Address2', 'City', 'State', 'Postcode', 'Country', 'Phone No', 'FB Name', 'Education Field', 'Occupation',
             'Study Sponsor', 'Discover Type', 'Program Interest', 'Has Referral', 'Referral Name', 'Referral Batch', 'T-Shirt', 'App Confirm', 'App Confirm Date',
             'Payment Type', 'Created At', 'Updated At'
         ];
+        // Add headers to the first row.
         $sheet->fromArray([$headers], null, 'A1');
 
-        // Add data
+        // Add data to the Excel sheet.
         $row = 2;
         foreach ($queryResults as $result) {
             $rowData = [
@@ -323,6 +347,7 @@ class UserProfileController extends Controller
                 $result->created_at,
                 $result->updated_at,
             ];
+            // Add the data row to the Excel sheet.
             $sheet->fromArray([$rowData], null, 'A' . $row);
             $row++;
         }
@@ -332,6 +357,7 @@ class UserProfileController extends Controller
         $writer->save($excelFilePath);
         //endregion
 
+        // Return the generated Excel file as a download.
         return response()->download($excelFilePath, 'user_profiles' . now() . '.xlsx');
     }
 }
