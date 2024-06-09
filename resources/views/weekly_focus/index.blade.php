@@ -20,6 +20,7 @@
                 @endforeach
 
             </div>
+            <x-feedback-component :platinumId="auth()->user()->platinum->id" :feedback-type="\App\Enums\FeedbackTypes::FOCUS"/>
         </div>
     </div>
 </x-modern-layout>

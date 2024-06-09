@@ -147,6 +147,9 @@ Route::middleware(['auth'])->group(function () {
                 ->name('crmp.view_draft_progress');
             Route::post('/my-platinums/feedback/{type}/{platinum}', [CrmpController::class, 'feedback'])
                 ->name('crmp.feedback');
+
+            Route::get('/my-platinums/{platinum}/weekly_foci', [CrmpController::class, 'weeklyFocus'])
+                ->name('crmp.weekly_foci');
         });
     });
 

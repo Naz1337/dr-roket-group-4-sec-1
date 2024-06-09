@@ -26,7 +26,7 @@
                                 </div>
                                 <div class="card-footer d-flex justify-content-center gap-3 align-items-center">
                                     <a class="btn btn-outline-primary" href="{{ route('crmp.view_draft_progress', ['platinum' => $platinum]) }}">Draft Progress</a>
-                                    <a class="btn btn-outline-primary">Weekly Focus</a>
+                                    <a class="btn btn-outline-primary" href="{{ route('crmp.weekly_foci', ['platinum' => $platinum]) }}">Weekly Focus</a>
                                 </div>
                             </div>
                         </div>

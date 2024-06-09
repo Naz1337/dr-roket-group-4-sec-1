@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use App\Enums\FeedbackTypes;
 use App\Models\Platinum;
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -14,7 +15,8 @@ class FeedbackComponent extends Component
      * Create a new component instance.
      */
     public function __construct(
-        public int $platinumId
+        public int $platinumId,
+        public string $feedbackType = FeedbackTypes::DRAFT
     )
     {
         $this->platinum = Platinum::find($platinumId);
