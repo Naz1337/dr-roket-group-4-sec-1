@@ -79,7 +79,7 @@ class User extends Authenticatable
         return $this->hasOne(UserProfile::class);
     }
 
-    public function weekly_focus()
+    public function weekly_focuses()
     {
         return $this->hasMany(WeeklyFocus::class);
     }

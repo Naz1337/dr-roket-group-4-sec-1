@@ -1,4 +1,4 @@
-const blocks = ['focus'];
+const blocks = ['focus', 'admin', 'social', 'recovery'];
 
 
 /**

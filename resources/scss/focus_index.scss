@@ -1,0 +1,13 @@
+//@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/functions';
+//@import 'modern/variables/variables';
+
+$dark: rgb(42, 53, 71);
+
+.week-item {
+    transition: background-color 0.3s ease-in-out;
+}
+
+.week-item:hover {
+    background-color: tint-color($dark, 90%);
+}

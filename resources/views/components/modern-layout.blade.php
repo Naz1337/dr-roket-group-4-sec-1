@@ -41,7 +41,7 @@
             <x-nav-header>Publication</x-nav-header>
                 <x-nav-item href="{{ route('mypublication') }}" icon="script">Manage Publication</x-nav-item>
                 <x-nav-item href="{{ route('searchpublication') }}" icon="search">Search Other Publication</x-nav-item>
-            @endif  
+            @endif
             @if (auth()->user()->user_type === Roles::MENTOR )
                 <x-nav-header>Publication</x-nav-header>
                 <x-nav-item href="{{ route('searchpublication') }}" icon="search">Search Other Publication</x-nav-item>
@@ -56,7 +56,7 @@
                     <x-nav-item :href="route('view-profile-id', ['id' => auth()->user()->platinum->crmp->id])" icon="user">My CRMP</x-nav-item>
                 @endif
                 <x-nav-item :href="route('draft.index')" icon="edit">My Draft Progression</x-nav-item>
-                <x-nav-item :href="route('weekly-focus.create')" icon="calendar">Weekly Focus</x-nav-item>
+                <x-nav-item :href="route('weekly-focus.index')" icon="calendar">My Weekly Focus</x-nav-item>
 
             @endif
 

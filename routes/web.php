@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DraftController;
+use App\Http\Controllers\FocusItemController;
 use App\Http\Controllers\PlatinumController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserProfileController;
@@ -150,6 +151,17 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::resource('weekly-focus', WeeklyFocusController::class)->middleware('role:platinum');
+
+    Route::get('/weekly-focus/{weeklyFocus}/edit/{focusItem}', [FocusItemController::class, 'edit'])
+        ->name('focus-item.edit');
+    Route::get('/focus-item/create/{weeklyFocus}', [FocusItemController::class, 'create'])
+        ->name('focus-item.create');
+    Route::post('/focus-item/{weeklyFocus}', [FocusItemController::class, 'store'])
+        ->name('focus-item.store');
+    Route::delete('/focus-item/destroy/{focusItem}', [FocusItemController::class, 'destroy'])
+        ->name('focus-item.destroy');
+    Route::put('/focus-item/update/{focusItem}/{weeklyFocus}', [FocusItemController::class, 'update'])
+        ->name('focus-item.update');
 });
 
 
