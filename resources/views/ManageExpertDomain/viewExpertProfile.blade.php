@@ -14,21 +14,17 @@
             </div>
             <div class="col">
                 <div class="row p-3">
-                    <label class="form form-label">Expert Image:</label>
-                    <input class="form form-control" type="text" value="{{ $expert->expert_domain_image }}" readonly>
-                </div>
-                <div class="row p-3">
                     <label class="form form-label">Name:</label>
                     <input class="form form-control" type="text" value="{{ str_replace(',', ' ',$expert->expert_domain_designation) . ' ' .$expert->expert_domain_names }}" readonly>
+                </div>
+                <div class="row p-3">
+                    <label class="form form-label">Email:</label>
+                    <input class="form form-control" type="email" value="{{ $expert->expert_domain_emails }}" readonly>
                 </div>
             </div>
         </div>
         <div class="row bg bg-light border-bottom border-end border-start border-1 border-black ">
             <div class="col">
-                <div class="row p-3">
-                    <label class="form form-label">Email:</label>
-                    <input class="form form-control" type="email" value="{{ $expert->expert_domain_emails }}" readonly>
-                </div>
                 <div class="row p-3">
                     <label class="form form-label">Phone Number:</label>
                     <input class="form form-control" type="text" value="{{ $expert->expert_domain_phonenumbers }}" readonly>
