@@ -110,12 +110,13 @@ Route::prefix('/publication')->group(function () {
     Route::post('/savepublications', [PublicationController::class, 'store'])->name('savepublication');
     Route::get('/editpublication/{id}', [PublicationController::class, 'edit'])->name('editpublication');
     Route::put('/updatepublication/{id}', [PublicationController::class, 'update'])->name('updatepublication');
-    Route::get('/mypublications', [PublicationController::class, 'index'])->name('mypublication');
+    Route::get('/mypublication', [PublicationController::class, 'index'])->name('mypublication');
     Route::delete('/deletepublications/{id}', [PublicationController::class, 'destroy'])->name('deletepublication');
     Route::get('/viewpublication/{id}', [PublicationController::class, 'show'])->name('viewpublication');
-    Route::get('/search', [PublicationController::class, 'searchOtherPublications'])->name('searchpublication');
+    Route::get('/searchpublication', [PublicationController::class, 'searchOtherPublications'])->name('searchpublication');
     Route::get('/publicationreport', [PublicationController::class, 'generateReport'])->name('publicationreport.page');
     Route::post('/publicationreport', [PublicationController::class, 'generateReport'])->name('publicationreport');
+    Route::post('/downloadpublicationreport', [PublicationController::class, 'downloadReport'])->name('downloadpublicationreport');
 })->middleware('auth');
 
 Route::middleware(['auth'])->group(function () {

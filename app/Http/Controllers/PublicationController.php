@@ -194,26 +194,78 @@ public function searchOtherPublications(Request $request)
 
 public function generateReport(Request $request)
 {
-    // For GET request, just return the view for generating the report
-    if ($request->isMethod('get')) {
-        return view('ManagePublication.PublicationReport');
+    $years = Publication::selectRaw('YEAR(P_published_date) as year')
+        ->distinct()
+        ->orderBy('year', 'desc')
+        ->pluck('year');
+
+    $universities = Platinum::select('plat_edu_institute')
+        ->distinct()
+        ->orderBy('plat_edu_institute', 'asc')
+        ->pluck('plat_edu_institute');
+
+    $platinumNames = Platinum::select('plat_name')
+        ->distinct()
+        ->orderBy('plat_name', 'asc')
+        ->pluck('plat_name');
+
+    if ($request->isMethod('get') || !$request->filled('filterType')) {
+        return view('ManagePublication.PublicationReport', compact('years', 'universities', 'platinumNames'));
     }
 
-    // Handle the POST request to generate and display the report
-    // Fetch publications based on the selected university and year
-    $selectedUniversity = $request->input('university');
+    $filterType = $request->input('filterType');
+    $filterValue = $request->input('filterValue');
     $selectedYear = $request->input('year');
-    
-    // Fetch publications based on the selected university and year
-    $publications = Publication::whereHas('platinum', function ($query) use ($selectedUniversity) {
-        $query->where('plat_edu_institute', $selectedUniversity);
-    })->whereYear('P_published_date', $selectedYear)->get();
 
-    // Pass the report details to the 'PublicationReport' view
+    $query = Publication::query();
+
+    if ($filterType == 'university' && $filterValue != 'all') {
+        $query->whereHas('platinum', function ($query) use ($filterValue) {
+            $query->where('plat_edu_institute', $filterValue);
+        });
+    } elseif ($filterType == 'platinumName' && $filterValue != 'all') {
+        $query->whereHas('platinum', function ($query) use ($filterValue) {
+            $query->where('plat_name', $filterValue);
+        });
+    }
+
+    if ($selectedYear != 'any') {
+        $query->whereYear('P_published_date', $selectedYear);
+    }
+
+    $publications = $query->get();
+
+    if ($request->input('download')) {
+        $options = new Options();
+        $options->set('defaultFont', 'Courier');
+
+        $dompdf = new Dompdf($options);
+        $view = view('pdf.publicationReport', [
+            'publications' => $publications,
+            'reportDate' => now()->format('Y-m-d'),
+            'totalPublications' => $publications->count(),
+            'filterType' => $filterType,
+            'filterValue' => $filterValue,
+            'selectedYear' => $selectedYear,
+        ])->render();
+
+        $dompdf->loadHtml($view);
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+
+        return $dompdf->stream('publication_report_' . $filterType . '_' . $filterValue . '_' . $selectedYear . '.pdf');
+    }
+
     return view('ManagePublication.PublicationReport', [
         'publications' => $publications,
-        'reportDate' => Date::now()->format('Y-m-d'), // Set the report date to the current date
+        'reportDate' => now()->format('Y-m-d'),
         'totalPublications' => $publications->count(),
+        'filterType' => $filterType,
+        'filterValue' => $filterValue,
+        'selectedYear' => $selectedYear,
+        'years' => $years,
+        'universities' => $universities,
+        'platinumNames' => $platinumNames,
     ]);
 }
 
