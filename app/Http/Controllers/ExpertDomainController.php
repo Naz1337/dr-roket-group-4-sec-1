@@ -47,9 +47,16 @@ class ExpertDomainController extends Controller
 
     public function generateReport()
     {
-        $allreports = optional(ExpertDomain::all());
-
-        return view('ManageExpertDomain/generateReportExpert', compact('allreports'));
+        if(Auth::check())
+        {
+            $id = Auth::user()->getPlatinum()->id;
+            $myexperts = ExpertDomain::where('platinum_id', $id)->get();
+        }
+        else
+        {
+            return Redirect::route('login');
+        }
+        return view('ManageExpertDomain/generateReportExpert', compact('myexperts'));
     }
 
     /**
@@ -75,22 +82,34 @@ class ExpertDomainController extends Controller
         
         // dd($request->name);
 
+        $request->validate([
+            'ed_name' => 'required',
+            'ed_email' => 'required',
+            'ed_phonenum' => 'required',
+            'ed_affiliation' => 'required',
+            'ed_research' => 'required'
+        ]);
 
         $imageData = null;
 
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
+        if ($request->hasFile('ed_image'))
+        {
+            $image = $request->file('ed_image');
             $imageName = uniqid().'.'.$image->getClientOriginalExtension();
             $imagePath = $image->storeAs('expert_photos', $imageName, 'public');
         }
+        else
+        {
+            $imagePath = "null";
+        }
 
         $ed = new ExpertDomain;
-        $ed->expert_domain_names = $request->name;
-        $ed->expert_domain_emails = $request->email;
-        $ed->expert_domain_phonenumbers = $request->phonenum;
-        $ed->expert_domain_affiliation = $request->affiliation;
-        $ed->expert_domain_research_title = $request->research;
-        $ed->expert_domain_designation = implode(',', (array) $request->designation);
+        $ed->expert_domain_names = $request->ed_name;
+        $ed->expert_domain_emails = $request->ed_email;
+        $ed->expert_domain_phonenumbers = $request->ed_phonenum;
+        $ed->expert_domain_affiliation = $request->ed_affiliation;
+        $ed->expert_domain_research_title = $request->ed_research;
+        $ed->expert_domain_designation = implode(',', (array) $request->ed_designation);
         $ed->expert_domain_image = $imagePath;
         $ed->platinum_id = Auth::user()->getPlatinum()->id;
         $ed->save();
@@ -142,9 +161,17 @@ class ExpertDomainController extends Controller
     {
         if(Auth::check())
         {
+            $request->validate([
+                'ed_name' => 'required',
+                'ed_email' => 'required',
+                'ed_phonenum' => 'required',
+                'ed_affiliation' => 'required',
+                'ed_research' => 'required'
+            ]);
+
             $ed = $expertDomain->findorFail($id);
-            if ($request->hasFile('image')) {
-                $image = $request->file('image');
+            if ($request->hasFile('ed_image')) {
+                $image = $request->file('ed_image');
                 $imageName = uniqid().'.'.$image->getClientOriginalExtension();
                 $imagePath = $image->storeAs('expert_photos', $imageName, 'public');
             }
@@ -153,12 +180,12 @@ class ExpertDomainController extends Controller
                 $imagePath = $ed->expert_domain_image;
             }
             
-            $ed->expert_domain_names = $request->name;
-            $ed->expert_domain_emails = $request->email;
-            $ed->expert_domain_phonenumbers = $request->phonenum;
-            $ed->expert_domain_affiliation = $request->affiliation;
-            $ed->expert_domain_research_title = $request->research;
-            $ed->expert_domain_designation = implode(',', (array) $request->designation);
+            $ed->expert_domain_names = $request->ed_name;
+            $ed->expert_domain_emails = $request->ed_email;
+            $ed->expert_domain_phonenumbers = $request->ed_phonenum;
+            $ed->expert_domain_affiliation = $request->ed_affiliation;
+            $ed->expert_domain_research_title = $request->ed_research;
+            $ed->expert_domain_designation = implode(',', (array) $request->ed_designation);
             $ed->expert_domain_image = $imagePath;
 
             $ed->save();
@@ -181,13 +208,16 @@ class ExpertDomainController extends Controller
         return Redirect::route('my-expert');
     }
 
-    public function addpublication(string $id)
-    {
-        return view('ManageExpertDomain/uploadExpertPublication', ["id" => $id]);
-    }
+    // public function addpublication(string $id)
+    // {
+    //     return view('ManageExpertDomain/uploadExpertPublication', ["id" => $id]);
+    // }
 
-    public function publication(string $id)
-    {
+    // public function publication(Request $request ,string $id)
+    // {
+    //      $result = new PublicationController;
+    //      $result->store($request);
 
-    }
+    //     return Redirect::route('view-expert.id', $id);
+    // }
 }

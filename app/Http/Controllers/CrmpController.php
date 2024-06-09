@@ -132,4 +132,11 @@ class CrmpController extends Controller
         // return them to where they come from
         return back();
     }
+
+    public function weeklyFocus(Platinum $platinum)
+    {
+        return view('crmp.weekly_focus', [
+            'platinum' => $platinum
+        ]);
+    }
 }

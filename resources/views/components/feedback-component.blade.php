@@ -3,7 +3,7 @@
 
     @php
         // in ascending order of created time then limit it to 5
-        $messages = $platinum->feedbackMessages->where('type', \App\Enums\FeedbackTypes::DRAFT)
+        $messages = $platinum->feedbackMessages->where('type', $feedbackType)
         ->sortByDesc('created_at')->take(5);
     @endphp
     @foreach($messages as $message)

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('weekly_foci', function (Blueprint $table) {
             $table->id();
 
-            $table->dateTime('start_date');
-            $table->dateTime('end_date');
+            $table->date('start_date');
+            $table->date('end_date');
 
             $table->foreignIdFor(\App\Models\User::class);
 

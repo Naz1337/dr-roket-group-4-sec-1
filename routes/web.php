@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DraftController;
+use App\Http\Controllers\FocusItemController;
 use App\Http\Controllers\PlatinumController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserProfileController;
@@ -147,10 +148,24 @@ Route::middleware(['auth'])->group(function () {
                 ->name('crmp.view_draft_progress');
             Route::post('/my-platinums/feedback/{type}/{platinum}', [CrmpController::class, 'feedback'])
                 ->name('crmp.feedback');
+
+            Route::get('/my-platinums/{platinum}/weekly_foci', [CrmpController::class, 'weeklyFocus'])
+                ->name('crmp.weekly_foci');
         });
     });
 
     Route::resource('weekly-focus', WeeklyFocusController::class)->middleware('role:platinum');
+
+    Route::get('/weekly-focus/{weeklyFocus}/edit/{focusItem}', [FocusItemController::class, 'edit'])
+        ->name('focus-item.edit');
+    Route::get('/focus-item/create/{weeklyFocus}', [FocusItemController::class, 'create'])
+        ->name('focus-item.create');
+    Route::post('/focus-item/{weeklyFocus}', [FocusItemController::class, 'store'])
+        ->name('focus-item.store');
+    Route::delete('/focus-item/destroy/{focusItem}', [FocusItemController::class, 'destroy'])
+        ->name('focus-item.destroy');
+    Route::put('/focus-item/update/{focusItem}/{weeklyFocus}', [FocusItemController::class, 'update'])
+        ->name('focus-item.update');
 });
 
 

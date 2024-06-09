@@ -2,7 +2,7 @@
     <script type="module">
         $(document).ready(function () {
             //$("#imagePreview").hide();
-            $("#{{ "expert_domain_image" }}").on("change",function(e){
+            $("#image").on("change",function(e){
                 var arrTemp = this.value.split('\\');
                 document.getElementById("imagePreview").value = arrTemp[arrTemp.length - 1];
                 if (this.files && this.files[0]) {
@@ -27,31 +27,31 @@
             <div class="row p-3 bg bg-light border-top border-end border-start border-1 border-black ">
                 <div class="col-3">
                     <div class="row h-100 p-3 border border-1 border-dark">
-                        <img class="h-100 w-50" src="{{ Storage::url($expert->expert_domain_image) }}" alt="Image Uploaded" accept="">
+                        <img class="h-100 w-50" src="{{ Storage::url($expert->expert_domain_image) }}" alt="Image Uploaded" id="imagePreview">
                     </div>
                 </div>
                 <div class="col">
                     <div class="row p-3">
                         <label class="form form-label">Upload Expert Image:</label>
-                        <input class="form form-control" value="{{ $expert->expert_domain_image }}" type="file">
+                        <input class="form form-control" value="{{ $expert->expert_domain_image }}" type="file" accept="" name="ed_image" id="image">
                     </div>
                     <div class="row p-3">
                         <label class="form form-label">Designation:</label>
                         <div class="col">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" value="Prof." name="designation[]" id="designation1">
+                                <input class="form-check-input" type="checkbox" value="Prof." name="ed_designation[]" id="designation1">
                                 <label class="form-check-label" for="designation1">Prof.</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" value="Ir." name="designation[]" id="designation2">
+                                <input class="form-check-input" type="checkbox" value="Ir." name="ed_designation[]" id="designation2">
                                 <label class="form-check-label" for="designation2">Ir.</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" value="Ts." name="designation[]" id="designation3">
+                                <input class="form-check-input" type="checkbox" value="Ts." name="ed_designation[]" id="designation3">
                                 <label class="form-check-label" for="designation3">Ts.</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" value="Dr." name="designation[]" id="designation4">
+                                <input class="form-check-input" type="checkbox" value="Dr." name="ed_designation[]" id="designation4">
                                 <label class="form-check-label" for="designation4">Dr.</label>
                             </div>
                         </div>
@@ -63,26 +63,26 @@
                     <div class="row p-3">
                         <div class="col">
                             <label class="form form-label">Name:</label>
-                            <input class="form form-control" value="{{ $expert->expert_domain_names }}" type="text" name="name">
+                            <input class="form form-control" value="{{ $expert->expert_domain_names }}" type="text" name="ed_name">
                         </div>
                         <div class="col">
                             <label class="form form-label">Email:</label>
-                            <input class="form form-control" type="email" value="{{ $expert->expert_domain_emails }} " name="email">
+                            <input class="form form-control" type="email" value="{{ $expert->expert_domain_emails }} " name="ed_email">
                         </div>
                     </div>
                     <div class="row p-3">
                         <div class="col">
                             <label class="form form-label">Phone Number:</label>
-                            <input class="form form-control" type="text" value="{{ $expert->expert_domain_phonenumbers }}" name="phonenum">
+                            <input class="form form-control" type="text" value="{{ $expert->expert_domain_phonenumbers }}" name="ed_phonenum">
                         </div>
                         <div class="col">
                             <label class="form form-label">Affiliation:</label>
-                            <input class="form form-control" type="text" value="{{ $expert->expert_domain_affiliation }}" name="affiliation">
+                            <input class="form form-control" type="text" value="{{ $expert->expert_domain_affiliation }}" name="ed_affiliation">
                         </div>
                     </div>
                     <div class="row p-3">
                         <label class="form form-label">Area of Expertise:</label>
-                        <input class="form form-control" type="text" value="{{ $expert->expert_domain_research_title }}" name="research">
+                        <input class="form form-control" type="text" value="{{ $expert->expert_domain_research_title }}" name="ed_research">
                     </div>
                 </div>
             </div>

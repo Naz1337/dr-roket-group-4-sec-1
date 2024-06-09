@@ -7,7 +7,7 @@
                 <div class="col">
                     <div class="row p-3">
                         <label class="form form-label">Title</label>
-                        <input class="form form-control" type="text" name="title">
+                        <input class="form form-control" type="text" name="title" placeholder="Insert Title of Publication">
                     </div>
                     
                     <div class="row">
@@ -37,7 +37,7 @@
                         <div class="col">
                             <div class="row p-3">
                                 <label class="form form-label">Author</label>
-                                <input class="form form-control" type="text" name="pauthor">
+                                <input class="form form-control" type="text" name="pauthor" placeholder="Author Name">
                             </div>
                             <div class="row p-3">
                                 <label class="form form-label">Published Date</label>
@@ -45,29 +45,25 @@
                             </div>
                             <div class="row p-3">
                                 <label class="form form-label">Issues</label>
-                                <input class="form form-control" type="number" name="pissue">
+                                <input class="form form-control" type="number" name="pissue" placeholder="e.g. 4,7">
                             </div>
                             <div class="row p-3">
                                 <label class="form form-label">DOI:</label>
-                                <input class="form form-control" type="text" name="pdoi">
+                                <input class="form form-control" type="text" name="pdoi" placeholder="DOI number">
                             </div>
                         </div>
                         <div class="col">
                             <div class="row p-3">
-                                <label class="form form-label">Co-Author</label>
-                                <input class="form form-control" type="text" name="pcoauthor">
-                            </div>
-                            <div class="row p-3">
                                 <label class="form form-label">Volumes</label>
-                                <input class="form form-control" type="text" name="pvolume">
+                                <input class="form form-control" type="text" name="pvolume" placeholder="e.g 1, 3">
                             </div>
                             <div class="row p-3">
                                 <label class="form form-label">Pages</label>
-                                <input class="form form-control" type="text" name="ppage">
+                                <input class="form form-control" type="text" name="ppage" placeholder="e.g 137-144">
                             </div>
                             <div class="row p-3">
                                 <label class="form form-label">Publisher</label>
-                                <input class="form form-control" type="number" name="publisher">
+                                <input class="form form-control" type="number" name="publisher" placeholder="e.g IEEE ScienceDirect">
                             </div>
                         </div>
 
@@ -77,10 +73,6 @@
                             <div class="row p-3">
                                 <label class="form form-label">Description</label>
                                 <input class="form form-control" type="text" name="pdescription">
-                            </div>
-                            <div class="row p-3">
-                                <label class="form form-label">Upload Publication:</label>
-                                <input class="form form-control" type="file" id="publication" name="publication" accept="application/pdf">
                             </div>
                         </div>
                     </div>
