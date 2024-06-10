@@ -61,6 +61,7 @@ class PublicationController extends Controller
        
             $publication = new Publication;
             $publication->platinum_id = $currentUser->getPlatinum()->id;
+            $publication->expert_domain_id = NULL;
             $publication->P_authors = $request['P_authors'];
             $publication->P_title = $request['P_title'];
             $publication->P_published_date = $request['P_published_date'];
