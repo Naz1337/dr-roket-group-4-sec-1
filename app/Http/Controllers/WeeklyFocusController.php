@@ -100,17 +100,6 @@ class WeeklyFocusController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, WeeklyFocus $weeklyFocus)
-    {
-        $rules = [
-            'start_date' => 'required|date',
-            'end_date' => 'required|date'
-        ];
-    }
-
-    /**
      * Remove the specified resource from storage.
      */
     public function destroy(WeeklyFocus $weeklyFocu)
