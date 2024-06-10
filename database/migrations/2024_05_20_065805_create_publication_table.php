@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\ExpertDomain;
 use App\Models\Platinum;
 // use App\Models\ExpertDomain;
 use Illuminate\Database\Migrations\Migration;
@@ -25,8 +26,8 @@ return new class extends Migration
             $table->string('P_publisher');
             $table->string('P_description');
             $table->string('P_path');
-            $table->foreignIdFor(Platinum::class)->constrained();
-            // $table->foreignIdFor(expert::class)->constrained();
+            $table->foreignIdFor(Platinum::class)->nullable()->constrained();
+            $table->foreignIdFor(ExpertDomain::class)->nullable()->constrained();
             $table->timestamps();
         });
     }

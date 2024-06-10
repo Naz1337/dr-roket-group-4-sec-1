@@ -22,7 +22,7 @@
                         <td>{{ $expert->expert_domain_emails }}</td>
                         <td>{{ $expert->expert_domain_phonenumbers }}</td>
                         <td>{{ $expert->expert_domain_research_title }}</td>
-                        <td></td>
+                        <td>Not yet</td>
                     </tr>
                 @endforeach
                 </tbody>
