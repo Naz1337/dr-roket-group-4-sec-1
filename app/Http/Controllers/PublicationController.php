@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Barryvdh\DomPDF\Facade\Pdf;
+use Spatie\Browsershot\Browsershot;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Http\Request;
 use App\Models\Publication;
@@ -194,20 +196,9 @@ public function searchOtherPublications(Request $request)
 
 public function generateReport(Request $request)
 {
-    $years = Publication::selectRaw('YEAR(P_published_date) as year')
-        ->distinct()
-        ->orderBy('year', 'desc')
-        ->pluck('year');
-
-    $universities = Platinum::select('plat_edu_institute')
-        ->distinct()
-        ->orderBy('plat_edu_institute', 'asc')
-        ->pluck('plat_edu_institute');
-
-    $platinumNames = Platinum::select('plat_name')
-        ->distinct()
-        ->orderBy('plat_name', 'asc')
-        ->pluck('plat_name');
+    $years = Publication::selectRaw('YEAR(P_published_date) as year')->distinct()->orderBy('year', 'desc')->pluck('year');
+    $universities = Platinum::select('plat_edu_institute')->distinct()->orderBy('plat_edu_institute', 'asc')->pluck('plat_edu_institute');
+    $platinumNames = Platinum::select('plat_name')->distinct()->orderBy('plat_name', 'asc')->pluck('plat_name');
 
     if ($request->isMethod('get') || !$request->filled('filterType')) {
         return view('ManagePublication.PublicationReport', compact('years', 'universities', 'platinumNames'));
@@ -236,24 +227,48 @@ public function generateReport(Request $request)
     $publications = $query->get();
 
     if ($request->input('download')) {
-        $options = new Options();
-        $options->set('defaultFont', 'Courier');
-
-        $dompdf = new Dompdf($options);
-        $view = view('pdf.publicationReport', [
+        $viewContent = view('ManagePublication.PublicationReport', [
             'publications' => $publications,
             'reportDate' => now()->format('Y-m-d'),
             'totalPublications' => $publications->count(),
             'filterType' => $filterType,
             'filterValue' => $filterValue,
             'selectedYear' => $selectedYear,
+            'years' => $years,
+            'universities' => $universities,
+            'platinumNames' => $platinumNames,
         ])->render();
 
-        $dompdf->loadHtml($view);
-        $dompdf->setPaper('A4', 'landscape');
-        $dompdf->render();
+        if ($request->input('excludeHeader') == 'true') {
+            $viewContent = preg_replace('/<div class="card-header d-flex justify-content-between align-items-center">.*?<table class="table">/s', '<table class="table">', $viewContent);
+        }
 
-        return $dompdf->stream('publication_report_' . $filterType . '_' . $filterValue . '_' . $selectedYear . '.pdf');
+        // Add inline CSS styles to the HTML content
+        $inlineCss = '<style>
+        /* Add your CSS styles here */
+        body { font-family: Arial, sans-serif; }
+        .p-3 { padding: 3rem; }
+        .bg-white { background-color: #fff; }
+        .content { margin: 0 auto; max-width: 800px; }
+        .card { border: 1px solid #ccc; border-radius: 5px; margin-bottom: 20px; }
+        .card-header { background-color: #f0f0f0; padding: 10px; }
+        .card-body { padding: 20px; }
+        .btn { background-color: #007bff; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+        .btn-secondary { background-color: #6c757d; }
+        .form-label { font-weight: bold; }
+        .form-select { width: 100%; padding: .375rem .75rem; border: 1px solid #ced4da; border-radius: .25rem; line-height: 1.5; }
+        .mb-3 { margin-bottom: 1rem; }
+        .mt-4 { margin-top: 1rem; }
+        .table { width: 100%; border-collapse: collapse; }
+        .table th, .table td { border: 1px solid #dee2e6; padding: .75rem; vertical-align: top; }
+    </style>';
+        $htmlWithStyles = $inlineCss . $viewContent;
+
+        // Render the PDF
+        $pdf = Pdf::loadHTML($htmlWithStyles)
+                  ->setPaper('a4', 'landscape');
+
+        return $pdf->stream('publication_report_' . $filterType . '_' . $filterValue . '_' . $selectedYear . '.pdf');
     }
 
     return view('ManagePublication.PublicationReport', [
@@ -268,6 +283,5 @@ public function generateReport(Request $request)
         'platinumNames' => $platinumNames,
     ]);
 }
-
     
 }

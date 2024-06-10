@@ -12,6 +12,7 @@
                             <input type="hidden" name="filterValue" value="{{ $filterValue }}">
                             <input type="hidden" name="year" value="{{ $selectedYear }}">
                             <input type="hidden" name="download" value="true">
+                            <input type="hidden" name="excludeHeader" value="true">
                             <button type="submit" class="btn btn-secondary">Download Report</button>
                         </form>
                     </div>
@@ -30,6 +31,8 @@
                                 <tr>
                                     <th>Title</th>
                                     <th>Authors</th>
+                                    <th>Type</th>
+                                    <th>Published Date</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -37,6 +40,8 @@
                                     <tr>
                                         <td>{{ $publication->P_title }}</td>
                                         <td>{{ $publication->P_authors }}</td>
+                                        <td>{{ $publication->P_type }}</td>
+                                        <td>{{ $publication->P_published_date }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -100,13 +105,13 @@
 
             if (filterType === 'platinumName') {
                 filterValueLabel.innerText = 'Select Platinum Name:';
-                options += `<option value="all">All Platinum Names</option>`;
+                options += '<option value="all">All Platinum Names</option>';
                 @foreach($platinumNames as $platinumName)
                     options += `<option value="{{ $platinumName }}">{{ $platinumName }}</option>`;
                 @endforeach
             } else {
                 filterValueLabel.innerText = 'Select University:';
-                options += `<option value="all">All Universities</option>`;
+                options += '<option value="all">All Universities</option>';
                 @foreach($universities as $university)
                     options += `<option value="{{ $university }}">{{ $university }}</option>`;
                 @endforeach
@@ -115,7 +120,6 @@
             filterValueSelect.innerHTML = options;
         }
 
-        // Ensure correct options are loaded on page load based on old input
         document.addEventListener('DOMContentLoaded', function () {
             updateFilterValueOptions();
         });
