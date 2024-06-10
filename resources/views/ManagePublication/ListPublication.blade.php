@@ -11,7 +11,12 @@
                     <input id="search-query" name="search-query" class="form-control" type="text" placeholder="Search by title or author...">
                 </div>
                 <div class="col-2">
-                    <input id="search-year" name="search-year" class="form-control" type="number" placeholder="Filter by year...">
+                    <select name="search-year" id="search-year" class="form-select">
+                        <option value="">Any Year</option>
+                        @foreach($years as $year)
+                            <option value="{{ $year }}" {{ request('search-year') == $year ? 'selected' : '' }}>{{ $year }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="col-2 d-flex justify-content-end mb-4">
                     <button type="submit" class="btn btn-primary text-decoration-none">Search</button>
@@ -22,32 +27,33 @@
         <hr>
 
         <!-- Display Search Results -->
-        <div id="publications-list" class="row">
-            <!-- Search results will be populated here -->
-            @if($publications->count() > 0)
-                @foreach($publications as $publication)
-                    <div class="col-12 mb-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <h5 class="card-title mb-0">{{ $publication->P_title }}</h5>
-                                    <a href="{{ route('viewpublication', ['id' => $publication->id, 'referrer' => 'searchpublication']) }}" class="btn btn-primary">View</a>
+        @if(request()->filled('search-query') || request()->filled('search-year'))
+            <div id="publications-list" class="row">
+                <!-- Search results will be populated here -->
+                @if($publications->count() > 0)
+                    @foreach($publications as $publication)
+                        <div class="col-12 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h5 class="card-title mb-0">{{ $publication->P_title }}</h5>
+                                        <a href="{{ route('viewpublication', ['id' => $publication->id, 'referrer' => 'searchpublication']) }}" class="btn btn-primary">View</a>
+                                    </div>
+                                    <p class="card-text">Authors: {{ $publication->P_authors }}</p>
+                                    <p class="card-text">Published Date: {{ $publication->P_published_date }}</p>
+                                    <!-- Truncate the description to 100 characters -->
+                                    <p class="card-text">{{ \Illuminate\Support\Str::limit($publication->P_description, 100, $end='...') }}</p>
+                                    <!-- Add other publication details here -->
                                 </div>
-                                <p class="card-text">Authors: {{ $publication->P_authors }}</p>
-                                <p class="card-text">Published Date: {{ $publication->P_published_date }}</p>
-                                <!-- Truncate the description to 100 characters -->
-                                <p class="card-text">{{ \Illuminate\Support\Str::limit($publication->P_description, 100, $end='...') }}</p>
-                                <!-- Add other publication details here -->
                             </div>
                         </div>
+                    @endforeach
+                @else
+                    <div class="col-12">
+                        <p>No publications found.</p>
                     </div>
-                @endforeach
-            @else
-                <div class="col-12">
-                    <p>No publications found.</p>
-                </div>
-            @endif
-        </div>
+                @endif
+            </div>
+        @endif
     </div>
-
 </x-modern-layout>

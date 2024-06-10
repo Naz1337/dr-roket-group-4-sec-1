@@ -8,7 +8,31 @@
             </div>
         </div>
     </div>
-
+    {{-- Search Bar --}}
+    
+    <form id="search-form" action="{{ route('search') }}" method="GET">
+            <!-- Search Form -->
+            <div class="row">
+                <div class="col-1">
+                    <label class="form-label p-2">Search:</label>
+                </div>
+                <div class="col">
+                    <input id="search-query" name="search-query" class="form-control" type="text" placeholder="Search by title or author...">
+                </div>
+                <div class="col-2">
+                    <select name="search-year" id="search-year" class="form-select">
+                        <option value="">Any Year</option>
+                        @foreach($years as $year)
+                            <option value="{{ $year }}" {{ request('search-year') == $year ? 'selected' : '' }}>{{ $year }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-2 d-flex justify-content-end mb-4">
+                    <button type="submit" class="btn btn-primary text-decoration-none">Search</button>
+                </div>
+            </div>
+        </form>
+        <hr>
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
@@ -42,7 +66,7 @@
                                     <td>{{ $publication->P_published_date }}</td>
                                     <td>
                                         <div class="d-flex" role="group">
-                                        <a href="{{ route('viewpublication', ['id' => $publication->id, 'referrer' => 'mypublication']) }}">View</a>
+                                            <a href="{{ route('viewpublication', ['id' => $publication->id, 'referrer' => 'mypublication']) }}" class="btn btn-primary btn-sm me-1">View</a>
                                             <button class="btn btn-warning btn-sm me-1" onclick="window.location='{{ route('editpublication', $publication->id) }}'">Edit</button>
                                             <form action="{{ route('deletepublication', $publication->id) }}" method="POST" onsubmit="return confirm('Are you sure?')">
                                                 @csrf

@@ -25,7 +25,8 @@ class PublicationController extends Controller
             $id = Auth::user()->getPlatinum()->id;
             $publications = Publication::where('platinum_id', $id)->get();
             $totalPublications = $publications->count();
-            return view('ManagePublication.myPublication', compact('publications','totalPublications'));
+            $years = Publication::selectRaw('YEAR(P_published_date) as year')->distinct()->orderBy('year', 'desc')->pluck('year');
+            return view('ManagePublication.myPublication', compact('publications','totalPublications', 'years'));
         }
         return Redirect::route('login');
     }
@@ -145,32 +146,32 @@ class PublicationController extends Controller
     return Redirect::route('mypublication')->with('error', 'You are not authorized to delete this publication.');
 }
 
-// public function search(Request $request)
-// {
-//     if (Auth::check()) {
-//         $id = Auth::user()->getPlatinum()->id;
-//         $query = Publication::where('platinum_id', $id);
+public function search(Request $request)
+{
+    if (Auth::check()) {
+        $platinumId = Auth::user()->getPlatinum()->id;
+        $query = Publication::where('platinum_id', $platinumId);
 
-//         if ($request->filled('search-query')) {
-//             $searchQuery = $request->input('search-query');
-//             $query->where(function ($q) use ($searchQuery) {
-//                 $q->where('P_title', 'like', "%{$searchQuery}%")
-//                   ->orWhere('P_authors', 'like', "%{$searchQuery}%");
-//             });
-//         }
+        if ($request->filled('search-query')) {
+            $searchQuery = $request->input('search-query');
+            $query->where(function ($q) use ($searchQuery) {
+                $q->where('P_title', 'like', "%{$searchQuery}%")
+                  ->orWhere('P_authors', 'like', "%{$searchQuery}%");
+            });
+        }
 
-//         if ($request->filled('search-year')) {
-//             $searchYear = $request->input('search-year');
-//             $query->whereYear('P_published_date', $searchYear);
-//         }
+        if ($request->filled('search-year')) {
+            $searchYear = $request->input('search-year');
+            $query->whereYear('P_published_date', $searchYear);
+        }
 
-//         $publications = $query->get();
-//         $totalPublications = $publications->count();
+        $publications = $query->get();
+        $totalPublications = $publications->count();
 
-//         return view('ManagePublication.ListPublication', compact('publications', 'totalPublications'));
-//     }
-//     return Redirect::route('login');
-// }
+        return view('ManagePublication.myPublication', compact('publications', 'totalPublications'));
+    }
+    return redirect()->route('login');
+}
 
 public function searchOtherPublications(Request $request)
 {
@@ -191,8 +192,8 @@ public function searchOtherPublications(Request $request)
 
         $publications = $query->get();
         $totalPublications = $publications->count();
-
-    return view('ManagePublication.ListPublication', compact('publications', 'totalPublications'));
+        $years = Publication::selectRaw('YEAR(P_published_date) as year')->distinct()->orderBy('year', 'desc')->pluck('year');
+    return view('ManagePublication.ListPublication', compact('publications', 'totalPublications', 'years'));
 }
 
 public function generateReport(Request $request)

@@ -113,6 +113,7 @@ Route::prefix('/publication')->group(function () {
     Route::put('/updatepublication/{id}', [PublicationController::class, 'update'])->name('updatepublication');
     Route::get('/mypublication', [PublicationController::class, 'index'])->name('mypublication');
     Route::delete('/deletepublications/{id}', [PublicationController::class, 'destroy'])->name('deletepublication');
+    Route::post('/searchmypublication', [PublicationController::class, 'search'])->name('search');
     Route::get('/viewpublication/{id}', [PublicationController::class, 'show'])->name('viewpublication');
     Route::get('/searchpublication', [PublicationController::class, 'searchOtherPublications'])->name('searchpublication');
     Route::get('/publicationreport', [PublicationController::class, 'generateReport'])->name('publicationreport.page');
