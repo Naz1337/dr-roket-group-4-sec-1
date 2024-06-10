@@ -358,13 +358,4 @@ class DraftController extends Controller
         }
         return to_route('draft.index');
     }
-
-    public function upload(Request $request)
-    {
-        $uploadedFiles = $request->file('draft_file');
-        if ($request->hasFile('draft_file') && $uploadedFiles->isValid() && $uploadedFiles->extension() == "pdf") {
-            $uploadedFiles->store('draft');
-        }
-        return Redirect::route('drafts.index', ['lol' => $uploadedFiles->extension()]);
-    }
 }
