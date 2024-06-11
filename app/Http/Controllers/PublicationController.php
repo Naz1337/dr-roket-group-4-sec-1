@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use Spatie\Browsershot\Browsershot;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Http\Request;
@@ -179,10 +178,10 @@ public function search(Request $request)
             });
         }
 
-        if ($request->filled('search-year')) {
-            $searchYear = $request->input('search-year');
-            $query->whereYear('P_published_date', $searchYear);
-        }
+        $selectedYear = $request->input('search-year');
+        if ($selectedYear && $selectedYear != 'any') {
+             $query->whereYear('P_published_date', $selectedYear);
+         }
 
         $publications = $query->get();
         $totalPublications = $publications->count();
@@ -196,22 +195,23 @@ public function searchOtherPublications(Request $request)
 {
     $query = Publication::query();
 
-            if ($request->filled('search-query')) {
-            $searchQuery = $request->input('search-query');
-            $query->where(function ($q) use ($searchQuery) {
-                $q->where('P_title', 'like', "%{$searchQuery}%")
-                  ->orWhere('P_authors', 'like', "%{$searchQuery}%");
-            });
-        }
+    if ($request->filled('search-query')) {
+        $searchQuery = $request->input('search-query');
+        $query->where(function ($q) use ($searchQuery) {
+            $q->where('P_title', 'like', "%{$searchQuery}%")
+              ->orWhere('P_authors', 'like', "%{$searchQuery}%");
+        });
+    }
 
-        if ($request->filled('search-year')) {
-            $searchYear = $request->input('search-year');
-            $query->whereYear('P_published_date', $searchYear);
-        }
+    $selectedYear = $request->input('search-year');
+    if ($selectedYear && $selectedYear != 'any') {
+        $query->whereYear('P_published_date', $selectedYear);
+    }
 
-        $publications = $query->get();
-        $totalPublications = $publications->count();
-        $years = Publication::selectRaw('YEAR(P_published_date) as year')->distinct()->orderBy('year', 'desc')->pluck('year');
+    $publications = $query->get();
+    $totalPublications = $publications->count();
+    $years = Publication::selectRaw('YEAR(P_published_date) as year')->distinct()->orderBy('year', 'desc')->pluck('year');
+
     return view('ManagePublication.ListPublication', compact('publications', 'totalPublications', 'years'));
 }
 
@@ -236,10 +236,10 @@ public function generateReport(Request $request)
         $query->whereHas('platinum', function ($query) use ($filterValue) {
             $query->where('plat_edu_institute', $filterValue);
         });
-    } elseif ($filterType == 'platinumName' && $filterValue != 'all') {
-        $query->whereHas('platinum', function ($query) use ($filterValue) {
-            $query->where('plat_name', $filterValue);
-        });
+        } elseif ($filterType == 'platinumName' && $filterValue != 'all') {
+            $query->whereHas('platinum', function ($query) use ($filterValue) {
+                $query->where('plat_name', $filterValue);
+            });
     }
 
     if ($selectedYear != 'any') {
@@ -249,7 +249,9 @@ public function generateReport(Request $request)
     $publications = $query->get();
 
     if ($request->input('download')) {
-        $viewContent = view('ManagePublication.PublicationReport', [
+        
+        // Pass data to the view
+        $data = [
             'publications' => $publications,
             'reportDate' => now()->format('Y-m-d'),
             'totalPublications' => $publications->count(),
@@ -259,38 +261,28 @@ public function generateReport(Request $request)
             'years' => $years,
             'universities' => $universities,
             'platinumNames' => $platinumNames,
-        ])->render();
+        ];
 
-        if ($request->input('excludeHeader') == 'true') {
-            $viewContent = preg_replace('/<div class="card-header d-flex justify-content-between align-items-center">.*?<table class="table">/s', '<table class="table">', $viewContent);
-        }
+        // Specify the path to your view file
+        $viewPath = 'ManagePublication.PdfPublicationReport';
 
-        // Add inline CSS styles to the HTML content
-        $inlineCss = '<style>
-        /* Add your CSS styles here */
-        body { font-family: Arial, sans-serif; }
-        .p-3 { padding: 3rem; }
-        .bg-white { background-color: #fff; }
-        .content { margin: 0 auto; max-width: 800px; }
-        .card { border: 1px solid #ccc; border-radius: 5px; margin-bottom: 20px; }
-        .card-header { background-color: #f0f0f0; padding: 10px; }
-        .card-body { padding: 20px; }
-        .btn { background-color: #007bff; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
-        .btn-secondary { background-color: #6c757d; }
-        .form-label { font-weight: bold; }
-        .form-select { width: 100%; padding: .375rem .75rem; border: 1px solid #ced4da; border-radius: .25rem; line-height: 1.5; }
-        .mb-3 { margin-bottom: 1rem; }
-        .mt-4 { margin-top: 1rem; }
-        .table { width: 100%; border-collapse: collapse; }
-        .table th, .table td { border: 1px solid #dee2e6; padding: .75rem; vertical-align: top; }
-    </style>';
-        $htmlWithStyles = $inlineCss . $viewContent;
+        // Render the view
+        $html = View::make($viewPath, $data)->render();
 
-        // Render the PDF
-        $pdf = Pdf::loadHTML($htmlWithStyles)
-                  ->setPaper('a4', 'landscape');
+        // Initialize Dompdf
+        $dompdf = new Dompdf();
 
-        return $pdf->stream('publication_report_' . $filterType . '_' . $filterValue . '_' . $selectedYear . '.pdf');
+        // Load HTML content
+        $dompdf->loadHtml($html);
+
+        // (Optional) Set paper size and orientation
+        $dompdf->setPaper('A4', 'potrait');
+
+        // Render PDF (stream or save)
+        $dompdf->render();
+
+        // Stream PDF to the user for download
+        return $dompdf->stream('publication_report.pdf');
     }
 
     return view('ManagePublication.PublicationReport', [
@@ -305,5 +297,8 @@ public function generateReport(Request $request)
         'platinumNames' => $platinumNames,
     ]);
 }
+
+
+
     
 }

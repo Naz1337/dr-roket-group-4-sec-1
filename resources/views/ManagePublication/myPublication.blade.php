@@ -2,6 +2,7 @@
     {{-- Page Content --}}
     <div class="card" style="width: 18rem;">
         <div class="card-body d-flex align-items-center">
+            <span class="ti ti-script" style="font-size: 2rem; margin-right: 1rem;"></span>
             <div>
                 <h5 class="card-title">Total Publication:</h5>
                 <p class="card-text">{{ $totalPublications }}</p>

@@ -19,6 +19,11 @@
                     <div class="card-body">
                         <p>Report generated on: {{ $reportDate }}</p>
                         <p>Total publications: {{ $totalPublications }}</p>
+                        @if($filterType == 'university')
+                            <p>University: {{ $filterValue }}</p>
+                        @elseif($filterType == 'platinumName')
+                            <p>Platinum Name: {{ $filterValue }}</p>
+                        @endif
                     </div>
                 </div>
                 <div class="card mt-4">
