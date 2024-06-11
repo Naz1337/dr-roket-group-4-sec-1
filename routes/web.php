@@ -97,8 +97,17 @@ Route::prefix('/expert')->group(function () {
     Route::get('/upload-expert-publication/{id}', [ExpertDomainController::class, 'addpublication']
     )->name('upload-expert-publication.id');
 
-    Route::post('/create-expert-publication/{id}', [ExpertDomainController::class, 'publication']
+    Route::post('/create-expert-publication/{id}', [ExpertDomainController::class, 'storepublication']
     )->name('create-expert-publication.id');
+
+    Route::get('/edit-expert-publication/{id}', [ExpertDomainController::class, 'editpublication']  
+    )->name('edit-expert-publication.id');
+
+    Route::post('/update-expert-publication/{id}', [ExpertDomainController::class, 'updatepublication']
+    )->name('update-expert-publication.id');
+
+    Route::get('/delete-expert-publication/{id}', [ExpertDomainController::class, 'deletepublication'])
+    ->name('delete-expert-publication.id');
 
     Route::get('/generatereport', [ExpertDomainController::class, 'generateReport']
     )->name('generatereport');

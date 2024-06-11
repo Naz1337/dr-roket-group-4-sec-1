@@ -9,7 +9,7 @@
                         <th>Expert Name</th>
                         <th>Expert Affiliation</th>
                         <th>Expert Email</th>
-                        <th>Email Phone Number</th>
+                        <th>Expert Phone Number</th>
                         <th>Expert Research</th>
                         <th>Expert Publication</th>
                     </tr>
@@ -22,15 +22,19 @@
                         <td>{{ $expert->expert_domain_emails }}</td>
                         <td>{{ $expert->expert_domain_phonenumbers }}</td>
                         <td>{{ $expert->expert_domain_research_title }}</td>
-                        <td>Not yet</td>
+                        <td>
+                            @foreach ($expert->publication as $item)
+                                Title: {{ $item->P_title }}
+                            @endforeach
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
                 <tfoot>
-                    <tr>
+                    {{-- <tr>
                         <th colspan="5" class="text-end">Total Page:</th>
                         <th class="text-end"></th>
-                    </tr>
+                    </tr> --}}
                 </tfoot>
             </table>
         </div>

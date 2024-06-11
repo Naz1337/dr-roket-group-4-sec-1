@@ -25,10 +25,10 @@ class Publication extends Model
         ];    
 
      
-    // public function expertDomain()
-    // {
-    //     return $this->belongsTo(ExpertDomain::class);
-    // }
+    public function expertDomain()
+    {
+        return $this->belongsTo(ExpertDomain::class);
+    }
 
     public function platinum()
     {

@@ -30,4 +30,8 @@ class ExpertDomain extends Model
         return $this->belongsTo(Platinum::class, 'platinum_id');
     }
     
+    public function publication(): HasMany
+    {
+        return $this->hasMany(Publication::class, 'expert_domain_id');
+    }
 }

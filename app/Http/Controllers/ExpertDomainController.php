@@ -10,6 +10,9 @@ use App\Models\Publication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Pdf\Dompdf;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class ExpertDomainController extends Controller
 {
@@ -132,7 +135,7 @@ class ExpertDomainController extends Controller
             // dd($expertDomain);
             $expert = $expertDomain->findorFail($id);
             // dd($expert);
-            $publications = Publication::where('expert_domain_id', '=', $id)->get();
+            $publications = $expert->publication()->get();
 
             // dd($publications);
         }
@@ -221,10 +224,17 @@ class ExpertDomainController extends Controller
 
     public function addpublication(string $id)
     {
-        return view('ManageExpertDomain/uploadExpertPublication', ["id" => $id]);
+        if(Auth::check())
+        {
+            return view('ManageExpertDomain/uploadExpertPublication', ["id" => $id]);
+        }
+        else
+        {
+            return Redirect::route('login');
+        }
     }
 
-    public function publication(Request $request ,string $id)
+    public function storepublication(Request $request ,string $id)
     {
         if(Auth::check())
         {
@@ -261,5 +271,70 @@ class ExpertDomainController extends Controller
             return Redirect::route('login');
         }
         return Redirect::route('view-expert.id', $id);
+    }
+
+    public function editpublication(string $id)
+    {
+        if(Auth::check())
+        {
+            $publication = Publication::findOrFail($id);
+        }
+        else
+        {
+            Redirect::route('login');
+        }
+        return view('ManageExpertDomain.editExpertPublication', compact('publication'));
+    }
+
+    public function updatePublication(Request $request, string $id)
+    {
+        if(Auth::check())
+        {
+            $request->validate([
+                'P_authors' => 'required|string',
+                'P_title' => 'required|string',
+                'P_published_date' => 'required|date',
+                'P_type' => 'required|string', // Ensure this matches your input type
+                'P_volume' => 'required|integer',
+                'P_issues' => 'required|integer',
+                'P_pages' => 'required|integer',
+                'P_publisher' => 'required|string',
+                'P_description' => 'required|string',
+                'P_path' => 'required|string',
+            ]);
+
+            $publication = Publication::findOrFail($id);
+            $publication->P_authors = $request['P_authors'];
+            $publication->P_title = $request['P_title'];
+            $publication->P_published_date = $request['P_published_date'];
+            $publication->P_type = $request['P_type'];
+            $publication->P_volume = $request['P_volume'];
+            $publication->P_issues = $request['P_issues'];
+            $publication->P_pages = $request['P_pages'];
+            $publication->P_publisher = $request['P_publisher'];
+            $publication->P_description = $request['P_description'];
+            $publication->P_path = $request['P_path'];
+            $publication->save();
+        }
+        else
+        {
+            return Redirect::route('login');
+
+        }
+        return Redirect::route('view-expert.id', $publication->expertDomain->id);
+    }
+
+    public function deletepublication(string $id)
+    {
+        if(Auth::check())
+        {
+            $publication = Publication::findorFail($id);
+            $publication->delete();
+        }
+        else
+        {
+            return Redirect::route('login');
+        }
+        return Redirect::route('view-expert');
     }
 }

@@ -48,8 +48,12 @@
 
             </div>
             <div class="col-3 p-3 d-flex justify-content-end">
-                <a href=" {{ route('edit-expert.id', $expert->id) }}" type="button" class="btn btn-primary mx-3">Edit Profile</a>
-                <a href="{{ route('delete-expert.id', $expert->id) }}" onclick="return confirm('Are you sure?')" type="button" class="btn btn-danger">Delete Profile</a>
+                @if($expert->platinum->id == Auth::user()->getPlatinum()->id)
+                    <a href=" {{ route('edit-expert.id', $expert->id) }}" type="button" class="btn btn-primary mx-3">Edit Profile</a>
+                    <a href="{{ route('delete-expert.id', $expert->id) }}" onclick="return confirm('Are you sure?')" type="button" class="btn btn-danger">Delete Profile</a>
+                @else
+
+                @endif
             </div>
         </div>
 
@@ -61,7 +65,11 @@
                 {{-- An empty box --}}
             </div>
             <div class="p-3 col col-3 col-sm-3 col-md-2 col-lg-2 col-xl-2">
-                <a href=" {{ route('upload-expert-publication.id', $expert->id) }} " class=" p-3 btn btn-primary">Upload Articles</a>
+                @if($expert->platinum->id == Auth::user()->getPlatinum()->id)
+                    <a href=" {{ route('upload-expert-publication.id', $expert->id) }} " class=" p-3 btn btn-primary">Upload Articles</a>
+                @else
+
+                @endif
             </div>
         </div>
         <div class=" row p-3 bg bg-light border-bottom border-end border-start border-1  border-black">
@@ -70,27 +78,30 @@
                     @foreach ($publications as $publication)
                         <div class="row p-3 m-3 border border-1 border-black">
                             <div class="col border border-1 border-black ">
-                                <div class="row p-3 m-3">
-                                    <p>Title: Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                        Eaque laudantium error esse, perspiciatis facere commodi eum, 
-                                        voluptas quia dolore quisquam sit vel maxime nostrum dolor atque
-                                        officiis modi officia dolores?</p>
+                                <div class="row p-1">
+                                    <p>Title: {{ $publication->P_title }}</p>
                                 </div>
-                                <div class="row p-3 m-3">
+                                <div class="row p-1">
+                                    <p>Published Date: {{$publication->P_published_date}}</p>
+                                </div>
+                                <div class="row p-1">
                                     <p>
-                                        Type: Journal
+                                        Type: {{ $publication->P_type }}
                                     </p>
                                 </div>
                             </div>
-                            <div class="col-3 border border-1 border-black ">
-                                <div class="row p-1 m-1">
-                                    <a class="btn btn-primary">Edit Articles</a>    
+
+                            @if($expert->platinum->id == Auth::user()->getPlatinum()->id)
+                                <div class="col-3 border border-1 border-black ">    
+                                    <div class="row p-1 m-1">
+                                        <a href="{{ route('edit-expert-publication.id', $publication->id) }}" type="button" class="btn btn-primary">Edit Articles</a>    
+                                    </div>
+                                    <div class="row p-1 m-1">
+                                        <a href="{{ route('delete-expert-publication.id', $publication->id) }}" onclick="return confirm('Are you sure?')" type="button"  class="btn btn-danger">Delete Articles</a>
+                                    </div>
                                 </div>
-                                <div class="row p-1 m-1">
-                                    <a class="btn btn-danger">Delete Articles</a>
-                                </div>
-                                
-                            </div>
+                            @else
+                            @endif
                         </div>   
                     @endforeach
                 @else
