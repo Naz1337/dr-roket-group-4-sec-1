@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Barryvdh\DomPDF\Facade\Pdf;
+
 use Spatie\Browsershot\Browsershot;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Http\Request;
@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Illuminate\Support\Facades\View;
+
 
 class PublicationController extends Controller
 {
@@ -23,10 +25,19 @@ class PublicationController extends Controller
     {
         if (Auth::check()) {
             $id = Auth::user()->getPlatinum()->id;
+    
+            // Fetch publications and count for the authenticated user's platinum ID
             $publications = Publication::where('platinum_id', $id)->get();
             $totalPublications = $publications->count();
-            $years = Publication::selectRaw('YEAR(P_published_date) as year')->distinct()->orderBy('year', 'desc')->pluck('year');
-            return view('ManagePublication.myPublication', compact('publications','totalPublications', 'years'));
+    
+            // Fetch unique years from the user's publications
+            $years = Publication::where('platinum_id', $id)
+                ->selectRaw('YEAR(P_published_date) as year')
+                ->distinct()
+                ->orderBy('year', 'desc')
+                ->pluck('year');
+    
+            return view('ManagePublication.myPublication', compact('publications', 'totalPublications', 'years'));
         }
         return Redirect::route('login');
     }
@@ -150,6 +161,14 @@ public function search(Request $request)
 {
     if (Auth::check()) {
         $platinumId = Auth::user()->getPlatinum()->id;
+
+        // Fetch unique years from the user's publications
+        $years = Publication::where('platinum_id', $platinumId)
+            ->selectRaw('YEAR(P_published_date) as year')
+            ->distinct()
+            ->pluck('year');
+
+        // Query to filter publications by the authenticated user's platinum ID
         $query = Publication::where('platinum_id', $platinumId);
 
         if ($request->filled('search-query')) {
@@ -168,7 +187,7 @@ public function search(Request $request)
         $publications = $query->get();
         $totalPublications = $publications->count();
 
-        return view('ManagePublication.myPublication', compact('publications', 'totalPublications'));
+        return view('ManagePublication.myPublication', compact('publications', 'totalPublications', 'years'));
     }
     return redirect()->route('login');
 }
@@ -195,6 +214,7 @@ public function searchOtherPublications(Request $request)
         $years = Publication::selectRaw('YEAR(P_published_date) as year')->distinct()->orderBy('year', 'desc')->pluck('year');
     return view('ManagePublication.ListPublication', compact('publications', 'totalPublications', 'years'));
 }
+
 
 public function generateReport(Request $request)
 {

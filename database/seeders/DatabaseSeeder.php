@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             UserProfileSeeder::class,
             PlatinumSeeder::class,
-            SanestSeeder::class
+            SanestSeeder::class,
+            PublicationDum::class
         ]);
     }
 }

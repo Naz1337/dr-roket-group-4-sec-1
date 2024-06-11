@@ -27,6 +27,7 @@
                                 <option value="Thesis">Thesis</option>
                                 <option value="Methodology">Methodology</option>
                                 <option value="Literature">Literature</option>
+                                <option value="Conference">Conference</option>
                             </select>
                         </div>
                     </div>

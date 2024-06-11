@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('P_title');
             $table->date('P_published_date');
             $table->string('P_type');
-            $table->integer('P_volume');
-            $table->integer('P_issues');
+            $table->integer('P_volume')->nullable();
+            $table->integer('P_issues')->nullable();
             $table->integer('P_pages');
             $table->string('P_publisher');
             $table->string('P_description');

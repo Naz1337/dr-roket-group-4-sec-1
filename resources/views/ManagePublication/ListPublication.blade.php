@@ -1,6 +1,11 @@
 <x-modern-layout>
     <div class="p-3 bg-white content">
-        <h2>Search Other People's Publications</h2>
+        
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('List of All Expert Domains') }}
+        </h2>
+    </x-slot>
         <form id="search-form" action="{{ route('searchpublication') }}" method="GET">
             <!-- Search Form -->
             <div class="row">
