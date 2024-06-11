@@ -4,7 +4,7 @@ import 'datatables.net-bs5/css/dataTables.bootstrap5.css';
 import DataTable from 'datatables.net-bs5'
 
 
-let table = new DataTable('#draftsTable', {
+let table = new DataTable('#expertTable', {
     "footerCallback": function ( tr, data, start, end, display ) {
         const api = this.api()
         let total = 0
@@ -21,7 +21,7 @@ let table = new DataTable('#draftsTable', {
     "scrollX": false
 })
 
-document.querySelector('#draftsTable tbody').addEventListener('click', function (event) {
+document.querySelector('#expertTable tbody').addEventListener('click', function (event) {
     let tr = event.target.closest('tr')
     if (tr) {
         // let data = table.row(tr).data();

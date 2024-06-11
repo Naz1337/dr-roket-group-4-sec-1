@@ -18,34 +18,62 @@ class ExpertDomainController extends Controller
 {
 
 
-    public function showMyExpert()
+    public function showMyExpert(Request $request)
     {
         //Function
         if(Auth::check())
         {
-            $id = Auth::user()->getPlatinum()->id;
-            $myexperts = ExpertDomain::where('platinum_id', $id)->get();
-            // dd($myexperts);
+            if($request->isMethod('GET'))
+            {
+                $id = Auth::user()->getPlatinum()->id;
+                $myexperts = ExpertDomain::where('platinum_id', $id)->get();
+                // dd($myexperts);
+
+                return view('ManageExpertDomain.myExpertDomain', compact('myexperts'));
+            }
+            else if($request->isMethod('POST'))
+            {
+                $id =  Auth::user()->getPlatinum()->id;
+                $myexperts = ExpertDomain::query()
+                                        ->where('platinum_id', '=', $id)
+                                        ->where('expert_domain_names', 'LIKE', '%'.$request->search.'%')
+                                        ->orWhere('expert_domain_research_title', 'LIKE', '%'.$request->search.'%')
+                                        ->get();
+
+                return view('ManageExpertDomain.myExpertDomain', compact('myexperts'));
+            }
         }
         else
         {
             return Redirect::route('login');
         }
-        return view('ManageExpertDomain.myExpertDomain', compact('myexperts'));
     }
 
-    public function showListExpert()
+    public function showListExpert(Request $request)
     {
         //Function
         if(Auth::check())
         {
-        $listexperts = ExpertDomain::all();
+            if($request->isMethod('GET'))
+            {    
+                $listexperts = ExpertDomain::all();
+
+                return view('ManageExpertDomain.listExpertDomain', compact('listexperts'));
+            }
+            else if($request->isMethod('POST'))
+            {
+                $listexperts = ExpertDomain::query()
+                                            ->where('expert_domain_names', 'LIKE', '%'.$request->search.'%')
+                                            ->orWhere('expert_domain_research_title', 'LIKE', '%'.$request->search.'%')
+                                            ->get();
+                
+                return view('ManageExpertDomain.listExpertDomain', compact('listexperts'));
+            }
         }
         else
         {
             return Redirect::route('login');
         }
-        return view('ManageExpertDomain.listExpertDomain', compact('listexperts'));
     }
 
 
@@ -60,6 +88,16 @@ class ExpertDomainController extends Controller
         {
             return Redirect::route('login');
         }
+        return view('ManageExpertDomain.generateReportExpert', compact('myexperts'));
+    }
+
+    public function downloadReport(Request $request)
+    {
+        $id = Auth::user()->getPlatinum()->id;
+        $myexperts = ExpertDomain::where('platinum_id', $id)->get();
+
+        
+        
         return view('ManageExpertDomain.generateReportExpert', compact('myexperts'));
     }
 

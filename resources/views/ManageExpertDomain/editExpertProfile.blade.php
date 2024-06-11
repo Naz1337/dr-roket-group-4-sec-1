@@ -38,22 +38,16 @@
                     <div class="row p-3">
                         <label class="form form-label">Designation:</label>
                         <div class="col">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" value="Prof." name="ed_designation[]" id="designation1">
-                                <label class="form-check-label" for="designation1">Prof.</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" value="Ir." name="ed_designation[]" id="designation2">
-                                <label class="form-check-label" for="designation2">Ir.</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" value="Ts." name="ed_designation[]" id="designation3">
-                                <label class="form-check-label" for="designation3">Ts.</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" value="Dr." name="ed_designation[]" id="designation4">
-                                <label class="form-check-label" for="designation4">Dr.</label>
-                            </div>
+                            @foreach (Config::get('constants.designation') as $item)
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" value="{{ $item }}" name="ed_designation[]" 
+                                    @if (in_array($item, explode(',', $expert->expert_domain_designation)))
+                                        {{"checked"}}
+                                    @endif
+                                    >
+                                    <label class="form-check-label" for="designation">{{ $item }}</label>
+                                </div>   
+                            @endforeach
                         </div>
                     </div>
                 </div>

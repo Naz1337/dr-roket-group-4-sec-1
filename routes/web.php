@@ -68,10 +68,14 @@ Route::prefix('/expert')->group(function () {
     //My Expert List
     Route::get('/my-expert', [ExpertDomainController::class, 'showMyExpert'])
     ->name('my-expert');
+    Route::post('/my-expert', [ExpertDomainController::class, 'showMyExpert'])
+    ->name('my-expert');
 
     //All Expert List
     Route::get('/list-expert', [ExpertDomainController::class, 'showListExpert']
     )->name('list-expert');
+    Route::post('/list-expert', [ExpertDomainController::class, 'showListExpert'])
+    ->name('list-expert');
 
     //Add my expert
     Route::get('/addexpert', [ExpertDomainController::class, 'create']
@@ -110,7 +114,10 @@ Route::prefix('/expert')->group(function () {
     ->name('delete-expert-publication.id');
 
     Route::get('/generatereport', [ExpertDomainController::class, 'generateReport']
-    )->name('generatereport');
+    )->name('generate-report');
+
+    Route::post('/downloadReport', [ExpertDomainController::class, 'downloadReport']
+    )->name('download-report');
 
 })->middleware('auth');
 
