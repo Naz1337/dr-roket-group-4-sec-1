@@ -24,12 +24,13 @@ class ExpertDomain extends Model
     ];
 
     
-
+    // Expert Belongs to Platinum 
     public function platinum(): BelongsTo
     {
         return $this->belongsTo(Platinum::class, 'platinum_id');
     }
     
+    // Expert Has Many Publication
     public function publication(): HasMany
     {
         return $this->hasMany(Publication::class, 'expert_domain_id');

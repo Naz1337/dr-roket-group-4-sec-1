@@ -15,7 +15,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 class ExpertDomainController extends Controller
 {
 
-
+    // Show my expert
     public function showMyExpert(Request $request)
     {
         //Function
@@ -47,6 +47,7 @@ class ExpertDomainController extends Controller
         }
     }
 
+    // Show list of expert
     public function showListExpert(Request $request)
     {
         //Function
@@ -74,7 +75,7 @@ class ExpertDomainController extends Controller
         }
     }
 
-
+    // Show generate report
     public function generateReport(Request $request)
     {
         if(Auth::check())
@@ -105,6 +106,7 @@ class ExpertDomainController extends Controller
         }
     }
 
+    // Download Pdf Report
     public function downloadReport(Request $request)
     {
         $id = Auth::user()->getPlatinum()->id;
@@ -115,9 +117,7 @@ class ExpertDomainController extends Controller
         return $pdf->stream('report.pdf');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // Show Add form for Expert Profile
     public function create()
     {
         if(Auth::check())
@@ -130,9 +130,8 @@ class ExpertDomainController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    
+    // Create Expert Profile
     public function store(StoreExpertDomainRequest $request)
     {
         if(Auth::check())
@@ -177,9 +176,8 @@ class ExpertDomainController extends Controller
         return Redirect::route('my-expert');
     }
 
-    /**
-     * Display the specified resource.
-     */
+    
+    // Show expert profile details
     public function show(ExpertDomain $expertDomain, string $id)
     {
         if(Auth::check())
@@ -198,9 +196,8 @@ class ExpertDomainController extends Controller
         return view('ManageExpertDomain.viewExpertProfile', compact('expert'), compact('publications'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    
+    // show Edit form for Expert Profile
     public function edit(ExpertDomain $expertDomain, string $id)
     {
         if(Auth::check())
@@ -214,9 +211,8 @@ class ExpertDomainController extends Controller
         return view('ManageExpertDomain.editExpertProfile', compact('expert'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    
+    // Update Expert Data
     public function update(UpdateExpertDomainRequest $request, ExpertDomain $expertDomain, string $id)
     {
         if(Auth::check())
@@ -257,9 +253,8 @@ class ExpertDomainController extends Controller
         return Redirect::route('view-expert.id', $id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    
+    // Delete Expert Data
     public function destroy(ExpertDomain $expertDomain, string $id)
     {
         if(Auth::check())
@@ -274,6 +269,8 @@ class ExpertDomainController extends Controller
         return Redirect::route('my-expert');
     }
 
+
+    // Show add Expert publication form
     public function addpublication(string $id)
     {
         if(Auth::check())
@@ -286,6 +283,8 @@ class ExpertDomainController extends Controller
         }
     }
 
+
+    // Create expert publication data
     public function storepublication(Request $request ,string $id)
     {
         if(Auth::check())
@@ -325,6 +324,8 @@ class ExpertDomainController extends Controller
         return Redirect::route('view-expert.id', $id);
     }
 
+
+    // Show edit Expert Publication Form
     public function editpublication(string $id)
     {
         if(Auth::check())
@@ -338,6 +339,7 @@ class ExpertDomainController extends Controller
         return view('ManageExpertDomain.editExpertPublication', compact('publication'));
     }
 
+    // Update Expert Publication Form
     public function updatePublication(Request $request, string $id)
     {
         if(Auth::check())
@@ -376,6 +378,7 @@ class ExpertDomainController extends Controller
         return Redirect::route('view-expert.id', $publication->expertDomain->id);
     }
 
+    // Delete Expert Publication data
     public function deletepublication(string $id)
     {
         if(Auth::check())
