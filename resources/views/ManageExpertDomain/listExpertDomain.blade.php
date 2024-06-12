@@ -6,6 +6,7 @@
                 <form action="{{ route('list-expert') }}" method="POST">
                 @csrf
                 <div class="row">
+                    {{-- Search Bar --}}
                     <div class="col-1">
                         <label class="form form-label p-2">Search:</label>
                     </div>
@@ -22,6 +23,7 @@
                     <div class="col-2">
                         <i class=" bi bi-search"></i>
                         &nbsp;
+                        {{-- Search button --}}
                         <button type="submit" class="btn btn-primary text-decoration-none">Search</button>
                     </div>
                     {{-- <div class="col-2">
@@ -58,6 +60,7 @@
                         </p>
                     </div>
                     <div class="col-1 p-2">
+                        {{-- View expert profile button --}}
                         <a class="btn btn-primary text-decoration-none" href="{{ route('view-expert.id', $expert->id) }}">
                             View
                         </a>

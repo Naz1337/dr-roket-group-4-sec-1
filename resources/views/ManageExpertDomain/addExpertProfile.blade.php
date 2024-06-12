@@ -6,13 +6,16 @@
             <div class="row p-3 bg bg-light border-top border-end border-start border-1 border-black ">
                 <div class="col-2">
                     <div class="row h-100 w-100 border border-1 border-dark">
+                        {{-- image load here --}}
                         <img id="imagePreview" class="h-100 w-100" src="#" alt="Image Uploaded">
                     </div>
                 </div>
                 <div class="col">
                     <div class="row p-3">
+                        {{-- upload image --}}
                         <label class="form form-label">Upload Expert Image:</label>
                         <input class="form form-control" type="file" id="image" name="ed_image" accept="image/png, image/jpg">
+                        {{-- image loader --}}
                         @section('scripts')
                             <script type="module">
                                 $(document).ready(function () {
@@ -37,6 +40,7 @@
                         @stop
                     </div>
                     <div class="row p-3">
+                        {{-- designation from config --}}
                         <label class="form form-label">Designation:</label>
                         <div class="col">
                             @foreach (Config::get('constants.designation') as $item)
@@ -53,26 +57,31 @@
                 <div class="col">
                     <div class="row p-3">
                         <div class="col">
+                            {{-- Expert name --}}
                             <label class="form form-label">Name:</label>
                             <input class="form form-control" type="text" name="ed_name" id="name">
                         </div>
                         <div class="col">
+                            {{-- Expert email --}}
                             <label class="form form-label">Email:</label>
                             <input class="form form-control" type="email" name="ed_email" id="email">
                         </div>
                     </div>
                     <div class="row p-3">
                         <div class="col">
+                            {{-- Expert phone number --}}
                             <label class="form form-label">Phone Number:</label>
                             <input class="form form-control" type="text" name="ed_phonenum" id="phonenum">
                         </div>
                         <div class="col">
+                            {{-- Expert Addiliation --}}
                             <label class="form form-label">Affiliation:</label>
                             <input class="form form-control" type="text" name="ed_affiliation" id="affiliation">
                         </div>
                     </div>
                     <div class="row p-3">
                         <div class="col">
+                            {{-- Expert area of expertise --}}
                             <label class="form form-label">Area of Expertise:</label>
                             <input class="form form-control" type="text" name="ed_research" id="research">
                         </div>
@@ -81,12 +90,15 @@
             </div>
             <div class="row">
                 <div class="col-1 p-3 d-flex justify-content-end">
+                    {{-- Back button --}}
                     <a href="{{ route('my-expert') }}" type="button" class="btn btn-primary">Back</a>
                 </div>
                 <div class="col p-3 d-flex justify-content-end">
+                    {{-- Submit button--}}
                     <button type="submit" class="btn btn-primary">Add Profile</button>
                 </div>
                 <div class="col-1 p-3 d-flex justify-content-end">
+                    {{-- Reload page --}}
                     <button onclick="window.location.reload(true)" type="button" class="btn btn-danger">Clear</button>
                 </div>
             </div>
