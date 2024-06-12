@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
             PlatinumSeeder::class,
             SanestSeeder::class,
             PublicationDum::class,
-            ExpertDomainSeeder::class
+            ExpertDomainSeeder::class,
+            DraftSeeder::class,
         ]);
     }
 }

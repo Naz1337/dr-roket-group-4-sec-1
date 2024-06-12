@@ -14,7 +14,7 @@ class DraftSeeder extends Seeder
      */
     public function run(): void
     {
-        Platinum::whereHas('users', function ($query) {
+        Platinum::whereHas('user', function ($query) {
             $query->where('email' , 'like', 'a');
         })->get()->first()->drafts()->saveMany([
             new Draft(
