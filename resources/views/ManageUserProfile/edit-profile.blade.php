@@ -354,7 +354,14 @@
                             @endif
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary float-end">Submit</button>
+                    <div class="row">
+                        <div class="col">
+                            <a href="{{ route('manage-user-profile') }}" class="btn btn-primary mb-4">Back to Manage User Profile</a>
+                        </div>
+                        <div class="col">
+                            <button type="submit" class="btn btn-primary float-end">Submit</button>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>

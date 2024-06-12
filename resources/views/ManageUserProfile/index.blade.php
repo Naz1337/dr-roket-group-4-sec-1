@@ -1,3 +1,6 @@
+@php
+    use App\Enums\Roles;
+@endphp
 @section('scripts')
     <script type="module">
         $(document).ready(function () {
@@ -86,6 +89,27 @@
                 institute = $("#plat_institute").val();
                 batch = $("#plat_batch").val();
                 table.draw();
+            });
+            $('#exportExcelBtn').click(function(e) {
+                e.preventDefault();
+
+                // Get the values from the input fields
+                var name = $('#name').val();
+                var user_type = $('#user_type').val();
+                var edu_level = $('#plat_cur_edu_level').val();
+                var institute = $('#plat_institute').val();
+                var batch = $('#plat_batch').val();
+
+                // Construct the export URL with query parameters
+                var exportUrl = "{{ route('generate-excel') }}?" +
+                    "name=" + name +
+                    "&user_type=" + user_type +
+                    "&edu_level=" + edu_level +
+                    "&institute=" + institute +
+                    "&batch=" + batch;
+
+                // Redirect to the export URL
+                window.location.href = exportUrl;
             });
         });
     </script>
@@ -251,9 +275,9 @@
                             <div class="col">
                                 <select name="user_type" id="user_type" class="form-select">
                                     <option value="">--- SELECT ---</option>
-                                    <option value="{{ Config::get('constants.user.platinum') }}">Platinum</option>
-                                    <option value="{{ Config::get('constants.user.staff') }}">Staff</option>
-                                    <option value="{{ Config::get('constants.user.mentor') }}">Mentor</option>
+                                    <option value="{{ Roles::PLATINUM }}">Platinum</option>
+                                    <option value="{{ Roles::STAFF }}">Staff</option>
+                                    <option value="{{ Roles::MENTOR }}">Mentor</option>
                                 </select>
                             </div>
                         </div>
@@ -281,7 +305,7 @@
                     <div class="col">
                         <button id="searchBtn" class="btn btn-primary float-end">Search</button>
                         @if(Auth::user()->user_type == Config::get('constants.user.staff'))
-                            <a href="{{ route('generate-excel') }}" target="_blank" class="btn btn-primary float-end me-2">Export Excel</a>
+                            <a href="#" id="exportExcelBtn" class="btn btn-primary float-end me-2">Export Excel</a>
                         @endif
                     </div>
                 </div>

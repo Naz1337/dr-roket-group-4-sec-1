@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\Roles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -61,12 +62,12 @@ class User extends Authenticatable
 
     public function getPlatinum(): ?Platinum
     {
-        return $this->user_type == Config::get('constants.user.platinum') ? $this->platinum : null;
+        return $this->user_type == Roles::PLATINUM ? $this->platinum : null;
     }
 
     public function getUserProfile(): ?UserProfile
     {
-        return $this->user_type == Config::get('constants.user.staff') ? $this->userProfile : null;
+        return $this->user_type == Roles::STAFF ? $this->userProfile : null;
     }
 
     public function assigned_platinums()

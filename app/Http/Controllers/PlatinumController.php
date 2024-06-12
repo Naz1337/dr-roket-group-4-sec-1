@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Roles;
 use App\Models\Platinum;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -99,7 +100,7 @@ class PlatinumController extends Controller
             $user->username = str_replace(' ','_',strtolower(trim($valid['plat_name'])));
             $user->email = $valid['plat_email'];
             $user->password = $valid['plat_ic'];
-            $user->user_type = Config::get('constants.user.platinum');
+            $user->user_type = Roles::PLATINUM;
 
             // Save the user and create a corresponding Platinum record
             if ($user->save()) {

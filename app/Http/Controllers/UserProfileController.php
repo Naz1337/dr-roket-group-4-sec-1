@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\FeedbackTypes;
+use App\Enums\Roles;
 use App\Models\Platinum;
 use App\Models\User;
 use App\Models\UserProfile;
@@ -12,6 +14,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Pdf\Dompdf;
@@ -25,6 +28,7 @@ class UserProfileController extends Controller
         // Check if the request is an AJAX request.
         if ($request->ajax()) {
             // Build the query to fetch user data with left joins to platinums and user_profiles tables.
+            //region Query table
             $query = DB::table('users')
                 ->leftJoin('platinums as p', 'p.user_id', '=', 'users.id')
                 ->leftJoin('user_profiles as up', 'up.user_id', '=', 'users.id')
@@ -38,11 +42,11 @@ class UserProfileController extends Controller
             CASE WHEN users.user_type != 0 AND users.user_type != 1 THEN "" ELSE p.plat_app_confirm_date END as confirm,
             users.id
             ');
+            //endregion
             // Apply filters based on user type and input parameters.
             //region Where Clause
             if (in_array(Auth::user()->user_type, Config::get('constants.user.platOrCRMP'))) {
-                $query->where('user_type', '=', Config::get('constants.user.platinum'))
-                ->orWhere('user_type', '=', Config::get('constants.user.crmp'));
+                $query->where('user_type', '=', Roles::PLATINUM);
             }
 
             if ($request->has('name') && $request->name != '') {
@@ -206,7 +210,7 @@ class UserProfileController extends Controller
             ->selectRaw('
                 CASE WHEN users.user_type != 0 AND users.user_type != 1 THEN up.profile_name ELSE p.plat_name END as name,
                 users.email,
-                users.user_type,
+                CASE WHEN users.user_type != 0 AND users.user_type != 1 THEN users.user_type ELSE p.is_crmp END as user_type,
                 CASE WHEN users.user_type != 0 AND users.user_type != 1 THEN "" ELSE p.plat_cur_edu_level END as cur_level,
                 CASE WHEN users.user_type != 0 AND users.user_type != 1 THEN "" ELSE p.plat_edu_institute END as institute,
                 CASE WHEN users.user_type != 0 AND users.user_type != 1 THEN "" ELSE p.plat_batch END as batch,
@@ -291,7 +295,12 @@ class UserProfileController extends Controller
             $rowData = [
                 $result->name,
                 $result->email,
-                $result->user_type,
+                match($result->user_type) {
+                    Roles::PLATINUM => Roles::getEnumKey(Roles::PLATINUM),
+                    Roles::STAFF => Roles::getEnumKey(Roles::STAFF),
+                    Roles::MENTOR => Roles::getEnumKey(Roles::MENTOR),
+                    default => "Unknown Role"
+                },
                 $result->cur_level,
                 $result->institute,
                 $result->batch,
@@ -349,6 +358,9 @@ class UserProfileController extends Controller
             ];
             // Add the data row to the Excel sheet.
             $sheet->fromArray([$rowData], null, 'A' . $row);
+            $sheet->setCellValueExplicit('G' . $row, $result->plat_ic, DataType::TYPE_STRING);
+            $sheet->setCellValueExplicit('Q' . $row, $result->plat_postcode, DataType::TYPE_STRING);
+            $sheet->setCellValueExplicit('S' . $row, $result->plat_phone_no, DataType::TYPE_STRING);
             $row++;
         }
         // Save the spreadsheet to a file
