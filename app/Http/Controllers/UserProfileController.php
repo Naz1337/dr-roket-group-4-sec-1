@@ -340,7 +340,13 @@ class UserProfileController extends Controller
                 },
                 $result->plat_referral_name,
                 $result->plat_referral_batch,
-                $result->plat_tshirt,
+                match($result->plat_tshirt) {
+                    Config::get('constants.tshirt.xs') => "XS",
+                    Config::get('constants.tshirt.s') => "S",
+                    Config::get('constants.tshirt.2xl') => "2XL",
+                    Config::get('constants.tshirt.3xl') => "3XL",
+                    default => ''
+                },
                 $result->confirm,
                 match($result->plat_app_confirm) {
                     Config::get('constants.bool.false') => "False",

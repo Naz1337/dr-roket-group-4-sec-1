@@ -16,6 +16,13 @@ class PlatinumController extends Controller
     public function register_platinum(Request $request) {
         // Check if the request method is POST
         if($request->isMethod('POST')) {
+            // Define custom error messages
+            $messages = [
+                'plat_photo.required' => 'The photo is required.',
+                'plat_photo.image' => 'The file must be an image.',
+                'plat_photo.max' => 'The image must not be greater than 2MB.',
+            ];
+
             // Validate the request data
             $validator = Validator::make($request->all(), [
                 "plat_name" => "required",
@@ -25,7 +32,8 @@ class PlatinumController extends Controller
                 "plat_religion" => "required",
                 "plat_race" => "required",
                 "plat_citizenship" => "required",
-                "plat_photo" => File::image()->max(2000)->rules('required'),
+                "plat_photo" => "required|image|max:2000",
+//                "plat_photo" => File::image()->max(2000)->rules('required'),
 //                "plat_type" => "required",
                 "plat_address" => "required",
                 "plat_address2" => "required",
@@ -53,7 +61,20 @@ class PlatinumController extends Controller
                 "plat_app_confirm_date" => 'required|date_format:Y-m-d',
                 "plat_payment_type" => "required",
                 "plat_payment_proof" => "required",
-            ]);
+            ], $messages);
+
+            if ($validator->fails())
+            {
+                // Check if the error is specifically for 'plat_photo'
+                if ($validator->errors()->has('plat_photo')) {
+                    return to_route('register-platinum')
+                        ->withErrors($validator)
+                        ->withInput()
+                        ->with('error', 'Image upload failed: ' . $validator->errors()->first('plat_photo'));
+                }
+
+                return to_route('register-platinum')->withErrors($validator)->withInput()->with('error','Fill all the fields!');
+            }
 
             // Validate the data
             $valid = $validator->validated();
@@ -62,11 +83,6 @@ class PlatinumController extends Controller
             if(User::where('email', $valid['plat_email'])->exists())
             {
                 return to_route('register-platinum')->withErrors($validator)->withInput()->with('error','Email already exists!');
-            }
-
-            if ($validator->fails())
-            {
-                return to_route('register-platinum')->withErrors($validator)->withInput();
             }
 
             $imagePath = null;
