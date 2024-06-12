@@ -6,6 +6,7 @@ use Database\Seeders\UserSeeder;
 use Database\Seeders\PlatinumSeeder;
 use Database\Seeders\UserProfileSeeder;
 use Database\Seeders\SanestSeeder;
+use Database\Seeders\ExpertDomainSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,7 +21,9 @@ class DatabaseSeeder extends Seeder
             UserProfileSeeder::class,
             PlatinumSeeder::class,
             SanestSeeder::class,
-            PublicationDum::class
+            PublicationDum::class,
+            ExpertDomainSeeder::class,
+            DraftSeeder::class,
         ]);
     }
 }

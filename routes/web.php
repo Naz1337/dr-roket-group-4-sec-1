@@ -80,43 +80,47 @@ Route::prefix('/expert')->group(function () {
     //Add my expert
     Route::get('/addexpert', [ExpertDomainController::class, 'create']
     )->name('addprofile');
-
-    //Store my expert
     Route::post('/addexpert', [ExpertDomainController::class, 'store']
     )->name('createprofile');
 
-    //Show expert
+    //Show expert profile
     Route::get('/view-expert/{id}', [ExpertDomainController::class, 'show']
     )->name('view-expert.id');
 
+    //Edit expert profile
     Route::get('/edit-expert/{id}', [ExpertDomainController::class, 'edit']
     )->name('edit-expert.id');
-
     Route::post('/update-expert/{id}', [ExpertDomainController::class, 'update']
     )->name('update-expert.id');
 
+    //Delete expert
     Route::get('/delete-expert/{id}', [ExpertDomainController::class, 'destroy']
     )->name('delete-expert.id');
 
+    //Add expert publication
     Route::get('/upload-expert-publication/{id}', [ExpertDomainController::class, 'addpublication']
     )->name('upload-expert-publication.id');
-
     Route::post('/create-expert-publication/{id}', [ExpertDomainController::class, 'storepublication']
     )->name('create-expert-publication.id');
 
+    //Edit expert publication
     Route::get('/edit-expert-publication/{id}', [ExpertDomainController::class, 'editpublication']  
     )->name('edit-expert-publication.id');
-
     Route::post('/update-expert-publication/{id}', [ExpertDomainController::class, 'updatepublication']
     )->name('update-expert-publication.id');
 
+    //Delete expert publication
     Route::get('/delete-expert-publication/{id}', [ExpertDomainController::class, 'deletepublication'])
     ->name('delete-expert-publication.id');
 
-    Route::get('/generatereport', [ExpertDomainController::class, 'generateReport']
+    //Generate Expert Report
+    Route::get('/generate-report', [ExpertDomainController::class, 'generateReport']
+    )->name('generate-report');
+    Route::post('/generate-report', [ExpertDomainController::class, 'generateReport']
     )->name('generate-report');
 
-    Route::post('/downloadReport', [ExpertDomainController::class, 'downloadReport']
+    //Download Expert Report 
+    Route::get('/download-report', [ExpertDomainController::class, 'downloadReport']
     )->name('download-report');
 
 })->middleware('auth');

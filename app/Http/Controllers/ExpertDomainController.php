@@ -10,9 +10,7 @@ use App\Models\Publication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Pdf\Dompdf;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ExpertDomainController extends Controller
 {
@@ -35,7 +33,7 @@ class ExpertDomainController extends Controller
             {
                 $id =  Auth::user()->getPlatinum()->id;
                 $myexperts = ExpertDomain::query()
-                                        ->where('platinum_id', '=', $id)
+                                        ->where('platinum_id', $id)
                                         ->where('expert_domain_names', 'LIKE', '%'.$request->search.'%')
                                         ->orWhere('expert_domain_research_title', 'LIKE', '%'.$request->search.'%')
                                         ->get();
@@ -77,28 +75,44 @@ class ExpertDomainController extends Controller
     }
 
 
-    public function generateReport()
+    public function generateReport(Request $request)
     {
         if(Auth::check())
         {
-            $id = Auth::user()->getPlatinum()->id;
-            $myexperts = ExpertDomain::where('platinum_id', $id)->get();
+            if($request->isMethod('GET'))
+            {    
+                $id = Auth::user()->getPlatinum()->id;
+                $myexperts = ExpertDomain::where('platinum_id', $id)->get();
+
+                return view('ManageExpertDomain.generateReportExpert', compact('myexperts'));
+            }
+            else if($request->isMethod('POST'))
+            {
+                $id = Auth::user()->getPlatinum()->id;
+                $myexperts = ExpertDomain::query()
+                                        ->where('platinum_id', $id)
+                                        ->where('expert_domain_names', 'LIKE', '%'.$request->search.'%')
+                                        ->orWhere('expert_domain_research_title', 'LIKE', '%'.$request->search.'%')
+                                        ->get();
+
+                
+                return view('ManageExpertDomain.generateReportExpert', compact('myexperts'));
+            }
         }
         else
         {
             return Redirect::route('login');
         }
-        return view('ManageExpertDomain.generateReportExpert', compact('myexperts'));
     }
 
     public function downloadReport(Request $request)
     {
         $id = Auth::user()->getPlatinum()->id;
-        $myexperts = ExpertDomain::where('platinum_id', $id)->get();
+        $myexperts = ExpertDomain::where('platinum_id', $id);
 
+        $pdf = Pdf::loadView('ManageExpertDomain.generateReportExpert', compact('myexperts'));
         
-        
-        return view('ManageExpertDomain.generateReportExpert', compact('myexperts'));
+        return $pdf->stream('report.pdf');
     }
 
     /**

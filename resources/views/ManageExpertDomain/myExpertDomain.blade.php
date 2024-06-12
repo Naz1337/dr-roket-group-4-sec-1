@@ -15,7 +15,7 @@
                             <option value="Software Security">
                             <option value="Robotics">
                             <option value="Pattern Recognition">
-                            <option value="Bio-technology">
+                            <option value="Biotechnology">
                             <option value="Cloud Architecture">
                         </datalist>
                     </div>
