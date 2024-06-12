@@ -25,10 +25,12 @@
     @if(Auth::check() && !request()->routeIs('register'))
         <!-- Sidebar Start -->
         <x-modern-sidebar>
+            <!-- Display logged-in user type -->
             <div class="fw-bold logged-in-as" >
                 Logged in as: {{ ucwords(Roles::getEnumKey(auth()->user()->user_type)) }}
             </div>
             <x-nav-header>User</x-nav-header>
+            <!-- Sidebar navigation items -->
             <x-nav-item href="{{ route('register-platinum') }}" icon="user-plus">Registration</x-nav-item>
             <x-nav-item href="{{ route('manage-user-profile') }}" icon="user-cog">Manage User Profile</x-nav-item>
 
@@ -77,8 +79,10 @@
             <!--  Header Start -->
             <x-modern-header>
                 <li class="navbar-item pt-3">
+                    <!-- Welcome message with user's name -->
                     <p class="navbar-text fw-semibold fs-4">Hello, {{ !in_array(Auth::user()->user_type, Config::get('constants.user.platOrCRMP')) ? Auth::user()->userProfile->profile_name : Auth::user()->getPlatinum()->plat_name }}</p>
                 </li>
+                <!-- Profile dropdown in the header -->
                 <x-profile-in-header
                     profile-picture="{{ !in_array(Auth::user()->user_type, Config::get('constants.user.platOrCRMP')) ? Auth::user()->userProfile->user_photo : Auth::user()->getPlatinum()->plat_photo }}">
                     <x-drop-down-menu>
@@ -100,6 +104,7 @@
             </div>
         </div>
     @else
+        <!-- Display slot content if the user is not authenticated or on the register route -->
         {{ $slot }}
     @endif
 </div>
