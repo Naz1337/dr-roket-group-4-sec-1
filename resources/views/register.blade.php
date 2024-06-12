@@ -70,6 +70,13 @@
                                         <img id="imagePreview" src="#" alt="Image" width="100" />
                                     </div>
                                     <div class="mb-4">
+                                        <label for="user_type" class="form-label">User Type</label>
+                                        <select name="user_type" id="user_type" class="form-select">
+                                            <option value="{{\App\Enums\Roles::STAFF}}">Staff</option>
+                                            <option value="{{\App\Enums\Roles::MENTOR}}">Mentor</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-4">
                                         <label for="birth_date" class="form-label">Birth Date</label>
                                         <input class="form-control @error('birth_date') is-invalid @enderror"
                                                type="date" name="birth_date" id="birth_date" placeholder="Birth Date"

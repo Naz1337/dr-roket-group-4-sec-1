@@ -52,6 +52,7 @@ class UserController extends Controller
                 'image' => File::image()->max(2000),
                 'birth_date' => 'required|date_format:Y-m-d',
                 'phone_no' => 'required',
+                'user_type' => 'required',
 //                'phone_no' => 'required|regex:/^[0-9]{10,15}$/',
                 'profile_name' => 'required',
                 'address' => 'required|string|max:255',
@@ -72,7 +73,7 @@ class UserController extends Controller
             $newUser->username = $validated['username'];
             $newUser->email = $validated['email'];
             $newUser->password = Hash::make($validated['password']);
-            $newUser->user_type = 2;
+            $newUser->user_type = $validated['user_type'];
 
             // Save the new user to the database.
             if ($newUser->save()) {
