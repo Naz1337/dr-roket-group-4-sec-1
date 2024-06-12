@@ -36,7 +36,9 @@
 
             @if(Auth::user()->user_type != Config::get('constants.user.staff'))
                 <x-nav-header>Expert Domain</x-nav-header>
-                <x-nav-item href="{{ route('my-expert') }}" icon="certificate">My Expert Domain</x-nav-item>
+                @if(Auth::user()->user_type != Roles::MENTOR)
+                    <x-nav-item href="{{ route('my-expert') }}" icon="certificate">My Expert Domain</x-nav-item>
+                @endif
                 <x-nav-item href="{{ route('list-expert') }}" icon="certificate">Expert Domain List</x-nav-item>
             @endif
             @if (auth()->user()->user_type === Roles::PLATINUM )
